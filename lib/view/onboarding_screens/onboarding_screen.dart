@@ -86,7 +86,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                       style: Theme.of(context).textTheme.displaySmall,
                       //  overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center),
-                  SizedBox(height: 90.0.r),
+                  SizedBox(height: 80.0.r),
                   SmoothPageIndicator(
                     controller: _pageController,
                     count: 3,
@@ -120,6 +120,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
           },
           child: const Text('ثبت نام'),
         ),
+        SizedBox(height: 8.0.r),
         OutlinedButton(
           style: ElevatedButton.styleFrom(
               minimumSize: Size(double.maxFinite, 40.0.r)),
