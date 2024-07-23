@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'colors.dart';
 
-
-class TextFieldTheme{
+class TextFieldTheme {
   TextFieldTheme._();
 
-  static  InputDecorationTheme lightTheme= const InputDecorationTheme(
+  static InputDecorationTheme lightTheme = const InputDecorationTheme(
       labelStyle: TextStyle(
         fontFamily: "IRANYekan",
         color: AppColors.lightText,
@@ -32,11 +32,7 @@ class TextFieldTheme{
           width: 1,
           color: Colors.redAccent,
         ),
-      )
+      ));
 
-  );
-
-  static  InputDecorationTheme darkTheme=const InputDecorationTheme();
-
-
+  static InputDecorationTheme darkTheme = const InputDecorationTheme();
 }

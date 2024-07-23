@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:karat_habit_tracker_app/utils/theme/controller.dart';
 import 'package:karat_habit_tracker_app/view/onboarding_screens/onboarding_screen.dart';
 import 'package:get/get.dart';
@@ -15,21 +16,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return GetMaterialApp(
-        localizationsDelegates: const [
-          GlobalCupertinoLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        supportedLocales: const [
-          Locale("fa", "IR"),
-        ],
-        locale: const Locale("fa", "IR"),
-        debugShowCheckedModeBanner: false,
-        theme: _themeController.currentTheme.value,
-        home: const onBoardingScreen(),
-      );
-    });
+    return ScreenUtilInit(
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return Obx(() {
+          return GetMaterialApp(
+            localizationsDelegates: const [
+              GlobalCupertinoLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale("fa", "IR"),
+            ],
+            locale: const Locale("fa", "IR"),
+            debugShowCheckedModeBanner: false,
+            theme: _themeController.currentTheme.value,
+            home: const onBoardingScreen(),
+          );
+        });
+      },
+    );
   }
 }

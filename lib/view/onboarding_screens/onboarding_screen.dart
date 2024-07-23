@@ -33,27 +33,31 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                   ),
                 ],
               ),
-        bottomSheet: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          width: MediaQuery.of(context).size.width,
-          child: isLastPage
-              ? authButtons()
-              : ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 40)),
-                  onPressed: () {
-                    _pageController.nextPage(
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  child: const Text(
-                    'ادامه',
+        bottomSheet: Padding(
+          padding: EdgeInsets.only(bottom: 20.0.r),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 30.0.r, vertical: 10.0.r),
+            width: screenWidth,
+            child: isLastPage
+                ? authButtons()
+                : ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: Size(double.maxFinite, 40.0.r)),
+                    onPressed: () {
+                      _pageController.nextPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      );
+                    },
+                    child: const Text(
+                      'ادامه',
+                    ),
                   ),
-                ),
+          ),
         ),
         body: Container(
-          margin: const EdgeInsets.all(15),
+          color: Colors.white,
+          margin: EdgeInsets.all(30.0.r),
           child: PageView.builder(
             onPageChanged: (index) => setState(
                 () => isLastPage = index == controller.items.length - 1),
@@ -67,28 +71,29 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                     children: [
                       Image.asset(
                         controller.items[index].image,
-                        height: screenHeight * 0.6,
+                        height: screenHeight * 0.36,
                         width: screenWidth * 0.8,
                       ),
-                      SmoothPageIndicator(
-                        controller: _pageController,
-                        count: 3,
-                        effect: ExpandingDotsEffect(
-                            activeDotColor: Theme.of(context).primaryColor,
-                            dotHeight: 8),
-                      )
                     ],
                   ),
-                  const SizedBox(height: 15),
+                  SizedBox(height: 15.0.r),
                   Text(controller.items[index].title,
                       style: Theme.of(context).textTheme.headlineLarge,
-                      overflow: TextOverflow.ellipsis,
+                      //overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center),
-                  const SizedBox(height: 15),
+                  SizedBox(height: 24.0.r),
                   Text(controller.items[index].description,
                       style: Theme.of(context).textTheme.displaySmall,
-                      overflow: TextOverflow.ellipsis,
+                      //  overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center),
+                  SizedBox(height: 90.0.r),
+                  SmoothPageIndicator(
+                    controller: _pageController,
+                    count: 3,
+                    effect: ExpandingDotsEffect(
+                        activeDotColor: Theme.of(context).primaryColor,
+                        dotHeight: 6.0.r),
+                  )
                 ],
               );
             },
@@ -108,12 +113,16 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              minimumSize: Size(double.maxFinite, 40.0.r)),
           onPressed: () {
             // Navigate to the sign up screen
           },
           child: const Text('ثبت نام'),
         ),
         OutlinedButton(
+          style: ElevatedButton.styleFrom(
+              minimumSize: Size(double.maxFinite, 40.0.r)),
           onPressed: () {
             // Navigate to the login screen
           },

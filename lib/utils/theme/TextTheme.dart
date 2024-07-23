@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'colors.dart';
 
 class TTextTheme {
@@ -75,7 +76,7 @@ class TTextTheme {
         color: AppColors.lightText,
         fontSize: 18,
         fontWeight: FontWeight.w400),
-    headlineSmall: TextStyle(
+    headlineSmall: const TextStyle(
         fontFamily: "IRANYekan",
         color: AppColors.lightText,
         fontSize: 16,
