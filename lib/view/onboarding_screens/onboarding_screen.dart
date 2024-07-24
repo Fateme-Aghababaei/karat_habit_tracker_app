@@ -29,7 +29,12 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                     onPressed: () {
                       _pageController.jumpToPage(2);
                     },
-                    child: const Text('رد شدن'),
+                    child: const Text('رد شدن',
+                      style:   TextStyle(
+                        fontFamily: "IRANYekan",
+                        fontSize: 14,
+                        fontWeight: FontWeight.w300,
+                      ),),
                   ),
                 ],
               ),
@@ -73,7 +78,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                         height: screenHeight * 0.36,
                         width: screenWidth * 0.8,
                       ),
-                      SizedBox(height: 24.0.r),
+                      SizedBox(height: 28.0.r),
                       SmoothPageIndicator(
                         controller: _pageController,
                         count: 3,
@@ -85,12 +90,16 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                   ),
                   SizedBox(height: 80.0.r),
                   Text(controller.items[index].title,
-                      style: Theme.of(context).textTheme.headlineLarge,
+                      style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                        fontSize: 18.sp
+                      ),
                       //overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center),
                   SizedBox(height: 24.0.r),
                   Text(controller.items[index].description,
-                      style: Theme.of(context).textTheme.displaySmall,
+                      style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                        fontSize: 16.sp
+                      ),
                       textAlign: TextAlign.center),
                 ],
               );

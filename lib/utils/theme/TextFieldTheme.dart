@@ -8,31 +8,42 @@ class TextFieldTheme {
   static InputDecorationTheme lightTheme = const InputDecorationTheme(
       labelStyle: TextStyle(
         fontFamily: "IRANYekan",
-        color: AppColors.lightText,
-        fontSize: 14,
-        fontWeight: FontWeight.w700,
+        color: AppColors.lightDescription,
+        fontSize: 13,
+        fontWeight: FontWeight.w400,
       ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+      floatingLabelStyle:TextStyle(
+        fontFamily: "IRANYekan",
+        color: AppColors.lightPrimary,
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+      ),
+      enabledBorder: UnderlineInputBorder(
         borderSide: BorderSide(
           width: 1,
-          color: Color(0xFFAEA9B1),
+          color: AppColors.lightBorder,
         ),
       ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+      focusedBorder: UnderlineInputBorder(
         borderSide: BorderSide(
           width: 1,
           color: AppColors.lightPrimary,
         ),
+
       ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+      focusedErrorBorder: UnderlineInputBorder(
+        borderSide: BorderSide(
+          width: 1,
+          color: Colors.redAccent,
+        ),
+      ),
+      errorBorder: UnderlineInputBorder(
         borderSide: BorderSide(
           width: 1,
           color: Colors.redAccent,
         ),
       ));
+
 
   static InputDecorationTheme darkTheme = const InputDecorationTheme();
 }
