@@ -22,7 +22,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
     final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: isLastPage
-            ? null
+            ? AppBar()
             : AppBar(
                 actions: [
                   TextButton(
@@ -56,7 +56,6 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
           ),
         ),
         body: Container(
-          color: Colors.white,
           margin: EdgeInsets.all(30.0.r),
           child: PageView.builder(
             onPageChanged: (index) => setState(
@@ -65,7 +64,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
             controller: _pageController,
             itemBuilder: (context, index) {
               return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Column(
                     children: [
@@ -74,9 +73,17 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                         height: screenHeight * 0.36,
                         width: screenWidth * 0.8,
                       ),
+                      SizedBox(height: 24.0.r),
+                      SmoothPageIndicator(
+                        controller: _pageController,
+                        count: 3,
+                        effect: ExpandingDotsEffect(
+                            activeDotColor: Theme.of(context).primaryColor,
+                            dotHeight: 6.0.r),
+                      )
                     ],
                   ),
-                  SizedBox(height: 15.0.r),
+                  SizedBox(height: 80.0.r),
                   Text(controller.items[index].title,
                       style: Theme.of(context).textTheme.headlineLarge,
                       //overflow: TextOverflow.ellipsis,
@@ -84,25 +91,11 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                   SizedBox(height: 24.0.r),
                   Text(controller.items[index].description,
                       style: Theme.of(context).textTheme.displaySmall,
-                      //  overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center),
-                  SizedBox(height: 80.0.r),
-                  SmoothPageIndicator(
-                    controller: _pageController,
-                    count: 3,
-                    effect: ExpandingDotsEffect(
-                        activeDotColor: Theme.of(context).primaryColor,
-                        dotHeight: 6.0.r),
-                  )
                 ],
               );
             },
           ),
-
-          // Container(
-          //   alignment: Alignment(0, 0.5),
-          //     child: SmoothPageIndicator(controller: _pageController, count: 3)
-          // ),
         ));
   }
 
