@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:karat_habit_tracker_app/utils/theme/controller.dart';
-import 'package:karat_habit_tracker_app/view/onboarding_screens/onboarding_screen.dart';
 import 'package:get/get.dart';
 import 'package:karat_habit_tracker_app/view/signup_screen/signup_screen.dart';
 

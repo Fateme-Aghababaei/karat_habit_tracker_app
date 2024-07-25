@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'colors.dart';
 
 class TextFieldTheme {
@@ -9,6 +8,18 @@ class TextFieldTheme {
       labelStyle: TextStyle(
         fontFamily: "IRANYekan",
         color: AppColors.lightDescription,
+        fontSize: 13,
+        fontWeight: FontWeight.w400,
+      ),
+      hintStyle: TextStyle(
+        fontFamily: "IRANYekan",
+        color: AppColors.lightDescription,
+        fontSize: 12,
+        fontWeight: FontWeight.w300,
+      ),
+      errorStyle: TextStyle(
+        fontFamily: "IRANYekan",
+          color: Colors.redAccent,
         fontSize: 13,
         fontWeight: FontWeight.w400,
       ),
@@ -34,7 +45,7 @@ class TextFieldTheme {
       focusedErrorBorder: UnderlineInputBorder(
         borderSide: BorderSide(
           width: 1,
-          color: Colors.redAccent,
+         color: Colors.redAccent,
         ),
       ),
       errorBorder: UnderlineInputBorder(
@@ -42,6 +53,7 @@ class TextFieldTheme {
           width: 1,
           color: Colors.redAccent,
         ),
+
       ));
 
 

@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:karat_habit_tracker_app/view/signup_screen/signup_controller.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   SignUpPage({super.key});
 
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  final formKey = GlobalKey<FormState>();
+  final SignUpController controller = Get.put(SignUpController());
   final RxBool _obscureText1 = true.obs;
   final RxBool _obscureText2 = true.obs;
+  late bool  _submitted = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -15,135 +25,153 @@ class SignUpPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(32.0.r),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Logo
-                Image.asset(
-                  'assets/logo/carrot.png',
-                  height: 0.2.sh,
-                  width: 0.4.sw,
-                ),
-                SizedBox(height: 20.r),
-
-                // Description Text
-                Text(
-                    'ثبت نام در کارات',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontSize: 18.sp
-                    )
-                ),
-                SizedBox(height: 20.r),
-                Text(
-                  'برای ثبت‌نام در کارات، پست الکترونیک و رمز عبور خود را وارد نمایید.',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontSize: 14.sp
+            child: Form(
+              key: formKey,
+              autovalidateMode: _submitted
+                  ? AutovalidateMode.onUserInteraction
+                  : AutovalidateMode.disabled,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // Logo
+                  Image.asset(
+                    'assets/logo/carrot.png',
+                    height: 0.2.sh,
+                    width: 0.4.sw,
                   ),
-                ),
-                SizedBox(height: 20.r),
+                  SizedBox(height: 20.r),
 
-                // Email TextField
-                const TextField(
-                  decoration: InputDecoration(
-                    labelText: 'پست الکترونیک',
+                  // Description Text
+                  Text(
+                      'ثبت نام در کارات',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontSize: 18.sp
+                      )
                   ),
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                ),
-                SizedBox(height: 20.r),
-
-                // Password TextField
-                Obx(
-                      () => TextField(
-                    decoration: InputDecoration(
-                      labelText: 'رمز عبور',
-                      suffixIcon: Padding(
-                        padding: EdgeInsets.only(top: 1.0.r, bottom: 1.0.r),
-                        child: IconButton(
-                          iconSize: 20.0.r,
-                          color: Colors.grey,
-                          icon: Icon(
-                            _obscureText1.value ? Icons.visibility : Icons.visibility_off,
-                          ),
-                          onPressed: () {
-                            _obscureText1.value = !_obscureText1.value;
-                          },
-                        ),
-                      ),
+                  SizedBox(height: 20.r),
+                  Text(
+                    'برای ثبت‌نام در کارات، پست الکترونیک و رمز عبور خود را وارد نمایید.',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontSize: 14.sp
                     ),
-                    obscureText: _obscureText1.value,
+                  ),
+                  SizedBox(height: 20.r),
+
+                  // Email TextField
+                   TextFormField(
+                     controller:  controller.emailController,
+                    decoration: const InputDecoration(
+                      labelText: 'پست الکترونیک',
+                    ),
+                    keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
+                     validator: controller.validateEmail
                   ),
-                ),
-                SizedBox(height: 20.r),
+                  SizedBox(height: 20.r),
 
-                // Confirm Password TextField
-                Obx(
-                      () => TextField(
-                    decoration: InputDecoration(
-                      labelText: 'تکرار رمز',
-                      suffixIcon: Padding(
-                        padding: EdgeInsets.only(top: 1.0.r, bottom: 1.0.r),
-                        child: IconButton(
-                          iconSize: 20.0.r,
-                          color: Colors.grey,
-                          icon: Icon(
-                            _obscureText2.value ? Icons.visibility : Icons.visibility_off,
+                  // Password TextField
+                  Obx(
+                        () => TextFormField(
+                          controller: controller.passwordController,
+                      decoration: InputDecoration(
+                        labelText: 'رمز عبور',
+                        hintText: "حداقل 6 کاراکتر",
+                        suffixIcon: Padding(
+                          padding: EdgeInsets.only(top: 1.0.r, bottom: 1.0.r),
+                          child: IconButton(
+                            iconSize: 20.0.r,
+                            color: Colors.grey,
+                            icon: Icon(
+                              _obscureText1.value ? Icons.visibility : Icons.visibility_off,
+                            ),
+                            onPressed: () {
+                              _obscureText1.value = !_obscureText1.value;
+                            },
                           ),
-                          onPressed: () {
-                            _obscureText2.value = !_obscureText2.value;
-                          },
                         ),
                       ),
+                      obscureText: _obscureText1.value,
+                      textInputAction: TextInputAction.next,
+                            validator: controller.validatePassword
                     ),
-                    obscureText: _obscureText2.value,
-                    textInputAction: TextInputAction.done,
                   ),
-                ),
-                SizedBox(height: 50.r),
+                  SizedBox(height: 20.r),
 
-                // Sign Up Button
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: Size(double.maxFinite, 40.0.r)),
-                  onPressed: () {
-                    // Add sign up logic here
-                  },
-                  child: Text('ثبت‌نام'),
-                ),
-                SizedBox(height: 20.r),
-
-                // Already have an account TextButton
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                        'قبلا ثبت‌نام کرده‌اید؟ ',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          fontSize: 14.sp
-                        )
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        // Handle login navigation
-                      },
-                      child: Text(
-                        'وارد شوید ',
-                        style: TextStyle(
-                          //decoration: TextDecoration.underline,
-                          fontFamily: "IRANYekan",
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                          color: Theme.of(context).colorScheme.secondary,
+                  // Confirm Password TextField
+                  Obx(
+                        () => TextFormField(
+                          controller: controller.confirmPasswordController,
+                      decoration: InputDecoration(
+                        labelText: 'تکرار رمز',
+                        suffixIcon: Padding(
+                          padding: EdgeInsets.only(top: 1.0.r, bottom: 1.0.r),
+                          child: IconButton(
+                            iconSize: 20.0.r,
+                            color: Colors.grey,
+                            icon: Icon(
+                              _obscureText2.value ? Icons.visibility : Icons.visibility_off,
+                            ),
+                            onPressed: () {
+                              _obscureText2.value = !_obscureText2.value;
+                            },
+                          ),
                         ),
                       ),
+                      obscureText: _obscureText2.value,
+                      textInputAction: TextInputAction.done,
+                          validator: controller.validateConfirmPassword,
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                  SizedBox(height: 50.r),
+
+                  // Sign Up Button
+                  ElevatedButton(
+
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: Size(double.maxFinite, 40.0.r)),
+                    onPressed: (
+                        ) {
+                      setState(() {
+                        _submitted = true;
+                      });
+                      formKey.currentState!.validate();
+                    },
+                    child: Text('ثبت‌نام'),
+                  ),
+                  SizedBox(height: 20.r),
+
+                  // Already have an account TextButton
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                          'قبلا ثبت‌نام کرده‌اید؟ ',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            fontSize: 14.sp
+                          )
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          // Handle login navigation
+                        },
+                        child: Text(
+                          'وارد شوید ',
+                          style: TextStyle(
+                            //decoration: TextDecoration.underline,
+                            fontFamily: "IRANYekan",
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
