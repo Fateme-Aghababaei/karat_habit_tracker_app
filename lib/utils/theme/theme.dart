@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'CheckBoxTheme.dart';
 import 'ElevatedBtnTheme.dart';
 import 'OutlineBtnTheme.dart';
@@ -16,6 +15,10 @@ class AppTheme {
       fontFamily: "IRANYekan",
       brightness: Brightness.light,
       primaryColor: AppColors.lightPrimary,
+      colorScheme: ColorScheme.fromSwatch().copyWith(
+        secondary: AppColors.lightSecond,
+        secondaryFixed: AppColors.textButton
+      ),
       scaffoldBackgroundColor: AppColors.lightBackground,
       textTheme: TTextTheme.lightTextTheme,
       elevatedButtonTheme: ElevatedBtnTheme.lightTheme,
@@ -32,12 +35,7 @@ class AppTheme {
       switchTheme: TSwitchTheme.lightTheme,
       textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
-        foregroundColor: const Color(0xFF178451),
-        textStyle: const TextStyle(
-          fontFamily: "IRANYekan",
-          fontSize: 12,
-          fontWeight: FontWeight.w400,
-        ),
+        foregroundColor: AppColors.textButton,
       ) //
           ));
 
