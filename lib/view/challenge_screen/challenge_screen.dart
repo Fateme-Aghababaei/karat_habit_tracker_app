@@ -6,14 +6,14 @@ import 'package:karat_habit_tracker_app/view/signup_screen/signup_controller.dar
 
 import '../components/BottomNavigationBar.dart';
 
-class HabitPage extends StatefulWidget {
-  HabitPage({super.key});
+class ChallengePage extends StatefulWidget {
+  ChallengePage({super.key});
 
   @override
-  State<HabitPage> createState() => _HabitPageState();
+  State<ChallengePage> createState() => _ChallengePageState();
 }
 
-class _HabitPageState extends State<HabitPage> {
+class _ChallengePageState extends State<ChallengePage> {
 
 
   @override

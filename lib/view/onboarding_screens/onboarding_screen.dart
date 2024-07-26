@@ -92,14 +92,14 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                   ),
                   SizedBox(height: 80.0.r),
                   Text(controller.items[index].title,
-                      style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontSize: 18.sp
                       ),
                       //overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center),
                   SizedBox(height: 24.0.r),
                   Text(controller.items[index].description,
-                      style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontSize: 16.sp
                       ),
                       textAlign: TextAlign.center),

@@ -3,7 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:karat_habit_tracker_app/utils/theme/controller.dart';
 import 'package:karat_habit_tracker_app/utils/routes/AppRoutes.dart';
-import 'package:karat_habit_tracker_app/view/onboarding_screens/onboarding_screen.dart';
+import 'package:karat_habit_tracker_app/view/habit_screen/habit_screen.dart';
 
 
 void main() {
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
             locale: const Locale("fa", "IR"),
             debugShowCheckedModeBanner: false,
             theme: _themeController.currentTheme.value,
-            home:  const onBoardingScreen(),
+            home:  HabitPage(),
           );
         });
       },

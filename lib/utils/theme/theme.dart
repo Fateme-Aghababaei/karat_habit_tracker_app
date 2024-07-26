@@ -15,9 +15,11 @@ class AppTheme {
       fontFamily: "IRANYekan",
       brightness: Brightness.light,
       primaryColor: AppColors.lightPrimary,
+      disabledColor: AppColors.lightDescription,
       colorScheme: ColorScheme.fromSwatch().copyWith(
         secondary: AppColors.lightSecond,
-        secondaryFixed: AppColors.textButton
+        secondaryFixed: AppColors.textButton,
+        surface: AppColors.lightBackground
       ),
       scaffoldBackgroundColor: AppColors.lightBackground,
       textTheme: TTextTheme.lightTextTheme,
