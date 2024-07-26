@@ -27,7 +27,7 @@ class TextFieldTheme {
         fontFamily: "IRANYekan",
         color: AppColors.lightPrimary,
         fontSize: 14,
-        fontWeight: FontWeight.w400,
+        fontWeight: FontWeight.w700,
       ),
       enabledBorder: UnderlineInputBorder(
         borderSide: BorderSide(

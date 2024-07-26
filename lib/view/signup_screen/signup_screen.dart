@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:karat_habit_tracker_app/utils/routes/RouteNames.dart';
 import 'package:karat_habit_tracker_app/view/signup_screen/signup_controller.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -155,7 +156,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          // Handle login navigation
+                          Get.offNamed(AppRouteName.loginScreen);
                         },
                         child: Text(
                           'وارد شوید ',
@@ -164,7 +165,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             fontFamily: "IRANYekan",
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.secondary,
+                            color: Theme.of(context).colorScheme.secondaryFixed,
                           ),
                         ),
                       ),

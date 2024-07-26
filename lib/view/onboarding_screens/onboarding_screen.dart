@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:karat_habit_tracker_app/model/entity/onboarding_items.dart';
+import 'package:karat_habit_tracker_app/utils/routes/AppRoutes.dart';
+import 'package:karat_habit_tracker_app/utils/routes/RouteNames.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class onBoardingScreen extends StatefulWidget {
@@ -118,16 +120,16 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
           style: ElevatedButton.styleFrom(
               minimumSize: Size(double.maxFinite, 40.0.r)),
           onPressed: () {
-            // Navigate to the sign up screen
+           Get.offNamed(AppRouteName.signUpScreen);
           },
           child: const Text('ثبت نام'),
         ),
         SizedBox(height: 8.0.r),
         OutlinedButton(
-          style: ElevatedButton.styleFrom(
+          style: OutlinedButton.styleFrom(
               minimumSize: Size(double.maxFinite, 40.0.r)),
           onPressed: () {
-            // Navigate to the login screen
+           Get.offNamed(AppRouteName.loginScreen);
           },
           child: const Text('ورود'),
         ),
