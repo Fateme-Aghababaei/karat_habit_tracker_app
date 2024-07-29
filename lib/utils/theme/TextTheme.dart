@@ -45,6 +45,11 @@ class TTextTheme {
       color: AppColors.lightText,
       fontWeight: FontWeight.w300,
     ),
+      titleLarge: TextStyle(
+        fontFamily: "IRANYekan",
+        color: AppColors.lightSecond,
+        fontWeight: FontWeight.w700,
+      )
 
   );
 
