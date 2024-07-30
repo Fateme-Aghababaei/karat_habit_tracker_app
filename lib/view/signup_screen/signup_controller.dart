@@ -3,10 +3,13 @@ import 'package:get/get.dart';
 import 'package:karat_habit_tracker_app/model/entity/user_model.dart';
 import 'package:karat_habit_tracker_app/model/repositories/account_repository.dart';
 
+import '../../utils/routes/RouteNames.dart';
+
 class SignUpController extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+  final TextEditingController referralCodeController = TextEditingController();
   AccountRepository repo=AccountRepository();
 
   String? validateEmail(String? value) {
@@ -37,15 +40,24 @@ class SignUpController extends GetxController {
   }
 
   void registerUser() async {
-    UserModel user=UserModel(email: emailController.text,password: passwordController.text);
+    UserModel user=UserModel(
+        email: emailController.text.trim().toLowerCase()
+        ,password: passwordController.text.trim(),
+        inviter: referralCodeController.text.isNotEmpty  ? referralCodeController.text : null);
     repo.signup(user);
     try{
       String? errorMassage= await repo.signup(user);
       if(errorMassage==null){
-
+        Get.offNamed(AppRouteName.habitScreen);
       }
       else{
-        Get.snackbar('Error', errorMassage);
+        Get.snackbar('خطا', errorMassage,
+          snackPosition: SnackPosition.TOP, // نمایش در بالای صفحه
+          backgroundColor: Colors.redAccent,
+          colorText: Colors.white,
+          borderRadius: 10,
+          margin: EdgeInsets.all(10),
+          duration: Duration(seconds: 3),);
       }
     }
     catch(e){}

@@ -15,9 +15,13 @@ class AppTheme {
       fontFamily: "IRANYekan",
       brightness: Brightness.light,
       primaryColor: AppColors.lightPrimary,
+      disabledColor: AppColors.lightDescription,
       colorScheme: ColorScheme.fromSwatch().copyWith(
+        onSurface: AppColors.lightText,
+        primary: AppColors.lightPrimary,
         secondary: AppColors.lightSecond,
-        secondaryFixed: AppColors.textButton
+        secondaryFixed: AppColors.textButton,
+        surface: AppColors.lightBackground
       ),
       scaffoldBackgroundColor: AppColors.lightBackground,
       textTheme: TTextTheme.lightTextTheme,
@@ -33,10 +37,11 @@ class AppTheme {
           backgroundColor: AppColors.lightPrimary,
           foregroundColor: Colors.white),
       switchTheme: TSwitchTheme.lightTheme,
+      dialogTheme: const DialogTheme(backgroundColor:AppColors.lightBackground ),
       textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
         foregroundColor: AppColors.textButton,
-      ) //
+      )
           ));
 
   static final ThemeData darkTheme = ThemeData(
