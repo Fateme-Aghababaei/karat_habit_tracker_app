@@ -137,7 +137,9 @@ class _SignUpPageState extends State<SignUpPage> {
                       setState(() {
                         _submitted = true;
                       });
-                      formKey.currentState!.validate();
+                      if (formKey.currentState!.validate()) {
+                        controller.registerUser();
+                      }
                     },
                     child: Text('ثبت‌نام'),
                   ),
