@@ -18,6 +18,77 @@ class _SignUpPageState extends State<SignUpPage> {
   final RxBool _obscureText2 = true.obs;
   late bool  _submitted = false;
 
+  void showReferralCodeDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0.r),
+          ),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          child: AnimatedOpacity(
+            opacity: 1.0,
+            duration: Duration(milliseconds: 300),
+            child: AnimatedScale(
+              scale: 1.0,
+              duration: Duration(milliseconds: 300),
+              child: Container(
+                padding: EdgeInsets.all(20.0.r),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  borderRadius: BorderRadius.circular(12.0.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      spreadRadius: 2,
+                      blurRadius: 10,
+                      offset: Offset(0, 5), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'کد معرف خود را وارد کنید',
+                      style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 20.r),
+                    TextField(
+                      controller: controller.referralCodeController,
+                      decoration: InputDecoration(
+                        labelText: 'کد معرف',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0.r),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 10.r, vertical: 8.r),
+                      ),
+                    ),
+                    SizedBox(height: 20.r),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () {Get.back();},
+                          child: const Text('تایید'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +149,6 @@ class _SignUpPageState extends State<SignUpPage> {
                           controller: controller.passwordController,
                       decoration: InputDecoration(
                         labelText: 'رمز عبور',
-                        hintText: "حداقل 6 کاراکتر",
                         suffixIcon: Padding(
                           padding: EdgeInsets.only(top: 1.0.r, bottom: 1.0.r),
                           child: IconButton(
@@ -125,7 +195,31 @@ class _SignUpPageState extends State<SignUpPage> {
                           validator: controller.validateConfirmPassword,
                     ),
                   ),
-                  SizedBox(height: 50.r),
+                SizedBox(height: 20.r),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end, // Align to the left
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          showReferralCodeDialog(context);
+
+                        },
+                        child: Text(
+                          'کد معرف دارم',
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            decorationColor: Theme.of(context).colorScheme.secondaryFixed,
+                            fontFamily: "IRANYekan",
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.secondaryFixed,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(height: 30.r),
 
                   // Sign Up Button
                   ElevatedButton(
@@ -137,7 +231,9 @@ class _SignUpPageState extends State<SignUpPage> {
                       setState(() {
                         _submitted = true;
                       });
-                      formKey.currentState!.validate();
+                      if (formKey.currentState!.validate()) {
+                        controller.registerUser();
+                      }
                     },
                     child: Text('ثبت‌نام'),
                   ),

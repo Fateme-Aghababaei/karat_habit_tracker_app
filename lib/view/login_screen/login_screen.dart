@@ -133,7 +133,9 @@ class _LoginPageState extends State<LoginPage> {
                       setState(() {
                         _submitted = true;
                       });
-                      formKey.currentState!.validate();
+                      if (formKey.currentState!.validate()) {
+                        controller.registerUser();
+                      }
                     },
                     child: Text('ورود'),
                   ),

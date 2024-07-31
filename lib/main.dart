@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:karat_habit_tracker_app/utils/theme/controller.dart';
 import 'package:karat_habit_tracker_app/utils/routes/AppRoutes.dart';
 import 'package:karat_habit_tracker_app/view/habit_screen/habit_screen.dart';
+import 'package:karat_habit_tracker_app/view/signup_screen/signup_screen.dart';
 
 
 void main() {
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
             locale: const Locale("fa", "IR"),
             debugShowCheckedModeBanner: false,
             theme: _themeController.currentTheme.value,
-            home:  HabitPage(),
+            home:  SignUpPage(),
           );
         });
       },
