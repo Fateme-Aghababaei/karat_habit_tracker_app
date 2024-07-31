@@ -40,7 +40,7 @@ class SignUpController extends GetxController {
   }
 
   void registerUser() async {
-    UserModel user=UserModel(
+    AccountModel user=AccountModel(
         email: emailController.text.trim().toLowerCase()
         ,password: passwordController.text.trim(),
         inviter: referralCodeController.text.isNotEmpty  ? referralCodeController.text : null);

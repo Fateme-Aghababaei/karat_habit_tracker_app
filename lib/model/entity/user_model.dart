@@ -1,21 +1,21 @@
 import 'dart:convert';
 
-class UserModel {
+class AccountModel {
   final String email;
   final String password;
   final String? inviter;
 
-  UserModel({
+  AccountModel({
     required this.email,
     required this.password,
     this.inviter,
   });
 
-  factory UserModel.fromRawJson(String str) => UserModel.fromJson(json.decode(str));
+  factory AccountModel.fromRawJson(String str) => AccountModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+  factory AccountModel.fromJson(Map<String, dynamic> json) => AccountModel(
     email: json["email"],
     password: json["password"],
     inviter: json["inviter"],

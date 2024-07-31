@@ -29,7 +29,7 @@ class LoginController extends GetxController {
   }
 
   void registerUser() async {
-    UserModel user=UserModel(
+    AccountModel user=AccountModel(
         email: emailController.text.trim().toLowerCase()
         ,password: passwordController.text.trim());
     repo.signIn(user);
