@@ -55,7 +55,7 @@ class SignUpController extends GetxController {
       isLoading.value = false;
 
       if (errorMassage == null) {
-        Get.offNamed(AppRouteName.habitScreen);
+        Get.offNamed(AppRouteName.profileScreen);
       } else {
 
         Get.snackbar('خطا', errorMassage,

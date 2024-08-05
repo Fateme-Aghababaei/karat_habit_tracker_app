@@ -1,4 +1,7 @@
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
+import 'package:get_storage/get_storage.dart';
+import '../model/entity/follower_following_model.dart';
 import '../model/entity/user_model.dart';
 import '../model/repositories/user_repository.dart';
 
@@ -7,11 +10,10 @@ class UserViewModel extends GetxController {
 
   // User Profile
   var userProfile = UserModel().obs;
-  var isLoadingUserProfile = false.obs;
-  var isLoadingFollowers = false.obs;
-  var followers = <Follow>[].obs;
-  var followings = <Follow>[].obs;
-
+  var userFriends=Follower_Following().obs;
+  RxBool isLoadingUserProfile = false.obs;
+  RxBool isLoadingFollowers = false.obs;
+  RxBool isFollowing = false.obs;
   final String? username;
 
   UserViewModel(this.username);
@@ -25,6 +27,13 @@ class UserViewModel extends GetxController {
   Future<void> _loadUserProfile() async {
     await fetchUserProfile(username);
     await fetchFollowerFollowing(username);
+    checkIfFollowing();
+  }
+
+  void checkIfFollowing() {
+    final box = GetStorage();
+    String? myUsername = box.read('username');
+    isFollowing.value = userFriends.value.followers!.any((follow) => follow.username == myUsername);
   }
   // Get user profile
   Future<void> fetchUserProfile(String? username) async {
@@ -32,6 +41,7 @@ class UserViewModel extends GetxController {
       isLoadingUserProfile(true);
       UserModel? profile = await _userRepository.getUserProfile(username);
       userProfile(profile);
+
     } catch (e) {
       print("Error fetching user profile: $e");
     } finally {
@@ -43,9 +53,9 @@ class UserViewModel extends GetxController {
   Future<void> fetchFollowerFollowing(String? username) async {
     try {
       isLoadingFollowers(true);
-      List<List<Follow>>? result = await _userRepository.getFollowerFollowing(username);
-      followers(result?[0]);
-      followings(result?[1]);
+      Follower_Following? friends = await _userRepository.getFollowerFollowing(username);
+      userFriends(friends);
+
     } catch (e) {
       print("Error fetching follower/following: $e");
     } finally {

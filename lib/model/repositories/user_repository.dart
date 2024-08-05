@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:karat_habit_tracker_app/model/constant.dart';
-
+import '../entity/follower_following_model.dart';
 import '../entity/user_model.dart';
 
 class UserRepository{
@@ -15,8 +15,11 @@ class UserRepository{
         queryParams = null;
       }
       Response response = await dio.get('profile/get_user/', queryParameters: queryParams);
+      print(response.statusCode);
       if (response.statusCode == 200) {
-        return UserModel.fromJson(response.data);
+        UserModel profile = UserModel.fromJson(response.data);
+        print("Parsed user profile: $profile");
+        return profile;
       } else {
         print(response.data['error']);
         return null;
@@ -27,7 +30,7 @@ class UserRepository{
   }
 
 
-  Future<List<List<Follow>>?> getFollowerFollowing(String? username) async {
+  Future<Follower_Following?> getFollowerFollowing(String? username) async {
     try {
       Map<String, dynamic>? queryParams;
       if (username != null && username.isNotEmpty) {
@@ -43,11 +46,12 @@ class UserRepository{
       );
 
       if (response.statusCode == 200) {
+        Follower_Following friends = Follower_Following.fromJson(response.data);
         List<dynamic> followersJson = response.data['followers'];
         List<dynamic> followingsJson = response.data['followings'];
         List<Follow> followers = followersJson.map((json) => Follow.fromJson(json)).toList();
         List<Follow> followings = followingsJson.map((json) => Follow.fromJson(json)).toList();
-        return [followers, followings];
+        return friends;
       }
       else {
         print(response.data['error']);
