@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-const baseUrl="";
+const baseUrl='https://habittracker.liara.run/';
 final option =BaseOptions(
   baseUrl: baseUrl,
   connectTimeout: const Duration(seconds: 15),

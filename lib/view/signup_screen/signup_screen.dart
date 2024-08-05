@@ -226,8 +226,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
                     style: ElevatedButton.styleFrom(
                         minimumSize: Size(double.maxFinite, 40.0.r)),
-                    onPressed: (
-                        ) {
+                    onPressed: () {
                       setState(() {
                         _submitted = true;
                       });
@@ -235,7 +234,18 @@ class _SignUpPageState extends State<SignUpPage> {
                         controller.registerUser();
                       }
                     },
-                    child: Text('ثبت‌نام'),
+                      child: Obx(() {
+                        return controller.isLoading.value
+                            ? SizedBox(
+                          height: 20.0.r,
+                          width: 20.0.r,
+                          child: const CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2.0,
+                          ),
+                        )
+                            : const Text('ثبت‌نام');
+                      }),
                   ),
                   SizedBox(height: 20.r),
 

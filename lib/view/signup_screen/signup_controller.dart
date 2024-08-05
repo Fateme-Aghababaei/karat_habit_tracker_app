@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:karat_habit_tracker_app/model/entity/user_model.dart';
+import 'package:karat_habit_tracker_app/model/entity/account_model.dart';
 import 'package:karat_habit_tracker_app/model/repositories/account_repository.dart';
 
 import '../../utils/routes/RouteNames.dart';
@@ -10,7 +11,9 @@ class SignUpController extends GetxController {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   final TextEditingController referralCodeController = TextEditingController();
+  final RxBool  isLoading = false.obs;
   AccountRepository repo=AccountRepository();
+
 
   String? validateEmail(String? value) {
     if (value == null || value.trim()=='') {
@@ -40,27 +43,41 @@ class SignUpController extends GetxController {
   }
 
   void registerUser() async {
-    AccountModel user=AccountModel(
-        email: emailController.text.trim().toLowerCase()
-        ,password: passwordController.text.trim(),
-        inviter: referralCodeController.text.isNotEmpty  ? referralCodeController.text : null);
-    repo.signup(user);
-    try{
-      String? errorMassage= await repo.signup(user);
-      if(errorMassage==null){
+    isLoading.value = true;
+    AccountModel user = AccountModel(
+      email: emailController.text.trim().toLowerCase(),
+      password: passwordController.text.trim(),
+      inviter: referralCodeController.text.isNotEmpty ? referralCodeController.text : null,
+    );
+
+    try {
+      String? errorMassage = await repo.signup(user);
+      isLoading.value = false;
+
+      if (errorMassage == null) {
         Get.offNamed(AppRouteName.habitScreen);
-      }
-      else{
+      } else {
+
         Get.snackbar('خطا', errorMassage,
-          snackPosition: SnackPosition.TOP, // نمایش در بالای صفحه
+          snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.redAccent,
           colorText: Colors.white,
-          borderRadius: 10,
-          margin: EdgeInsets.all(10),
-          duration: Duration(seconds: 3),);
+          borderRadius: 8,
+          margin: EdgeInsets.all(6.r),
+          duration: const Duration(seconds: 3),
+        );
       }
+    } catch (e) {
+      isLoading.value = false;
+      Get.snackbar('', 'ظاهرا در ارتباط شما با سرور مشکلی وجود دارد، لطفا دوباره تلاش کنید.',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+        borderRadius: 8,
+        margin: EdgeInsets.all(6.r),
+        duration: const Duration(seconds: 3),
+      );
     }
-    catch(e){}
   }
 
 }

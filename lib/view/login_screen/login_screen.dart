@@ -77,7 +77,6 @@ class _LoginPageState extends State<LoginPage> {
                         controller: controller.passwordController,
                         decoration: InputDecoration(
                           labelText: 'رمز عبور',
-                          hintText: "حداقل 6 کاراکتر",
                           suffixIcon: Padding(
                             padding: EdgeInsets.only(top: 1.0.r, bottom: 1.0.r),
                             child: IconButton(
@@ -137,7 +136,18 @@ class _LoginPageState extends State<LoginPage> {
                         controller.registerUser();
                       }
                     },
-                    child: Text('ورود'),
+                    child: Obx(() {
+                      return controller.isLoading.value
+                          ? SizedBox(
+                        height: 20.0.r,
+                        width: 20.0.r,
+                        child: const CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2.0,
+                        ),
+                      )
+                          : const Text('ورود');
+                    }),
                   ),
                   SizedBox(height: 20.r),
 
