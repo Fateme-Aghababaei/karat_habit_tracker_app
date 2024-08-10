@@ -4,6 +4,6 @@ class AppRouteName{
   static String signUpScreen="/SignUpPage";
   static String habitScreen ="/HabitPage";
   static String challengeScreen="/ChallengePage";
-
+  static String profileScreen="/ProfilePage";
 
 }

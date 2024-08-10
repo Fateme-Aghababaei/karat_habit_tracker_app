@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../components/BottomNavigationBar.dart';
 import '../components/PersianHorizontalDatePicker.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
