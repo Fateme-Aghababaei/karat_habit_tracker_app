@@ -1,7 +1,13 @@
+import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:karat_habit_tracker_app/model/constant.dart';
 import '../entity/follower_following_model.dart';
 import '../entity/user_model.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
+
+
 
 class UserRepository{
   Future<UserModel?> getUserProfile(String? username) async {
@@ -15,13 +21,10 @@ class UserRepository{
         queryParams = null;
       }
       Response response = await dio.get('profile/get_user/', queryParameters: queryParams);
-      print(response.statusCode);
       if (response.statusCode == 200) {
         UserModel profile = UserModel.fromJson(response.data);
-        print("Parsed user profile: $profile");
         return profile;
       } else {
-        print(response.data['error']);
         return null;
       }
     } catch (e) {
@@ -44,56 +47,152 @@ class UserRepository{
         'profile/get_follower_following/',
         queryParameters: queryParams,
       );
-
       if (response.statusCode == 200) {
         Follower_Following friends = Follower_Following.fromJson(response.data);
-        List<dynamic> followersJson = response.data['followers'];
-        List<dynamic> followingsJson = response.data['followings'];
-        List<Follow> followers = followersJson.map((json) => Follow.fromJson(json)).toList();
-        List<Follow> followings = followingsJson.map((json) => Follow.fromJson(json)).toList();
         return friends;
       }
       else {
-        print(response.data['error']);
         return null;
       }
     } catch (e) {
+      print(e);
       throw Exception('مشکلی در بارگذاری اطلاعات وجود دارد، لطفاً دوباره تلاش کنید.');
     }
   }
 
 
-  Future<void> followUser(String username) async {
+  Future<String?> followUser(String username) async {
+    print(username);
     try {
       final response = await dio.post(
-        '$baseUrl/profile/follow/',
+        'profile/follow/',
         data: {'username': username},
       );
-
+      print(response.realUri);
+      print('Data sent: ${response.requestOptions.data}');
       if (response.statusCode != 200) {
-        print(response.data['error']);
-        return;
+        return null;
       }
     } catch (e) {
       throw Exception('مشکلی در دنبال کردن کاربر وجود دارد، لطفاً دوباره تلاش کنید.');
     }
+    return "";
   }
 
 
-  Future<void> unfollowUser(String username) async {
+  Future<String?> unfollowUser(String username) async {
     try {
       final response = await dio.post(
-        '$baseUrl/profile/unfollow/',
+        'profile/unfollow/',
         data: {'username': username},
       );
 
       if (response.statusCode != 200) {
-        print(response.data['error']);
-        return;
+        return null;
       }
     } catch (e) {
       throw Exception('مشکلی در لغو دنبال کردن کاربر وجود دارد، لطفاً دوباره تلاش کنید.');
     }
+    return "";
+  }
+
+  Future<String?> logout() async {
+    try {
+
+      final response = await dio.get(
+        'profile/logout/',);
+
+      if (response.statusCode != 200) {
+        return null;
+      }
+      else {
+        dio.options.headers.remove("Authorization");
+      }
+    } catch (e) {
+      throw Exception('مشکلی در خروج از حساب کاربری وجود دارد، لطفاً دوباره تلاش کنید.');
+    }
+    return "";
+  }
+
+  Future<String?> editProfile({
+    required String firstName,
+    required String username,
+    required bool notifEnabled,
+  }) async {
+    try {
+      final response = await dio.post(
+        'profile/edit_profile/',
+        data: {
+          'first_name': firstName,
+          'username': username,
+          'notif_enabled': notifEnabled,
+        },
+      );
+      if (response.statusCode != 200) {
+        return null;
+      }
+    } catch (e) {
+      throw Exception('مشکلی در ویرایش اطلاعات وجود دارد، لطفاً دوباره تلاش کنید.');
+    }
+    return "";
+  }
+
+
+
+  Future<File> compressImage(String filePath) async {
+    final directory = await getTemporaryDirectory();
+    final targetPath = path.join(directory.path, '${path.basenameWithoutExtension(filePath)}_compressed.jpg');
+
+    final compressedFile = await FlutterImageCompress.compressAndGetFile(
+      filePath,
+      targetPath,
+      quality: 90, // کیفیت فشرده‌سازی
+      minWidth: 900, // حداقل عرض تصویر پس از فشرده‌سازی
+      minHeight: 800, // حداقل ارتفاع تصویر پس از فشرده‌سازی
+    );
+
+    return File(compressedFile!.path);
+  }
+
+  Future<String?> changePhoto({String? photo}) async {
+    try {
+      FormData formData;
+
+      if (photo != null) {
+        File file = File(photo);
+
+        // بررسی اندازه فایل
+        int fileSize = await file.length();
+        print('Original File size: $fileSize bytes');
+
+        // اگر اندازه فایل بیشتر از 1 مگابایت بود
+        if (fileSize > 1024 * 1024) {
+          file = await compressImage(photo);
+          print('Compressed File size: ${await file.length()} bytes');
+        }
+
+        formData = FormData.fromMap({
+          'photo': await MultipartFile.fromFile(file.path, filename: path.basename(file.path)),
+        });
+      } else {
+        formData = FormData.fromMap({
+          'photo': null, // یا داده مناسب برای حذف عکس
+        });
+      }
+
+      final response = await dio.post(
+        'profile/change_photo/',
+        data: formData,
+      );
+      print(response.statusCode);
+      if (response.statusCode != 200) {
+        return null;
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception('مشکلی در ویرایش اطلاعات وجود دارد، لطفاً دوباره تلاش کنید.');
+    }
+    return "";
   }
 
 }

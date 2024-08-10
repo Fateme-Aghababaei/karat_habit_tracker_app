@@ -90,6 +90,14 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
+  void dispose() {
+    // پاک کردن مقادیر کنترلرها
+    controller.emailController.clear();
+    controller.passwordController.clear();
+    controller.confirmPasswordController.clear();
+    controller.referralCodeController.clear();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

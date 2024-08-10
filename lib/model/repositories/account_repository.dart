@@ -30,6 +30,8 @@ class AccountRepository{
 
       if (response.statusCode == 200) {
         dio.options.headers["Authorization"] = "Token ${response.data['token']}";
+        final box = GetStorage();
+        box.write('username', response.data['username']);
         return null;
       } else {
         return response.data['error'];

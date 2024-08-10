@@ -10,7 +10,7 @@ class TSwitchTheme{
       if (states.contains(WidgetState.selected)) {
         return Colors.white; // رنگ دایره داخلی در حالت فعال
       }
-      return const Color(0xFFE6E0E9); // رنگ دایره داخلی در حالت غیر فعال
+      return Colors.white; // رنگ دایره داخلی در حالت غیر فعال
     }),
     trackColor: WidgetStateProperty.resolveWith((states) {
       if (states.contains(WidgetState.selected)) {

@@ -3,9 +3,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:karat_habit_tracker_app/utils/theme/controller.dart';
 import 'package:karat_habit_tracker_app/utils/routes/AppRoutes.dart';
-import 'package:karat_habit_tracker_app/view/profile_screen/profile.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:karat_habit_tracker_app/view/signup_screen/signup_screen.dart';
+import 'package:karat_habit_tracker_app/view/login_screen/login_screen.dart';
 
 
 
@@ -39,7 +38,7 @@ class MyApp extends StatelessWidget {
             locale: const Locale("fa", "IR"),
             debugShowCheckedModeBanner: false,
             theme: _themeController.currentTheme.value,
-            home: SignUpPage(),
+            home: const LoginPage(),
           );
         });
       },

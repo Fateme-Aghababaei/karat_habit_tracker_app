@@ -1,68 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
-import '../utils/routes/RouteNames.dart';
+class Error extends StatelessWidget {
+  final String? errorMessage;
+  final String? errorDescription;
 
-class ErrorPage extends StatelessWidget {
-  const ErrorPage({Key? key}) : super(key: key);
+
+  const Error({
+    super.key,
+    this.errorMessage = 'متأسفیم، مشکلی رخ داده است!',
+    this.errorDescription = 'ظاهراً در ارتباط شما با سرور مشکلی وجود دارد. لطفاً اتصال به اینترنت خود را بررسی کرده و دوباره تلاش کنید.',
+
+  });
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Center(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0.r),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // تصویر خطا
-              // Image.asset(
-              //   'assets/images/error.png', // مسیر ثابت تصویر
-              //   width: 150.w,
-              //   height: 150.h,
-              // ),
-              // SizedBox(height: 24.h),
+              SizedBox(height: 46.0.r),
+              Image.asset(
+                'assets/images/error.png', // مسیر ثابت تصویر
+                width: screenWidth * 0.9,
+                height: screenHeight * 0.4,
+              ),
+              SizedBox(height: 16.0.r),
 
               // متن خطا
               Text(
-                'مشکلی پیش آمده!',
-                style: TextStyle(
-                  fontSize: 24.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.redAccent,
+                errorMessage!,
+                style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                  fontSize: 18.sp,
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: 16.0.r),
 
               // توضیح خطا
               Text(
-                'لطفاً دوباره تلاش کنید یا با پشتیبانی تماس بگیرید.',
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  color: Colors.black54,
+                errorDescription!,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontSize: 14.sp,
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 32.h),
 
-              // دکمه بازگشت
-              ElevatedButton(
-                onPressed: () {
-                 Get.toNamed(AppRouteName.loginScreen);
-                },
-                child: Text(
-                  'بازگشت',
-                  style: TextStyle(fontSize: 16.sp),
-                ),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(150.w, 40.h),
-                ),
-              ),
+              // دکمه بازگشت یا تلاش مجدد
+              // ElevatedButton(
+              //   onPressed: onRetry ?? () {
+              //     Get.back();
+              //   },
+              //   style: ElevatedButton.styleFrom(
+              //     minimumSize: Size(screenWidth * 0.4, 42.0.r),
+              //   ),
+              //   child: Text(
+              //     'بازگشت',
+              //     style: TextStyle(fontSize: 15.sp),
+              //   ),
+              // ),
             ],
           ),
         ),

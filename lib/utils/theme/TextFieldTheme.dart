@@ -9,7 +9,7 @@ class TextFieldTheme {
       labelStyle: TextStyle(
         fontFamily: "IRANYekan",
         color: AppColors.lightDescription,
-        fontSize: 13,
+        fontSize: 15,
         fontWeight: FontWeight.w400,
       ),
       hintStyle: TextStyle(

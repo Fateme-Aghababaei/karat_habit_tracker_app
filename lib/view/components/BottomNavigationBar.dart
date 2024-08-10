@@ -25,6 +25,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
     ),
       child :Obx(() => BottomNavigationBar(
         items: <BottomNavigationBarItem>[
+
     BottomNavigationBarItem(
     icon: Column(
       mainAxisSize: MainAxisSize.min,

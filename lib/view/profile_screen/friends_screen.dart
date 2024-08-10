@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:karat_habit_tracker_app/utils/routes/RouteNames.dart';
 import '../../viewmodel/user_viewmodel.dart';
+import '../error_screen.dart';
 
 class FollowersFollowingPage extends StatelessWidget {
   final UserViewModel userViewModel;
 
-  FollowersFollowingPage({required this.userViewModel});
+  const FollowersFollowingPage({super.key, required this.userViewModel});
   @override
   Widget build(BuildContext context) {
-    double halfScreenWidth = MediaQuery.of(context).size.width / 2;
 
-    return DefaultTabController(
+    double halfScreenWidth = MediaQuery.of(context).size.width / 2;
+    return  DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
@@ -20,13 +23,13 @@ class FollowersFollowingPage extends StatelessWidget {
             actions: [
               IconButton(
                 icon: const Icon(Icons.arrow_forward),
-                onPressed: () => Get.back(),
+                onPressed: () => Get.back(result: true)
               ),
             ],
           title: Text(
            userViewModel.userFriends.value.firstName ??'',
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              fontSize: 14.sp,
+              fontSize: 15.sp,
             ),
           ),
           bottom:  TabBar(
@@ -45,19 +48,27 @@ class FollowersFollowingPage extends StatelessWidget {
             tabs: [
               SizedBox(
                 width: halfScreenWidth,
-                child: const Tab(text: 'دنبال شونده'),
+                child: const Tab(text: 'دنبال کننده'),
               ),
               SizedBox(
                 width: halfScreenWidth,
-                child: const Tab(text: 'دنبال کننده'),
+                child: const Tab(text: 'دنبال شونده'),
               ),
             ],
           ),
         ),
-        body: TabBarView(
+        body:userViewModel.userFriends.value.username == null
+            ?const Error()
+        :TabBarView(
           children: [
-            buildFollowingList(),
-            buildFollowersList(),
+            Padding(
+              padding: EdgeInsets.only(top: 10.0.r), // فاصله دادن از بالای تب‌ها
+              child: buildFollowersList(),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 10.0.r), // فاصله دادن از بالای تب‌ها
+              child: buildFollowingList(),
+            ),
           ],
         ),
       ),
@@ -66,30 +77,42 @@ class FollowersFollowingPage extends StatelessWidget {
 
   Widget buildFollowingList() {
     return Obx(() {
-      if (userViewModel.isLoadingFollowers.value) {
-        return Center(child: CircularProgressIndicator());
-      }
       return ListView.builder(
-        itemCount: userViewModel.userFriends.value.followings?.length ?? 0,
+        itemCount: userViewModel.userFriends.value.followings.length,
         itemBuilder: (context, index) {
-          final follow = userViewModel.userFriends.value.followings![index];
-          return ListTile(
-            leading: CircleAvatar(
-              backgroundImage: userViewModel.userProfile.value.photo != null
-                  ? NetworkImage(userViewModel.userProfile.value.photo!)
-                  : const AssetImage('assets/images/profile.png') as ImageProvider,
-              backgroundColor:userViewModel.userProfile.value.photo != null
-                  ?Colors.transparent: const Color(0xffFFB2A7),
-            ),
-            title: Text(follow.firstName),
-            subtitle: Text(follow.username),
-            trailing: IconButton(
-              icon: Icon(Icons.person_add),
-              onPressed: () {
-                // Follow/unfollow action
-              },
+          final follow = userViewModel.userFriends.value.followings[index];
+          final box = GetStorage();
+          String? myUsername = box.read('username');
+          return GestureDetector(
+            onTap: () async {
+              var username = follow.username == myUsername ? null : follow.username;
+              dynamic result = await Get.toNamed(AppRouteName.profileScreen, arguments: username);
+              if (result == true) {
+                userViewModel.fetchFollowerFollowing(userViewModel.username, false);
+              }
+            },
+
+            child: ListTile(
+              key: ValueKey(follow.username),
+              leading: CircleAvatar(
+                radius: 24.r,
+                backgroundImage: userViewModel.userProfile.value.photo != null
+                    ? NetworkImage(userViewModel.userProfile.value.photo!)
+                    : const AssetImage('assets/images/profile.png') as ImageProvider,
+                backgroundColor: userViewModel.userProfile.value.photo != null
+                    ? Colors.transparent
+                    : const Color(0xffFFB2A7),
+              ),
+              title: Text(follow.firstName,style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                fontSize: 14.sp
+              ),),
+              subtitle: Text(follow.username,style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontSize: 12.sp
+              ),),
+
             ),
           );
+
         },
       );
     });
@@ -97,28 +120,45 @@ class FollowersFollowingPage extends StatelessWidget {
 
   Widget buildFollowersList() {
     return Obx(() {
-      if (userViewModel.isLoadingFollowers.value) {
-        return Center(child: CircularProgressIndicator());
-      }
       return ListView.builder(
-        itemCount: userViewModel.userFriends.value.followers?.length ?? 0,
+        itemCount: userViewModel.userFriends.value.followers.length ,
         itemBuilder: (context, index) {
-          final follow = userViewModel.userFriends.value.followers![index];
-          return ListTile(
-            leading: CircleAvatar(
-              backgroundImage: NetworkImage(follow.photo),
-            ),
-            title: Text(follow.firstName),
-            subtitle: Text(follow.username),
-            trailing: IconButton(
-              icon: Icon(Icons.person_add),
-              onPressed: () {
-                // Follow/unfollow action
-              },
+          final follow = userViewModel.userFriends.value.followers[index];
+          final box = GetStorage();
+          String? myUsername = box.read('username');
+          return GestureDetector(
+            onTap: () async {
+              var username = follow.username == myUsername ? null : follow.username;
+              dynamic result = await Get.toNamed(AppRouteName.profileScreen, arguments: username);
+              if (result == true) {
+                userViewModel.fetchFollowerFollowing(userViewModel.username, false);
+              }
+            },
+
+            child: ListTile(
+              leading: CircleAvatar(
+                radius: 24.r,
+                backgroundImage: userViewModel.userProfile.value.photo != null
+                    ? NetworkImage(userViewModel.userProfile.value.photo!)
+                    : const AssetImage('assets/images/profile.png')
+                as ImageProvider,
+                backgroundColor: userViewModel.userProfile.value.photo != null
+                    ? Colors.transparent
+                    : const Color(0xffFFB2A7),
+              ),
+              title: Text(follow.firstName,style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  fontSize: 14.sp
+              ),),
+              subtitle: Text(follow.username,style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontSize: 12.sp
+              ),),
+
             ),
           );
         },
       );
     });
   }
+
+
 }

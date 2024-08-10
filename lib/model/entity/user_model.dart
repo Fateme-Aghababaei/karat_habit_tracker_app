@@ -1,11 +1,10 @@
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 class UserModel {
   final int? id;
   final String? username;
   final String? email;
-  final String? firsName;
+  final String? firstName;
   final String? photo;
   final int? score;
   final int? streak;
@@ -18,7 +17,7 @@ class UserModel {
     this.id,
     this.username,
     this.email,
-    this.firsName,
+    this.firstName,
     this.photo,
     this.score,
     this.streak,
@@ -36,7 +35,7 @@ class UserModel {
     id: json["id"],
     username: json["username"],
     email: json["email"],
-    firsName: json["first_name"],
+    firstName: json["first_name"],
     photo: json["photo"],
     score: json["score"],
     streak: json["streak"],
@@ -51,7 +50,7 @@ class UserModel {
     "id": id,
     "username": username,
     "email": email,
-    "first_name": firsName,
+    "first_name": firstName,
     "photo": photo,
     "score": score,
     "streak": streak,

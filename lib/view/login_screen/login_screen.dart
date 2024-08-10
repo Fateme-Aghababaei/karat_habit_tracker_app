@@ -17,7 +17,11 @@ class _LoginPageState extends State<LoginPage> {
   final RxBool _obscureText = true.obs;
   late bool  _submitted = false;
 
-
+  void dispose() {
+    controller.emailController.clear();
+    controller.passwordController.clear();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
