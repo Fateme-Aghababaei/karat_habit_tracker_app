@@ -5,6 +5,8 @@ import 'package:karat_habit_tracker_app/utils/theme/controller.dart';
 import 'package:karat_habit_tracker_app/utils/routes/AppRoutes.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:karat_habit_tracker_app/view/login_screen/login_screen.dart';
+import 'package:karat_habit_tracker_app/view/onboarding_screens/onboarding_screen.dart';
+import 'package:karat_habit_tracker_app/view/splash_screen.dart';
 
 
 
@@ -38,7 +40,7 @@ class MyApp extends StatelessWidget {
             locale: const Locale("fa", "IR"),
             debugShowCheckedModeBanner: false,
             theme: _themeController.currentTheme.value,
-            home: const LoginPage(),
+            home: SplashScreen(),
           );
         });
       },

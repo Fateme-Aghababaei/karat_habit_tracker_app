@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:karat_habit_tracker_app/model/constant.dart';
 import '../entity/follower_following_model.dart';
 import '../entity/user_model.dart';
@@ -98,6 +99,7 @@ class UserRepository{
 
   Future<String?> logout() async {
     try {
+      final box = GetStorage();
 
       final response = await dio.get(
         'profile/logout/',);
@@ -107,6 +109,8 @@ class UserRepository{
       }
       else {
         dio.options.headers.remove("Authorization");
+        box.remove('auth_token');
+
       }
     } catch (e) {
       throw Exception('مشکلی در خروج از حساب کاربری وجود دارد، لطفاً دوباره تلاش کنید.');
@@ -193,6 +197,22 @@ class UserRepository{
       throw Exception('مشکلی در ویرایش اطلاعات وجود دارد، لطفاً دوباره تلاش کنید.');
     }
     return "";
+  }
+  Future<Map<String, dynamic>?> updateStreak() async {
+    try {
+      print("gfgfg");
+      final response = await dio.get(
+        'profile/update_streak/',);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        return response.data as Map<String, dynamic>;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print("Error updating streak: $e");
+      return null;
+    }
   }
 
 }

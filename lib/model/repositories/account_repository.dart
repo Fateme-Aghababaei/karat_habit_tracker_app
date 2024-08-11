@@ -13,6 +13,8 @@ class AccountRepository{
         dio.options.headers["Authorization"] = "Token ${response.data['token']}";
         final box = GetStorage();
         box.write('username', response.data['username']);
+        box.write('auth_token', response.data['token']);
+
         return null;
       } else {
         return response.data['error'];
@@ -32,6 +34,8 @@ class AccountRepository{
         dio.options.headers["Authorization"] = "Token ${response.data['token']}";
         final box = GetStorage();
         box.write('username', response.data['username']);
+        box.write('auth_token', response.data['token']);
+
         return null;
       } else {
         return response.data['error'];

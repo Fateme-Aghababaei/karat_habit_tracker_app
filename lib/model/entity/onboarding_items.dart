@@ -3,6 +3,11 @@ import 'onboarding_info.dart';
 class OnboardingItems{
   List<OnboardingInfo> items = [
     OnboardingInfo(
+      title: 'به کـــــارات خوش اومدی',
+      description: 'اینجا می‌تونی با داشتن یه روتین سالم، زندگیتو منظم‌تر جلو ببری.',
+      image: 'assets/images/first.jpg',
+    ),
+    OnboardingInfo(
       title: 'ایجاد عادت‌های جدید',
       description: 'با ایجاد عادت‌های سالم و پایبندی به اون‌ها، امتیازت رو بالاتر ببر.',
       image: 'assets/images/onboarding1.png',

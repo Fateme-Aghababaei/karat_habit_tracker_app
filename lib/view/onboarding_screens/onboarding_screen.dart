@@ -29,7 +29,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                 actions: [
                   TextButton(
                     onPressed: () {
-                      _pageController.jumpToPage(2);
+                      _pageController.jumpToPage(3);
                     },
                     child: const Text('رد شدن',
                       style:   TextStyle(
@@ -83,10 +83,10 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                       SizedBox(height: 28.0.r),
                       SmoothPageIndicator(
                         controller: _pageController,
-                        count: 3,
+                        count: 4,
                         effect: ExpandingDotsEffect(
                             activeDotColor: Theme.of(context).primaryColor,
-                            dotHeight: 6.0.r),
+                            dotHeight: 5.5.r),
                       )
                     ],
                   ),
