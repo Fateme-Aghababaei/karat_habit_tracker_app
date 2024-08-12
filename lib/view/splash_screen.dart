@@ -4,16 +4,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:karat_habit_tracker_app/utils/routes/RouteNames.dart';
+import '../model/constant.dart';
 
 class SplashScreen extends StatelessWidget {
   final box = GetStorage();
+
+  SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(Duration(seconds: 1), () {
+      Future.delayed(const Duration(seconds: 1), () {
         checkLoginStatus();
       });
     });
@@ -53,6 +56,8 @@ class SplashScreen extends StatelessWidget {
   void checkLoginStatus() {
     final token = box.read('auth_token');
     if (token != null) {
+      dio.options.headers["Authorization"] = "Token ${token}";
+      //Get.offNamed(AppRouteName.onBoardingScreen);
       Get.offNamed(AppRouteName.habitScreen);
     } else {
       Get.offNamed(AppRouteName.onBoardingScreen);

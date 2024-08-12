@@ -10,7 +10,7 @@ import 'package:path_provider/path_provider.dart';
 
 
 
-class UserRepository{
+class UserRepository {
   Future<UserModel?> getUserProfile(String? username) async {
     try {
       Map<String, dynamic>? queryParams;
@@ -21,7 +21,8 @@ class UserRepository{
       } else {
         queryParams = null;
       }
-      Response response = await dio.get('profile/get_user/', queryParameters: queryParams);
+      Response response = await dio.get(
+          'profile/get_user/', queryParameters: queryParams);
       if (response.statusCode == 200) {
         UserModel profile = UserModel.fromJson(response.data);
         return profile;
@@ -29,7 +30,8 @@ class UserRepository{
         return null;
       }
     } catch (e) {
-      throw Exception('مشکلی در بارگذاری اطلاعات وجود دارد، لطفاً دوباره تلاش کنید.');
+      throw Exception(
+          'مشکلی در بارگذاری اطلاعات وجود دارد، لطفاً دوباره تلاش کنید.');
     }
   }
 
@@ -57,7 +59,8 @@ class UserRepository{
       }
     } catch (e) {
       print(e);
-      throw Exception('مشکلی در بارگذاری اطلاعات وجود دارد، لطفاً دوباره تلاش کنید.');
+      throw Exception(
+          'مشکلی در بارگذاری اطلاعات وجود دارد، لطفاً دوباره تلاش کنید.');
     }
   }
 
@@ -75,7 +78,8 @@ class UserRepository{
         return null;
       }
     } catch (e) {
-      throw Exception('مشکلی در دنبال کردن کاربر وجود دارد، لطفاً دوباره تلاش کنید.');
+      throw Exception(
+          'مشکلی در دنبال کردن کاربر وجود دارد، لطفاً دوباره تلاش کنید.');
     }
     return "";
   }
@@ -92,7 +96,8 @@ class UserRepository{
         return null;
       }
     } catch (e) {
-      throw Exception('مشکلی در لغو دنبال کردن کاربر وجود دارد، لطفاً دوباره تلاش کنید.');
+      throw Exception(
+          'مشکلی در لغو دنبال کردن کاربر وجود دارد، لطفاً دوباره تلاش کنید.');
     }
     return "";
   }
@@ -110,10 +115,10 @@ class UserRepository{
       else {
         dio.options.headers.remove("Authorization");
         box.remove('auth_token');
-
       }
     } catch (e) {
-      throw Exception('مشکلی در خروج از حساب کاربری وجود دارد، لطفاً دوباره تلاش کنید.');
+      throw Exception(
+          'مشکلی در خروج از حساب کاربری وجود دارد، لطفاً دوباره تلاش کنید.');
     }
     return "";
   }
@@ -136,16 +141,17 @@ class UserRepository{
         return null;
       }
     } catch (e) {
-      throw Exception('مشکلی در ویرایش اطلاعات وجود دارد، لطفاً دوباره تلاش کنید.');
+      throw Exception(
+          'مشکلی در ویرایش اطلاعات وجود دارد، لطفاً دوباره تلاش کنید.');
     }
     return "";
   }
 
 
-
   Future<File> compressImage(String filePath) async {
     final directory = await getTemporaryDirectory();
-    final targetPath = path.join(directory.path, '${path.basenameWithoutExtension(filePath)}_compressed.jpg');
+    final targetPath = path.join(directory.path,
+        '${path.basenameWithoutExtension(filePath)}_compressed.jpg');
 
     final compressedFile = await FlutterImageCompress.compressAndGetFile(
       filePath,
@@ -176,7 +182,8 @@ class UserRepository{
         }
 
         formData = FormData.fromMap({
-          'photo': await MultipartFile.fromFile(file.path, filename: path.basename(file.path)),
+          'photo': await MultipartFile.fromFile(
+              file.path, filename: path.basename(file.path)),
         });
       } else {
         formData = FormData.fromMap({
@@ -188,22 +195,23 @@ class UserRepository{
         'profile/change_photo/',
         data: formData,
       );
-      print(response.statusCode);
       if (response.statusCode != 200) {
         return null;
       }
     } catch (e) {
       print('Error: $e');
-      throw Exception('مشکلی در ویرایش اطلاعات وجود دارد، لطفاً دوباره تلاش کنید.');
+      throw Exception(
+          'مشکلی در ویرایش اطلاعات وجود دارد، لطفاً دوباره تلاش کنید.');
     }
     return "";
   }
+
   Future<Map<String, dynamic>?> updateStreak() async {
     try {
-      print("gfgfg");
       final response = await dio.get(
         'profile/update_streak/',);
       print(response.statusCode);
+      print(response.data);
       if (response.statusCode == 200) {
         return response.data as Map<String, dynamic>;
       } else {
@@ -215,6 +223,21 @@ class UserRepository{
     }
   }
 
+  Future<UserModel?> getUserBrief() async {
+    try {
+
+      Response response = await dio.get(
+          'profile/get_user_brief/', queryParameters: {'username':null});
+      if (response.statusCode == 200) {
+        UserModel profileBrief = UserModel.fromJson(response.data);
+        return profileBrief;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      throw Exception(
+          'مشکلی در بارگذاری اطلاعات وجود دارد، لطفاً دوباره تلاش کنید.');
+    }
+  }
+
 }
-
-

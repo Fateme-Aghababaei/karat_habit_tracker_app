@@ -4,14 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:karat_habit_tracker_app/utils/theme/controller.dart';
 import 'package:karat_habit_tracker_app/utils/routes/AppRoutes.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:karat_habit_tracker_app/view/login_screen/login_screen.dart';
-import 'package:karat_habit_tracker_app/view/onboarding_screens/onboarding_screen.dart';
+import 'package:karat_habit_tracker_app/view/components/Sidebar/SideBarController.dart';
 import 'package:karat_habit_tracker_app/view/splash_screen.dart';
 
 
 
 void main() async {
   await GetStorage.init();
+  Get.lazyPut<SideBarController>(() => SideBarController());
   runApp(MyApp());
 }
 

@@ -5,7 +5,7 @@ class OnboardingItems{
     OnboardingInfo(
       title: 'به کـــــارات خوش اومدی',
       description: 'اینجا می‌تونی با داشتن یه روتین سالم، زندگیتو منظم‌تر جلو ببری.',
-      image: 'assets/images/first.jpg',
+      image: 'assets/images/first.png',
     ),
     OnboardingInfo(
       title: 'ایجاد عادت‌های جدید',
