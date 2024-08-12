@@ -44,7 +44,7 @@ class SideBar extends StatelessWidget {
                       : const Color(0xffFFB2A7),
                 ),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.85),
+                  color: Theme.of(context).primaryColor.withOpacity(0.9),
                 ),
               );
             }),

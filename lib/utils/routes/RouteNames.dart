@@ -6,5 +6,6 @@ class AppRouteName{
   static String challengeScreen="/ChallengePage";
   static String profileScreen="/ProfilePage";
   static String settingScreen="/SettingsPage";
+  static String trackScreen="/TrackPage";
 
 }

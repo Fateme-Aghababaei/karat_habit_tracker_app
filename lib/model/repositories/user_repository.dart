@@ -11,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 
 
 class UserRepository {
+
   Future<UserModel?> getUserProfile(String? username) async {
     try {
       Map<String, dynamic>? queryParams;

@@ -11,7 +11,7 @@ import '../components/Sidebar/SideBarController.dart';
 
 class HabitPage extends StatelessWidget {
   final HabitViewModel habitViewModel = Get.put(HabitViewModel());
-  final SideBarController sideBarController = Get.find<SideBarController>();
+  final SideBarController sideBarController = Get.put(SideBarController());
 
   HabitPage({super.key});
 
@@ -109,6 +109,7 @@ class HabitPage extends StatelessWidget {
                 onDateSelected: (date) {},
                 context: context,
               ),
+
             ],
           ),
         ),

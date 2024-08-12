@@ -11,7 +11,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   final List<String> routeNames = [
    AppRouteName.challengeScreen,
    AppRouteName.habitScreen,
-    AppRouteName.challengeScreen,
+    AppRouteName.trackScreen,
     AppRouteName.habitScreen,
 
 
