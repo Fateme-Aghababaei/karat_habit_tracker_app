@@ -171,11 +171,9 @@ class UserRepository {
       if (photo != null) {
         File file = File(photo);
 
-        // بررسی اندازه فایل
         int fileSize = await file.length();
         print('Original File size: $fileSize bytes');
 
-        // اگر اندازه فایل بیشتر از 1 مگابایت بود
         if (fileSize > 1024 * 1024) {
           file = await compressImage(photo);
           print('Compressed File size: ${await file.length()} bytes');

@@ -43,6 +43,8 @@ dependencies:
   flutter_image_compress: ^2.3.0
   path_provider: ^2.1.4
   animated_text_kit: ^4.2.2
+  animated_flip_counter: ^0.3.4
+  animated_digit: ^3.2.3
 
 
   # The following adds the Cupertino Icons font to your application.

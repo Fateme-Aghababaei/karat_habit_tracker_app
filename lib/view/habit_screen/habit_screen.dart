@@ -6,18 +6,17 @@ import '../../viewmodel/habit_viewmodel.dart';
 import '../components/BottomNavigationBar.dart';
 import '../components/PersianHorizontalDatePicker.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
-
+import 'package:animated_flip_counter/animated_flip_counter.dart';
 import '../components/Sidebar/SideBarController.dart';
 
 class HabitPage extends StatelessWidget {
   final HabitViewModel habitViewModel = Get.put(HabitViewModel());
-  final SideBarController Controller = Get.find<SideBarController>();
+  final SideBarController sideBarController = Get.find<SideBarController>();
 
   HabitPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // هنگام ورود به برنامه API را فراخوانی می‌کنیم
     WidgetsBinding.instance.addPostFrameCallback((_) {
       habitViewModel.updateStreak();
     });
@@ -33,28 +32,34 @@ class HabitPage extends StatelessWidget {
               style: Theme.of(context).textTheme.displayMedium,
             ),
             Container(
-              margin: EdgeInsets.only(left: 16.0),
-              padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              margin:  EdgeInsets.only(left: 22.0.r),
+              padding:  EdgeInsets.only(left: 1.0.r, right: 6.0.r),
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey.shade300),
+                border: Border.all(color: Colors.grey.shade400),
                 borderRadius: BorderRadius.circular(8.0),
               ),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   Obx(() {
-                    return Text(
-                      Controller.userScore.value.toString(), // مقدار امتیاز
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    return AnimatedFlipCounter(
+                      duration: Duration(milliseconds: 400),
+                      value: sideBarController.userScore.value,
+                      padding:  EdgeInsets.all(1),
+                      textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontSize: 14.sp,
+                        fontFamily: "IRANYekan_number",
                       ),
                     );
                   }),
-                  SizedBox(width: 4.0),
+                  SizedBox(width: 4.0.r),
                   Image.asset(
-                    'assets/images/profile.png', // مسیر آیکون امتیاز
-                    width: 24.0,
-                    height: 24.0,
+                    'assets/images/coin.png',
+                    width: 28.0.r,
+                    height: 28.0.r,
                   ),
+
                 ],
               ),
             ),
