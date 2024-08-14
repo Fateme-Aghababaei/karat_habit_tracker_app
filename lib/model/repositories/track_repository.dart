@@ -5,15 +5,20 @@ import '../entity/track_model.dart';
 
 class TrackRepository{
 
-  Future<Track?> addTrack(String name, String startDatetime, {int? tagId}) async {
+  Future<Track?> addTrack(String? name, String startDatetime,String endDatetime, {int? tagId}) async {
     try {
+      final data = {
+        'name': name,
+        'start_datetime': startDatetime,
+        'end_datetime': endDatetime
+      };
+      if (tagId != null) {
+        data['tag'] = tagId.toString();
+      }
+
       final response = await dio.post(
         'track/add_track/',
-        data: {
-          'name': name,
-          'tag': tagId,
-          'start_datetime': startDatetime,
-        },
+        data: data,
       );
 
       if (response.statusCode == 200) {
@@ -28,13 +33,17 @@ class TrackRepository{
   }
   Future<Track?> editTrack(int id, String name, {int? tagId}) async {
     try {
+      final data = {
+        'id': id,
+        'name': name,
+      };
+      if (tagId != null) {
+        data['tag'] = tagId.toString();
+      }
+
       final response = await dio.post(
         'track/edit_track/',
-        data: {
-          'id': id,
-          'name': name,
-          'tag': tagId,
-        },
+        data:data
       );
 
       if (response.statusCode == 200) {
@@ -58,7 +67,6 @@ class TrackRepository{
           'end_datetime': endDatetime,
         },
       );
-
       if (response.statusCode == 200) {
         return Track.fromJson(response.data);
       } else {
@@ -71,7 +79,7 @@ class TrackRepository{
     }
   }
 
-  Future<Track?> getTrack(int id) async {
+  Future<Track?> getTrack(int? id) async {
     try {
       final response = await dio.get(
         'track/get_track/',
@@ -79,7 +87,6 @@ class TrackRepository{
           'id': id,
         },
       );
-
       if (response.statusCode == 200) {
         return Track.fromJson(response.data);
       } else {
@@ -126,7 +133,27 @@ class TrackRepository{
     }
   }
 
+  Future<List<Tag>?> getUserTags() async {
+    try {
+      final response = await dio.get(
+        'habit/get_user_tags/',
+      );
 
-
+      if (response.statusCode == 200) {
+        List<Tag> tags = [];
+        for (var tagData in response.data) {
+          tags.add(Tag.fromJson(tagData));
+        }
+        return tags;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('Error getting tags: $e');
+      return null;
+    }
+  }
 }
+
+
 

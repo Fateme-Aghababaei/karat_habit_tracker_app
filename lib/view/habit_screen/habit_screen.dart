@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:karat_habit_tracker_app/view/components/Sidebar/Sidebar.dart';
 import '../../viewmodel/habit_viewmodel.dart';
+import '../components/AppBar.dart';
 import '../components/BottomNavigationBar.dart';
 import '../components/PersianHorizontalDatePicker.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
@@ -22,62 +23,8 @@ class HabitPage extends StatelessWidget {
     });
 
     return Scaffold(
-      appBar: AppBar(
-        titleSpacing: -8,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'کـارات',
-              style: Theme.of(context).textTheme.displayMedium,
-            ),
-            Container(
-              margin:  EdgeInsets.only(left: 22.0.r),
-              padding:  EdgeInsets.only(left: 1.0.r, right: 6.0.r),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey.shade400),
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Obx(() {
-                    return AnimatedFlipCounter(
-                      duration: Duration(milliseconds: 400),
-                      value: sideBarController.userScore.value,
-                      padding:  EdgeInsets.all(1),
-                      textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontSize: 14.sp,
-                        fontFamily: "IRANYekan_number",
-                      ),
-                    );
-                  }),
-                  SizedBox(width: 4.0.r),
-                  Image.asset(
-                    'assets/images/coin.png',
-                    width: 28.0.r,
-                    height: 28.0.r,
-                  ),
-
-                ],
-              ),
-            ),
-
-          ],
-        ),
-        // actions: [
-        //   Builder(
-        //     builder: (context) {
-        //       return IconButton(
-        //         icon: Icon(Icons.menu),
-        //         onPressed: () => Scaffold.of(context).openDrawer(),
-        //       );
-        //     },
-        //   ),
-        // ],
-      ),
-      drawer: SideBar(),
+      appBar: CustomAppBar(userScore: sideBarController.userScore),
+    drawer: SideBar(),
       body: Padding(
         padding:  EdgeInsets.all(16.0.r),
         child: Center(
@@ -114,7 +61,7 @@ class HabitPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(),
+      bottomNavigationBar: CustomBottomNavigationBar( selectedIndex: 3.obs,),
     );
   }
 }

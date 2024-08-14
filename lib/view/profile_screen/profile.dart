@@ -73,7 +73,7 @@ class ProfilePage extends StatelessWidget {
                   as ImageProvider,
                   backgroundColor: userViewModel.userProfile.value.photo != null
                       ? Colors.transparent
-                      : const Color(0xffFFB2A7),
+                      : Theme.of(context).primaryColor.withOpacity(0.3),
                 ),
                 SizedBox(width: 16.0.r),
                 Column(

@@ -101,7 +101,7 @@ class FollowersFollowingPage extends StatelessWidget {
                     : const AssetImage('assets/images/profile.png') as ImageProvider,
                 backgroundColor: userViewModel.userProfile.value.photo != null
                     ? Colors.transparent
-                    : const Color(0xffFFB2A7),
+                    : Theme.of(context).primaryColor.withOpacity(0.3),
               ),
               title: Text(follow.firstName,style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 fontSize: 14.sp

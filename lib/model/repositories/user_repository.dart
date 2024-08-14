@@ -229,6 +229,8 @@ class UserRepository {
           'profile/get_user_brief/', queryParameters: {'username':null});
       if (response.statusCode == 200) {
         UserModel profileBrief = UserModel.fromJson(response.data);
+        final box = GetStorage();
+        box.write('userBrief', response.data);
         return profileBrief;
       } else {
         return null;
