@@ -118,10 +118,10 @@ class SideBar extends StatelessWidget {
               result = await Get.toNamed('/notifications'); // به صفحه "اعلان‌ها" بروید
               break;
             case 4:
-              result = await Get.toNamed('/faq'); // به صفحه "سوالات متداول" بروید
+              result = await Get.toNamed(AppRouteName.faqScreen); // به صفحه "سوالات متداول" بروید
               break;
             case 5:
-              result = await Get.toNamed('/about'); // به صفحه "درباره ما" بروید
+              result = await Get.toNamed(AppRouteName.aboutScreen); // به صفحه "درباره ما" بروید
               break;
           }
 

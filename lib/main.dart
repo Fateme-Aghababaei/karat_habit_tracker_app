@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:karat_habit_tracker_app/utils/theme/controller.dart';
 import 'package:karat_habit_tracker_app/utils/routes/AppRoutes.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:karat_habit_tracker_app/view/components/Sidebar/SideBarController.dart';
 import 'package:karat_habit_tracker_app/view/splash_screen.dart';
 
 
@@ -27,6 +26,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return Obx(() {
           return GetMaterialApp(
+
             getPages: routes,
             localizationsDelegates: const [
               GlobalCupertinoLocalizations.delegate,

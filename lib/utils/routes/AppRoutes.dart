@@ -1,5 +1,7 @@
 // AppRoutes.dart
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:karat_habit_tracker_app/view/about_screen.dart';
+import 'package:karat_habit_tracker_app/view/faq_screen.dart';
 import '../../view/habit_screen/habit_screen.dart';
 import '../../view/login_screen/login_screen.dart';
 import '../../view/onboarding_screens/onboarding_screen.dart';
@@ -19,6 +21,9 @@ final List<GetPage> routes = [
   GetPage(name: AppRouteName.profileScreen, page: () => const ProfilePage(), binding: UserBinding(),),
   GetPage(name: AppRouteName.settingScreen, page: () => const SettingsPage(),binding: UserBinding()),
   GetPage(name:AppRouteName.trackScreen, page: () => TrackPage(),binding: UserBinding()),
+  GetPage(name:AppRouteName.aboutScreen, page: () => const AboutPage()),
+  GetPage(name:AppRouteName.faqScreen, page: () => const FAQPage()),
+
 
 
 ];

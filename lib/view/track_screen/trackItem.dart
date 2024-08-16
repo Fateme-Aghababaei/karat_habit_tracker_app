@@ -11,7 +11,6 @@ String calculateTimeDifference(String startDatetime, String endDatetime) {
 }
 
 Widget buildTrackItem(Track track, BuildContext context,) {
-  print(track);
   return Container(
     margin: EdgeInsets.symmetric(vertical: 5.0.r),
     decoration: BoxDecoration(
@@ -57,8 +56,8 @@ Widget buildTrackItem(Track track, BuildContext context,) {
                     ),
                     Text(
                       calculateTimeDifference(
-                        track.startDatetime ?? '',
-                        track.endDatetime ?? '',
+                        track.startDatetime,
+                        track.endDatetime ,
                       ),
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontFamily: "IRANYekan_number",

@@ -11,6 +11,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      elevation: 0,
+      shadowColor: Colors.transparent,
       titleSpacing: -8,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

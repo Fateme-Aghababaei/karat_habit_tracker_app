@@ -7,5 +7,8 @@ class AppRouteName{
   static String profileScreen="/ProfilePage";
   static String settingScreen="/SettingsPage";
   static String trackScreen="/TrackPage";
+  static String aboutScreen="/AboutPage";
+  static String faqScreen="/FAQPage";
+
 
 }

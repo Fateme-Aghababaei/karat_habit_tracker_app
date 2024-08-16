@@ -11,7 +11,7 @@ class CheckBoxTheme{
       if (states.contains(WidgetState.selected)) {
           return AppColors.lightPrimary; // رنگ پس‌زمینه اگر تیک‌خورده باشد
         }
-        return Colors.white; // رنگ پس‌زمینه اگر تیک‌نخورده باشد
+        return AppColors.lightBackground; // رنگ پس‌زمینه اگر تیک‌نخورده باشد
       },
     ),
     checkColor: WidgetStateProperty.resolveWith((states) {
