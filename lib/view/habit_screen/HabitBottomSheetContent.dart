@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:karat_habit_tracker_app/view/habit_screen/tagDialog.dart';
 import '../../model/entity/habit_model.dart';
 import '../../viewmodel/habit_viewmodel.dart';
 import 'habit_controller.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 class HabitBottomSheetContent extends StatelessWidget {
-  final Rxn<Habit>? habit;
-  final HabitBottomSheetController controller = Get.put(HabitBottomSheetController());
+  final Habit? habit;
   final HabitViewModel habitViewModel;
-  HabitBottomSheetContent({this.habit, required this.habitViewModel});
 
-  final selectedTagId = Rxn<int>();
+  HabitBottomSheetContent({super.key, this.habit, required this.habitViewModel});
+
+
 
   @override
   Widget build(BuildContext context) {
+    final HabitBottomSheetController controller = Get.put(HabitBottomSheetController(habit: habit,habitViewModel));
     WidgetsBinding.instance.addPostFrameCallback((_) {
-     habitViewModel.loadUserTags();
+      habitViewModel.loadUserTags();
     });
 
     return Padding(
@@ -235,13 +237,13 @@ class HabitBottomSheetContent extends StatelessWidget {
                       spacing: 4.0.r, // فاصله افقی بین چیپ‌ها
                       runSpacing: 2.0.r, // فاصله عمودی بین خطوط چیپ‌ها
                       children: [
-                        _buildDayChip("شنبه", 0, context),
-                        _buildDayChip("یکشنبه", 1, context),
-                        _buildDayChip("دوشنبه", 2, context),
-                        _buildDayChip("سه‌شنبه", 3, context),
-                        _buildDayChip("چهارشنبه", 4, context),
-                        _buildDayChip("پنجشنبه", 5, context),
-                        _buildDayChip("جمعه", 6, context),
+                        _buildDayChip("شنبه", 0, context,controller),
+                        _buildDayChip("یکشنبه", 1, context,controller),
+                        _buildDayChip("دوشنبه", 2, context,controller),
+                        _buildDayChip("سه‌شنبه", 3, context,controller),
+                        _buildDayChip("چهارشنبه", 4, context,controller),
+                        _buildDayChip("پنجشنبه", 5, context,controller),
+                        _buildDayChip("جمعه", 6, context,controller),
                       ],
                     ),
                   ],
@@ -268,8 +270,8 @@ class HabitBottomSheetContent extends StatelessWidget {
                           for (var tag in habitViewModel.tags)
                             GestureDetector(
                               onTap: () {
-                                selectedTagId.value =
-                                selectedTagId.value == tag.id
+                                controller.selectedTag.value =
+                                controller.selectedTag.value == tag.id
                                     ? null
                                     : tag.id;
                               },
@@ -289,12 +291,12 @@ class HabitBottomSheetContent extends StatelessWidget {
                                   radius: 5,
                                 ),
                                 backgroundColor:
-                                selectedTagId.value == tag.id
+                                controller.selectedTag.value == tag.id
                                     ? Color(0XFFD2E3D8)
                                     : Theme.of(context)
                                     .scaffoldBackgroundColor,
                                 side: BorderSide(
-                                  color: selectedTagId.value == tag.id
+                                  color: controller.selectedTag.value == tag.id
                                       ? const Color(
                                       0XFFD2E3D8) // رنگ نارنجی یا رنگ اصلی تم
                                       : Colors.grey
@@ -304,7 +306,7 @@ class HabitBottomSheetContent extends StatelessWidget {
                             ),
                           GestureDetector(
                             onTap: () {
-                              // عملیات افزودن تگ جدید
+                              showCreateTagDialog(context,habitViewModel);
                             },
                             child: Chip(
                               label: Text(
@@ -389,12 +391,12 @@ class HabitBottomSheetContent extends StatelessWidget {
                                     Gregorian gregorianDate = picked.toGregorian();
                                     String formattedGregorianDate =
                                         "${gregorianDate.year.toString().padLeft(4, '0')}-${gregorianDate.month.toString().padLeft(2, '0')}-${gregorianDate.day.toString().padLeft(2, '0')}";
-                                    controller.setSelectedDate(formattedGregorianDate);
+                                    controller.selectedDate(formattedGregorianDate);
 
                                     // نمایش تاریخ شمسی در TextField
                                     String formattedJalaliDate =
                                         "${picked.year.toString().padLeft(4, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.day.toString().padLeft(2, '0')}";
-                                    controller.setSelectedShamsiDate(formattedJalaliDate);
+                                    controller.selectedShamsiDate(formattedJalaliDate);
                                   }
                                 },
                               ),
@@ -412,17 +414,17 @@ class HabitBottomSheetContent extends StatelessWidget {
                                 Gregorian gregorianDate = picked.toGregorian();
                                 String formattedGregorianDate =
                                     "${gregorianDate.year.toString().padLeft(4, '0')}-${gregorianDate.month.toString().padLeft(2, '0')}-${gregorianDate.day.toString().padLeft(2, '0')}";
-                                controller.setSelectedDate(formattedGregorianDate);
+                                controller.selectedDate(formattedGregorianDate);
 
                                 // نمایش تاریخ شمسی در TextField
                                 String formattedJalaliDate =
                                     "${picked.year.toString().padLeft(4, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.day.toString().padLeft(2, '0')}";
-                                controller.setSelectedShamsiDate(formattedJalaliDate);
+                                controller.selectedShamsiDate(formattedJalaliDate);
                               }
                             },
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              fontSize: 13.sp,
-                              fontFamily: "IRANYekan_number"
+                                fontSize: 13.sp,
+                                fontFamily: "IRANYekan_number"
 
                             ),
                           )),
@@ -436,14 +438,15 @@ class HabitBottomSheetContent extends StatelessWidget {
                 Obx(() => ElevatedButton(
                   onPressed: controller.isSaveButtonEnabled.value
                       ? () {
+
                     controller.saveHabitOrTask();
                   }
                       : null,
                   style: ElevatedButton.styleFrom(
                       minimumSize: Size(double.maxFinite, 40.0.r),
-                  backgroundColor: controller.selectedTab.value == 0
-                        ? Theme.of(context).primaryColor
-                        : Theme.of(context).colorScheme.secondary
+                      backgroundColor: controller.selectedTab.value == 0
+                          ? Theme.of(context).primaryColor
+                          : Theme.of(context).colorScheme.secondary
                   ),
                   child: Text("ذخیره"),
                 )),
@@ -455,7 +458,7 @@ class HabitBottomSheetContent extends StatelessWidget {
     );
   }
 
-  Widget _buildDayChip(String day, int index, BuildContext context) {
+  Widget _buildDayChip(String day, int index, BuildContext context, HabitBottomSheetController controller) {
     return Obx(() {
       bool isSelected = controller.selectedDays.value[index] == '1';
       return GestureDetector(

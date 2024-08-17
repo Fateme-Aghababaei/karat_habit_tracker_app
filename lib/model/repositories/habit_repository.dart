@@ -46,13 +46,24 @@ class HabitRepository{
 
   Future<Habit?> addHabit({
     required String name,
-    required String description,
+    required String? description,
     required int? tagId,
     required String? dueDate,
     required bool isRepeated,
     required String? repeatedDays,
   }) async {
     try {
+      final data = {
+        'name': name,
+        'description': description,
+        'tag': tagId,
+        'due_date': dueDate,
+        'is_repeated': isRepeated,
+        'repeated_days': repeatedDays,
+      };
+
+      // داده‌ها را قبل از ارسال چاپ کنید
+      print('Data to be sent: $data');
       final response = await dio.post(
         'habit/add_habit/',
         data: {
@@ -65,7 +76,11 @@ class HabitRepository{
         },
       );
 
+      print(response.statusCode) ;
+      print(response.data["error"]);
+      print(response.statusMessage);
       if (response.statusCode == 200) {
+
         return Habit.fromJson(response.data);
       } else {
         return null;
@@ -85,6 +100,18 @@ class HabitRepository{
     required String? repeatedDays,
   }) async {
     try {
+      final data = {
+        'id': id,
+        'name': name,
+        'description': description,
+        'tag': tagId,
+        'due_date': dueDate,
+        'is_repeated': isRepeated,
+        'repeated_days': repeatedDays,
+      };
+
+      // داده‌ها را قبل از ارسال چاپ کنید
+      print('Data to be sent: $data');
       final response = await dio.post(
         'habit/edit_habit/',
         data: {
@@ -97,7 +124,9 @@ class HabitRepository{
           'repeated_days': repeatedDays,
         },
       );
-
+      print(response.statusCode) ;
+      print(response.data["error"]);
+      print(response.statusMessage);
       if (response.statusCode == 200) {
         return Habit.fromJson(response.data);
       } else {

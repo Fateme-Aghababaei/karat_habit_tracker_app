@@ -1,43 +1,56 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
+import '../../model/entity/habit_model.dart';
+import '../../viewmodel/habit_viewmodel.dart';
 
 class HabitBottomSheetController extends GetxController {
-  // متغیر برای ذخیره تب انتخاب شده
-  var selectedTab = 0.obs; // 0: عادت، 1: کار روزانه
-
-  // کنترلرهای متن برای مدیریت ورودی‌های عنوان و توضیحات
+  var selectedTab = 0.obs;
   var titleController = TextEditingController().obs;
   var descriptionController = TextEditingController().obs;
-
-  // متغیر برای ذخیره انتخاب روزهای تکرار
-  var selectedDays = '0000000'.obs; // رشته‌ی 7 کاراکتری برای ذخیره انتخاب روزها
-
-  // متغیر برای ذخیره تگ انتخاب شده
-  var selectedTag = ''.obs;
-
-  // متغیر برای ذخیره وضعیت انتخاب تمام روزها
+  var selectedDays = '0000000'.obs;
+  var selectedTag = Rxn<int>();
   var allDaysSelected = false.obs;
-
-  // متغیر برای مدیریت وضعیت دکمه "ذخیره"
   var isSaveButtonEnabled = false.obs;
-
-  // متغیر برای ذخیره تاریخ انتخاب شده
   var selectedDate = ''.obs;
-  // متغیر برای ذخیره تاریخ به صورت شمسی (فقط برای نمایش)
   var selectedShamsiDate = ''.obs;
+  final Habit? habit;
+  final HabitViewModel habitViewModel;
 
-  void setSelectedDate(String date) {
-    selectedDate.value = date;
-    updateSaveButtonState();
-  }
-
-  void setSelectedShamsiDate(String date) {
-    selectedShamsiDate.value = date;
-  }
+  HabitBottomSheetController(this.habitViewModel, {this.habit});
 
   @override
   void onInit() {
     super.onInit();
+
+    final habit = this.habit;
+    if (habit != null) {
+      titleController.value.text = habit.name ;
+      descriptionController.value.text = habit.description ?? '';
+      selectedDays.value = habit.repeatedDays ?? '0000000';
+      selectedTag.value = habit.tag?.id;
+      selectedDate.value = habit.dueDate ?? '';
+
+      // Convert the saved date to Jalali and set it for display
+      if (selectedDate.value.isNotEmpty) {
+        final gregorianDate = DateTime.parse(selectedDate.value);
+        final jalaliDate = Gregorian.fromDateTime(gregorianDate).toJalali();
+        selectedShamsiDate.value =
+        '${jalaliDate.year}/${jalaliDate.month.toString().padLeft(2, '0')}/${jalaliDate.day.toString().padLeft(2, '0')}';
+      }
+
+      if (selectedDays.value == '1111111') {
+        allDaysSelected.value = true;
+      }
+
+      // Update the tab based on whether it's a daily task or a habit
+      if (habit.isRepeated ) {
+        selectedTab.value = 1;
+      } else {
+        selectedTab.value = 0;
+      }
+    }
+
     titleController.value.addListener(updateSaveButtonState);
     descriptionController.value.addListener(updateSaveButtonState);
     ever(selectedTab, (_) => updateSaveButtonState());
@@ -77,11 +90,40 @@ class HabitBottomSheetController extends GetxController {
     }
   }
 
-  void setSelectedTag(String tag) {
-    selectedTag.value = tag;
-  }
+
 
   void saveHabitOrTask() {
-    // انجام عملیات ذخیره عادت یا کار روزانه
+    if (habit == null) {
+      _addHabit();
+    } else {
+      _editHabit();
+    }
+  }
+
+  void _addHabit() {
+    habitViewModel.addHabit(
+        name:titleController.value.text,
+        description:descriptionController.value.text==''?null:descriptionController.value.text,
+        tagId: selectedTag.value,
+        dueDate:selectedDate.value,
+        isRepeated:selectedTab.value==0?true:false,
+        repeatedDays:selectedTab.value==0?selectedDays.value:null,
+        today: DateTime.now().toIso8601String().split('T')[0]) ;
+    print('Adding new habit');
+    Get.back();
+  }
+
+  void _editHabit() {
+    habitViewModel.editHabit(
+        id: habit!.id,
+        name:titleController.value.text,
+        description:descriptionController.value.text==''?null:descriptionController.value.text,
+        tagId: selectedTag.value,
+        dueDate:selectedDate.value,
+        isRepeated:selectedTab.value==0?true:false,
+        repeatedDays:selectedTab.value==0?selectedDays.value:null,
+        today: DateTime.now().toIso8601String().split('T')[0]) ;
+    print('Editing existing habit');
+    Get.back();
   }
 }

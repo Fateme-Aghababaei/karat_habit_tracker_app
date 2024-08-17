@@ -164,7 +164,7 @@ class TrackPage extends StatelessWidget {
           ),
         );
       }),
-      bottomNavigationBar:  isBottomSheetOpen ? SizedBox.shrink() : CustomBottomNavigationBar(selectedIndex: 2.obs,),
+      bottomNavigationBar: CustomBottomNavigationBar(selectedIndex: 2.obs,),
     );
   }
 

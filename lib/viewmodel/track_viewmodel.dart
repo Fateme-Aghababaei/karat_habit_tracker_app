@@ -14,7 +14,6 @@ class TrackViewModel extends GetxController {
   var currentTrack = Track(startDatetime: '', endDatetime: '').obs;
   var tagsList = <Tag>[].obs; // لیست تگ‌ها
   final RxBool isTextInputVisible = false.obs; // وضعیت نمایش اینپوت
-  final RxBool isBottomSheetOpen = false.obs; // وضعیت باز بودن باتم شیت
   final RxBool isStopwatchRunning = false.obs; // وضعیت اجرای استاپ‌واچ
   final RxBool isAddPressed = false.obs; // وضعیت فشردن دکمه "اد"
 

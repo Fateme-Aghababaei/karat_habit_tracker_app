@@ -11,13 +11,22 @@ import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import '../components/Sidebar/SideBarController.dart';
 import 'HabitBottomSheetContent.dart';
 import 'habitItem.dart';
+import 'habit_controller.dart';
 
 class HabitPage extends StatelessWidget {
   final HabitViewModel habitViewModel = Get.put(HabitViewModel());
   final SideBarController sideBarController = Get.put(SideBarController());
 
   HabitPage({super.key});
+  Rx<DateTime> startDate = DateTime.now().subtract(const Duration(days: 2)).obs;
+  Rx<DateTime> endDate = DateTime.now().add(const Duration(days: 7)).obs;
+  Rx<DateTime> initialSelectedDate = DateTime.now().obs;
 
+  void updateDates(DateTime selectedDate) {
+    initialSelectedDate.value = selectedDate;
+    startDate.value = selectedDate.subtract(const Duration(days: 2));
+    endDate.value = selectedDate.add(const Duration(days: 7));
+  }
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -49,23 +58,26 @@ class HabitPage extends StatelessWidget {
                         firstDate: Jalali(1385, 8),
                         lastDate: Jalali(1450, 9),
                       );
-                      Gregorian? gregorianDate = picked?.toGregorian();
-                      String formattedDate = "${gregorianDate?.year.toString().padLeft(4, '0')}-${gregorianDate?.month.toString().padLeft(2, '0')}-${gregorianDate?.day.toString().padLeft(2, '0')}";
-                      habitViewModel.loadUserHabits(formattedDate);
+                      if (picked != null) {
+                        Gregorian gregorianDate = picked.toGregorian();
+                        updateDates(gregorianDate.toDateTime());
+
+                        String formattedDate = "${gregorianDate.year.toString().padLeft(4, '0')}-${gregorianDate.month.toString().padLeft(2, '0')}-${gregorianDate.day.toString().padLeft(2, '0')}";
+                        habitViewModel.loadUserHabits(formattedDate);
+                      }
                     },
                   ),
                 ),
-                buildPersianHorizontalDatePicker(
-                  startDate: DateTime.now().subtract(const Duration(days: 2)),
-                  endDate: DateTime.now().add(const Duration(days: 7)),
-                  initialSelectedDate: DateTime.now(),
+                Obx(() => buildPersianHorizontalDatePicker(
+                  startDate: startDate.value,
+                  endDate: endDate.value,
+                  initialSelectedDate: initialSelectedDate.value,
                   onDateSelected: (date) {
                     String? formattedDate = date?.toIso8601String().split('T')[0];
-                     habitViewModel.loadUserHabits(formattedDate!);
-
+                    habitViewModel.loadUserHabits(formattedDate!);
                   },
                   context: context,
-                ),
+                )),
                 SizedBox(height: 12.0.r),
                 Expanded(
                   child: Obx(() {
@@ -82,8 +94,9 @@ class HabitPage extends StatelessWidget {
                         Habit habit = habitViewModel.habits[index];
                         return GestureDetector(
                           onTap: () {
-                            habitViewModel.getHabit(habit.id);
-                            _showBottomSheet(context, habit: habitViewModel.selectedHabit);
+                            habit.isCompleted
+                            ?null
+                            :_showBottomSheet(context,habit:habit);
                           },
                           child: buildHabitItem(habit, context,habitViewModel),
                         );
@@ -115,13 +128,16 @@ class HabitPage extends StatelessWidget {
     );
   }
 
-  void _showBottomSheet(BuildContext context, { Rxn<Habit>? habit} ) {
+  void _showBottomSheet(BuildContext context, {Habit? habit}) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return HabitBottomSheetContent(habit:habit,habitViewModel: habitViewModel,);
+        return HabitBottomSheetContent(habit: habit, habitViewModel: habitViewModel);
       },
-    );
+    ).whenComplete(() {
+      Get.delete<HabitBottomSheetController>(); // حذف کنترلر وقتی BottomSheet بسته شد
+    });
   }
+
 }

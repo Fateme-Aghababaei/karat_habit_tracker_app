@@ -113,7 +113,7 @@ class HabitViewModel extends GetxController {
   // Add New Habit
   Future<void> addHabit({
     required String name,
-    required String description,
+    required String? description,
     required int? tagId,
     required String? dueDate,
     required bool isRepeated,
