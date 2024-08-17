@@ -10,7 +10,7 @@ class Habit {
   final String? description;
   final String? startDate;
   final String? dueDate;
-  final int? score;
+  final int score;
   final bool isRepeated;
   final bool isCompleted;
   final String? repeatedDays;
@@ -24,7 +24,7 @@ class Habit {
     this.description,
     this.startDate,
     this.dueDate,
-    this.score,
+    required this.score,
     required this.isRepeated,
     required this.isCompleted,
     this.repeatedDays,

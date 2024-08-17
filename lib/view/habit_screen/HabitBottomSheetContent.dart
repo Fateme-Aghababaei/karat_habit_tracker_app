@@ -11,17 +11,13 @@ class HabitBottomSheetContent extends StatelessWidget {
   final Habit? habit;
   final HabitViewModel habitViewModel;
 
-  HabitBottomSheetContent({super.key, this.habit, required this.habitViewModel});
+  const HabitBottomSheetContent({super.key, this.habit, required this.habitViewModel});
 
 
 
   @override
   Widget build(BuildContext context) {
     final HabitBottomSheetController controller = Get.put(HabitBottomSheetController(habit: habit,habitViewModel));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      habitViewModel.loadUserTags();
-    });
-
     return Padding(
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: SingleChildScrollView(
@@ -306,7 +302,7 @@ class HabitBottomSheetContent extends StatelessWidget {
                             ),
                           GestureDetector(
                             onTap: () {
-                              showCreateTagDialog(context,habitViewModel);
+                              showCreateTagDialog(context,habitViewModel,null);
                             },
                             child: Chip(
                               label: Text(

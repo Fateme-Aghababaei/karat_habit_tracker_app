@@ -17,17 +17,15 @@ class SideBarController extends GetxController {
   Future<void> fetchUserBrief() async {
     try {
       UserModel? userBrief = await _userRepository.getUserBrief();
-      if (userBrief != null) {
-        firstName.value = userBrief.firstName ?? '';
-        userName.value = userBrief.username ?? '';
-        userPhoto.value = userBrief.photo ?? '';
-        userScore.value = userBrief.score ?? 0;
-      }
-    } catch (e) {
-      // اگر درخواست به سرور شکست خورد، تلاش برای بارگذاری داده‌ها از GetStorage
-      final box = GetStorage();
-      final storedData = box.read<Map<String, dynamic>>('userBrief');
+      firstName.value = userBrief.firstName! ;
+      userName.value = userBrief.username!;
+      userPhoto.value = userBrief.photo! ;
+      userScore.value = userBrief.score! ;
 
+        } catch (e) {
+      final box = GetStorage();
+      final storedData = box.read('userBrief');
+      print(storedData);
       if (storedData != null) {
         UserModel userBrief = UserModel.fromJson(storedData);
         firstName.value = userBrief.firstName ?? '';
@@ -43,6 +41,9 @@ class SideBarController extends GetxController {
 
   void updateIndex(int index) {
     selectedIndex.value = index;
+  }
+  void updateScore(int index) {
+    userScore.value =userScore.value+ index;
   }
   // فراخوانی اولیه در زمان ساخت کنترلر
   @override

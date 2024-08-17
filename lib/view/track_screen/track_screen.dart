@@ -12,9 +12,8 @@ import '../components/Sidebar/SideBarController.dart';
 import 'BottomSheetContent.dart';
 
 class TrackPage extends StatelessWidget {
-  final SideBarController sideBarController = Get.put(SideBarController());
+  final SideBarController sideBarController = Get.find();
   final TrackViewModel trackViewModel = Get.put(TrackViewModel());
-
   TrackPage({super.key});
 
   final StopWatchTimer stopWatchTimer = StopWatchTimer(); // ایجاد یک نمونه از استاپ‌واچ
@@ -38,19 +37,22 @@ class TrackPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+     trackViewModel.loadUserTags();
+    });
     return Scaffold(
       appBar: CustomAppBar(userScore: sideBarController.userScore),
       drawer: SideBar(),
       body: Padding(
         padding: EdgeInsets.all(16.0.r),
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.65,
+          height: MediaQuery.of(context).size.height * 0.64,
           child: Center(
             child: Obx(() {
-              // if (trackViewModel.isLoading.value) {
-              //   return CircularProgressIndicator();
-              // }
-               if (trackViewModel.tracksMap.isEmpty) {
+              if (trackViewModel.isLoading.value) {
+                return CircularProgressIndicator();
+              }
+               else if (trackViewModel.tracksMap.isEmpty) {
                 return Text(
                   'هنوز رکوردی را ثبت نکرده‌اید',
                   style: Theme.of(context).textTheme.bodyLarge,
@@ -61,7 +63,7 @@ class TrackPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     String date = trackViewModel.tracksMap.keys.elementAt(index);
                     List<Track> tracks = trackViewModel.tracksMap[date]!;
-                    if (tracks.isEmpty) return SizedBox.shrink();
+                    if (tracks.isEmpty) return const SizedBox.shrink();
 
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,7 +96,7 @@ class TrackPage extends StatelessWidget {
       ),
       floatingActionButton: Obx(() {
         return Container(
-          margin: EdgeInsets.symmetric(horizontal: 32.0.r, vertical: 16.0.r),
+          margin: EdgeInsets.only(right: 32.0.r, left: 0, top: 8.0.r ,bottom: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween, // دکمه‌ها را به دو طرف می‌چسباند
             children: [

@@ -17,10 +17,10 @@ final List<GetPage> routes = [
   GetPage(name: AppRouteName.onBoardingScreen, page: () => const onBoardingScreen()),
   GetPage(name:AppRouteName.loginScreen, page: () => const LoginPage()),
   GetPage(name:AppRouteName.signUpScreen, page: () => SignUpPage()),
-  GetPage(name:AppRouteName.habitScreen, page: () => HabitPage(),binding: UserBinding()),
+  GetPage(name:AppRouteName.habitScreen, page: () => HabitPage()),
   GetPage(name: AppRouteName.profileScreen, page: () => const ProfilePage(), binding: UserBinding(),),
   GetPage(name: AppRouteName.settingScreen, page: () => const SettingsPage(),binding: UserBinding()),
-  GetPage(name:AppRouteName.trackScreen, page: () => TrackPage(),binding: UserBinding()),
+  GetPage(name:AppRouteName.trackScreen, page: () => TrackPage()),
   GetPage(name:AppRouteName.aboutScreen, page: () => const AboutPage()),
   GetPage(name:AppRouteName.faqScreen, page: () => const FAQPage()),
 

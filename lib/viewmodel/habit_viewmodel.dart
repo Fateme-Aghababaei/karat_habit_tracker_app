@@ -5,6 +5,7 @@ import '../model/entity/habit_model.dart';
 import '../model/entity/tag_model.dart';
 import '../model/repositories/habit_repository.dart';
 import '../model/repositories/user_repository.dart';
+import '../view/components/Sidebar/SideBarController.dart';
 
 class HabitViewModel extends GetxController {
   final UserRepository _userRepository = UserRepository();
@@ -16,6 +17,7 @@ class HabitViewModel extends GetxController {
   var selectedHabit = Rxn<Habit>();
   final GetStorage _storage = GetStorage();
   final String todayDate = DateTime.now().toIso8601String().split('T')[0];
+  final SideBarController sideBarController = Get.find();
 
   @override
   void onInit() {
@@ -78,6 +80,16 @@ class HabitViewModel extends GetxController {
     );
   }
 
+  void _loadTagsFromStorage() {
+    var storedTags = _storage.read<List>('tags'); // خواندن لیست تگ‌ها به عنوان List<dynamic>
+    if (storedTags != null) {
+      tags.assignAll(storedTags.map((tag) => Tag.fromJson(tag)).toList());
+    }
+  }
+  void _saveTagsToStorage() {
+    List<Map<String, dynamic>> tagList = tags.map((tag) => tag.toJson()).toList();
+    _storage.write('tags', tagList);
+  }
   // Load User Tags
   Future<void> loadUserTags() async {
     isLoading(true);
@@ -85,11 +97,14 @@ class HabitViewModel extends GetxController {
       var loadedTags = await _habitRepository.getUserTags();
       if (loadedTags != null) {
         tags.assignAll(loadedTags);
+        _saveTagsToStorage();
       } else {
         tags.clear();
+        _loadTagsFromStorage();
       }
     } catch (e) {
       print("Error loading tags: $e");
+      _loadTagsFromStorage();
     } finally {
       isLoading(false);
     }
@@ -97,16 +112,14 @@ class HabitViewModel extends GetxController {
 
   // Add New Tag
   Future<void> addTag(String name, String color) async {
-    isLoading(true);
     try {
       var newTag = await _habitRepository.addTag(name, color, "your_token_here");
       if (newTag != null) {
         tags.add(newTag);
+        _saveTagsToStorage();
       }
     } catch (e) {
       print("Error adding tag: $e");
-    } finally {
-      isLoading(false);
     }
   }
 
@@ -198,7 +211,6 @@ class HabitViewModel extends GetxController {
 
   // Get Habit by ID
   Future<void> getHabit(int? id) async {
-    isLoading(true);
     try {
       var habit = await _habitRepository.getHabit(id!);
       if (habit != null) {
@@ -206,8 +218,6 @@ class HabitViewModel extends GetxController {
       }
     } catch (e) {
       print("Error fetching habit: $e");
-    } finally {
-      isLoading(false);
     }
   }
 
@@ -241,11 +251,10 @@ class HabitViewModel extends GetxController {
         if (index != -1) {
           habits[index] = completedHabit;
           habits.refresh();  // Refresh the list to update the UI
-
-          // فقط اگر تاریخ مربوط به امروز باشد، در GetStorage ذخیره می‌کنیم
           if (today == todayDate) {
             _saveHabitsToStorage();
           }
+          sideBarController.updateScore(completedHabit.score);
         }
       }
     } catch (e) {

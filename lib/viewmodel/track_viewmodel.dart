@@ -8,14 +8,14 @@ import '../model/repositories/track_repository.dart';
 
 class TrackViewModel extends GetxController {
   final TrackRepository _trackRepository = TrackRepository();
-  final box = GetStorage(); // ایجاد نمونه‌ای از GetStorage
+  final box = GetStorage();
   var isLoading = false.obs;
   var tracksMap = <String, List<Track>>{}.obs;
   var currentTrack = Track(startDatetime: '', endDatetime: '').obs;
   var tagsList = <Tag>[].obs; // لیست تگ‌ها
-  final RxBool isTextInputVisible = false.obs; // وضعیت نمایش اینپوت
-  final RxBool isStopwatchRunning = false.obs; // وضعیت اجرای استاپ‌واچ
-  final RxBool isAddPressed = false.obs; // وضعیت فشردن دکمه "اد"
+  final RxBool isTextInputVisible = false.obs;
+  final RxBool isStopwatchRunning = false.obs;
+  final RxBool isAddPressed = false.obs;
 
   @override
   void onInit() {
@@ -30,7 +30,6 @@ class TrackViewModel extends GetxController {
   // اضافه کردن Track
   Future<void> addTrack(String? name, String startDatetime,String endDatetime, {int? tagId}) async {
     try {
-      isLoading(true);
       final track = await _trackRepository.addTrack(name, startDatetime,endDatetime, tagId: tagId);
       if (track != null) {
         String dateKey = startDatetime.split('T')[0];
@@ -50,8 +49,6 @@ class TrackViewModel extends GetxController {
       }
     } catch (e) {
       Get.snackbar('Error', e.toString());
-    } finally {
-      isLoading(false);
     }
   }
 
@@ -96,7 +93,6 @@ class TrackViewModel extends GetxController {
   // ویرایش Track
   Future<void> editTrack(int? id, String name, {int? tagId}) async {
     try {
-      isLoading(true);
       final track = await _trackRepository.editTrack(id!, name, tagId: tagId);
       if (track != null) {
         tracksMap.forEach((dateKey, trackList) {
@@ -113,8 +109,6 @@ class TrackViewModel extends GetxController {
       }
     } catch (e) {
       Get.snackbar('Error', e.toString());
-    } finally {
-      isLoading(false);
     }
   }
 
@@ -156,19 +150,45 @@ class TrackViewModel extends GetxController {
 
   // دریافت لیست تگ‌ها
   Future<void> loadUserTags() async {
+    isLoading(true);
     try {
-      isLoading(true);
-      final tags = await _trackRepository.getUserTags(); // فراخوانی تابع دریافت تگ‌ها از ریپوزیتوری
-      if (tags != null) {
-        tagsList.assignAll(tags); // اضافه کردن تگ‌ها به لیست
+      var loadedTags = await _trackRepository.getUserTags();
+      if (loadedTags != null) {
+        tagsList.assignAll(loadedTags);
+        _saveTagsToStorage();
       } else {
-        Get.snackbar('Error', 'Failed to load tags');
+        tagsList.clear();
+        _loadTagsFromStorage();
       }
     } catch (e) {
-      Get.snackbar('Error', e.toString());
+      print("Error loading tags: $e");
+      _loadTagsFromStorage();
     } finally {
       isLoading(false);
     }
+  }
+
+  Future<void> addTag(String name, String color) async {
+    try {
+      var newTag = await _trackRepository.addTag(name, color, "your_token_here");
+      if (newTag != null) {
+        tagsList.add(newTag);
+        _saveTagsToStorage();
+      }
+    } catch (e) {
+      print("Error adding tag: $e");
+    }
+  }
+
+  void _loadTagsFromStorage() {
+    var storedTags = box.read<List>('tags'); // خواندن لیست تگ‌ها به عنوان List<dynamic>
+    if (storedTags != null) {
+      tagsList.assignAll(storedTags.map((tag) => Tag.fromJson(tag)).toList());
+    }
+  }
+  void _saveTagsToStorage() {
+    List<Map<String, dynamic>> tagList = tagsList.map((tag) => tag.toJson()).toList();
+    box.write('tags', tagList);
   }
 
   String convertToJalali(String date) {

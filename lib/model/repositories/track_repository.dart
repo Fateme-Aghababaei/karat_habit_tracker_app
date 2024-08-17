@@ -154,6 +154,25 @@ class TrackRepository{
       return null;
     }
   }
+  Future<Tag?> addTag(String name, String color, String token) async {
+    try {
+      final response = await dio.post(
+        'habit/add_tag/',
+        data: {
+          'name': name,
+          'color': color,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return Tag.fromJson(response.data);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      throw Exception('Failed to add tag: $e');
+    }
+  }
 }
 
 

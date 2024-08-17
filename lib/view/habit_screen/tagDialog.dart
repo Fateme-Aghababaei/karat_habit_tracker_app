@@ -3,12 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:karat_habit_tracker_app/viewmodel/habit_viewmodel.dart';
 
+import '../../viewmodel/track_viewmodel.dart';
+
 class CreateTagDialog extends StatelessWidget {
   final TextEditingController tagNameController = TextEditingController();
   final RxInt selectedColorIndex = RxInt(-1);
-  final HabitViewModel habitViewModel; // دریافت HabitViewModel
-
-  CreateTagDialog({super.key, required this.habitViewModel}); // سازنده اصلاح‌شده
+  final HabitViewModel? habitViewModel; // دریافت HabitViewModel
+  final TrackViewModel? trackViewModel ;
+  CreateTagDialog({super.key,  this.habitViewModel, this.trackViewModel}); // سازنده اصلاح‌شده
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +33,38 @@ class CreateTagDialog extends StatelessWidget {
           children: [
             Text('افزودن برچسب', style: Theme.of(context).textTheme.bodyLarge),
             SizedBox(height: 16.0.r),
-            TextField(
-              controller: tagNameController,
-              decoration: InputDecoration(
-                hintText: 'نام برچسب',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0.r),
+            Container(
+              height:42,
+              child: TextField(
+                controller: tagNameController,
+                decoration: InputDecoration(
+                  hintText: 'نام برچسب',
+                  filled: true,
+                  fillColor: Theme.of(context).scaffoldBackgroundColor,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: const BorderSide(
+                      color: Color(0XFFCAC5CD),
+                      width: 1.0,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide: const BorderSide(
+                        color: Color(0XFFCAC5CD),
+                        width: 1.0),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide: const BorderSide(
+                      color: Colors.grey,
+                      width: 1.0,
+                    ),
+                  ),
+                ),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontSize: 13.sp,
+                    fontFamily: "IRANYekan_number"
                 ),
               ),
             ),
@@ -76,27 +104,24 @@ class CreateTagDialog extends StatelessWidget {
                       minimumSize: Size(MediaQuery.of(context).size.width * 0.33, 40.0.r)),
                   onPressed: () {
                     if (tagNameController.text.isNotEmpty && selectedColorIndex.value != -1) {
-                      // Add your logic to create a new tag with the name and selected color
-                      print('Tag Name: ${tagNameController.text}');
-                      print('Selected Color: ${colors[selectedColorIndex.value]}');
-                      Navigator.of(context).pop();
+                      String colorHex = colors[selectedColorIndex.value].value.toRadixString(16).substring(2);
+                      if (habitViewModel != null) {
+                        habitViewModel!.addTag(tagNameController.text, colorHex);
+                      } else if (trackViewModel != null) {
+                        trackViewModel!.addTag(tagNameController.text, colorHex);
+                      }
+                     Get.back();
+                    } else {
+                      null;
                     }
-                  },
+               },
                   child: Text('ذخیره'),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       minimumSize: Size(MediaQuery.of(context).size.width * 0.33,40.0.r),backgroundColor: Colors.grey.shade400),
                   onPressed: () {
-                    if (tagNameController.text.isNotEmpty && selectedColorIndex.value != -1) {
-                      // تبدیل رنگ انتخاب شده به رشته هگزادسیمال
-                      String colorHex = colors[selectedColorIndex.value].value.toRadixString(16).substring(2);
-
-                      // فراخوانی متد addTag و ارسال رنگ
-                      habitViewModel.addTag(tagNameController.text, colorHex);
-
-                      Navigator.of(context).pop();
-                    }
+                   Get.back();
                   },
                   child: Text('لغو'),
                 ),
@@ -109,11 +134,15 @@ class CreateTagDialog extends StatelessWidget {
   }
 }
 
-void showCreateTagDialog(BuildContext context, HabitViewModel habitViewModel) {
+void showCreateTagDialog(BuildContext context, HabitViewModel? habitViewModel, TrackViewModel? trackViewModel) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      return CreateTagDialog(habitViewModel: habitViewModel); // پاس دادن habitViewModel به دیالوگ
+      return CreateTagDialog(
+        habitViewModel: habitViewModel, // پاس دادن habitViewModel یا null
+        trackViewModel: trackViewModel, // پاس دادن trackViewModel یا null
+      );
     },
   );
 }
+

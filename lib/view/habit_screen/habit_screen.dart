@@ -15,8 +15,6 @@ import 'habit_controller.dart';
 
 class HabitPage extends StatelessWidget {
   final HabitViewModel habitViewModel = Get.put(HabitViewModel());
-  final SideBarController sideBarController = Get.put(SideBarController());
-
   HabitPage({super.key});
   Rx<DateTime> startDate = DateTime.now().subtract(const Duration(days: 2)).obs;
   Rx<DateTime> endDate = DateTime.now().add(const Duration(days: 7)).obs;
@@ -30,11 +28,12 @@ class HabitPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      habitViewModel.loadUserTags();
      // habitViewModel.updateStreak();
     });
 
     return Scaffold(
-      appBar: CustomAppBar(userScore: sideBarController.userScore),
+      appBar: CustomAppBar(userScore: habitViewModel.sideBarController.userScore),
       drawer: SideBar(),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.0.r),
@@ -84,7 +83,7 @@ class HabitPage extends StatelessWidget {
                     if (habitViewModel.isLoading.value) {
                       return const Center(child: CircularProgressIndicator());
                     }
-                    if (habitViewModel.habits.isEmpty) {
+                   else if (habitViewModel.habits.isEmpty) {
                       return Center(child: Text('هیچ عادتی برای این روز وجود ندارد.',
                         style: Theme.of(context).textTheme.bodyLarge,));
                     }
@@ -112,7 +111,7 @@ class HabitPage extends StatelessWidget {
       floatingActionButton: Align(
         alignment: Alignment.bottomRight,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 32.0.r, vertical: 16.0.r),
+          padding: EdgeInsets.symmetric(horizontal: 32.0.r, vertical: 8.0.r),
           child: FloatingActionButton(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(94.0.r),

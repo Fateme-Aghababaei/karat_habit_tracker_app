@@ -78,14 +78,14 @@ Widget buildHabitItem(Habit habit, BuildContext context, HabitViewModel habitVie
           onChanged: (value) async {
             if (value!) {
               checked.value=true;
-              bool shouldPlaySound = _storage.read('isSoundOn') ;
+              //bool shouldPlaySound = _storage.read('isSoundOn') ;
               // _audioPlayer.setReleaseMode(ReleaseMode.stop);
               //
               // if (shouldPlaySound) {
               //   await _audioPlayer.setSource(AssetSource('assets/sounds/check_sound.mp3'));
               //   await _audioPlayer.resume();
               // }
-           //   habitViewModel.completeHabit(habit.id, habit.dueDate!, DateTime.now().toIso8601String().split('T')[0]);
+           habitViewModel.completeHabit(habit.id, habit.dueDate!, DateTime.now().toIso8601String().split('T')[0]);
             }
           },
           activeColor: habit.isRepeated  ? Theme.of(context).primaryColor : Theme.of(context).colorScheme.secondary,

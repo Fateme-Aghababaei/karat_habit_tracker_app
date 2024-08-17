@@ -5,6 +5,7 @@ import 'package:karat_habit_tracker_app/viewmodel/track_viewmodel.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import '../../model/entity/track_model.dart';
+import '../habit_screen/tagDialog.dart';
 
 class BottomSheetContent extends StatefulWidget {
   final DateTime? startTime;
@@ -32,6 +33,7 @@ class BottomSheetContent extends StatefulWidget {
 class _BottomSheetContentState extends State<BottomSheetContent> {
   late TextEditingController nameController;
   Rx<int?> selectedTagId = Rx<int?>(null);
+
 
   @override
   void initState() {
@@ -76,10 +78,6 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      widget.trackViewModel.loadUserTags();
-    });
-
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.all(16.0.r),
@@ -234,19 +232,24 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                                   ),
                                 )),
                               ),
-                            Chip(
-                              label: Text(
-                                'برچسب جدید',
-                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  fontSize: 12.sp,
+                            GestureDetector(
+                              child: Chip(
+                                label: Text(
+                                  'برچسب جدید',
+                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    fontSize: 12.sp,
+                                  ),
+                                ),
+                                avatar: const Icon(Icons.add),
+                                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(6.0.r),
+                                  side: BorderSide(color: Colors.grey.shade300),
                                 ),
                               ),
-                              avatar: const Icon(Icons.add),
-                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(6.0.r),
-                                side: BorderSide(color: Colors.grey.shade300),
-                              ),
+                              onTap: (){
+                               showCreateTagDialog(context, null, widget.trackViewModel);
+                              },
                             ),
                           ],
                         );

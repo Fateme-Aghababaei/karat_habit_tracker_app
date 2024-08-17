@@ -25,11 +25,14 @@ class HabitBottomSheetController extends GetxController {
 
     final habit = this.habit;
     if (habit != null) {
+      print(habit.repeatedDays);
+      print(habit.isRepeated);
       titleController.value.text = habit.name ;
       descriptionController.value.text = habit.description ?? '';
       selectedDays.value = habit.repeatedDays ?? '0000000';
       selectedTag.value = habit.tag?.id;
       selectedDate.value = habit.dueDate ?? '';
+      selectedTab.value=habit.isRepeated?0:1;
 
       // Convert the saved date to Jalali and set it for display
       if (selectedDate.value.isNotEmpty) {
@@ -43,12 +46,6 @@ class HabitBottomSheetController extends GetxController {
         allDaysSelected.value = true;
       }
 
-      // Update the tab based on whether it's a daily task or a habit
-      if (habit.isRepeated ) {
-        selectedTab.value = 1;
-      } else {
-        selectedTab.value = 0;
-      }
     }
 
     titleController.value.addListener(updateSaveButtonState);
