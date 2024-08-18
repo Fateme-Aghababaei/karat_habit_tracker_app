@@ -83,19 +83,20 @@ class HabitPage extends StatelessWidget {
                     if (habitViewModel.isLoading.value) {
                       return const Center(child: CircularProgressIndicator());
                     }
-                   else if (habitViewModel.habits.isEmpty) {
+                     else if (habitViewModel.habits.isEmpty && habitViewModel.isLoading.value==false) {
                       return Center(child: Text('هیچ عادتی برای این روز وجود ندارد.',
                         style: Theme.of(context).textTheme.bodyLarge,));
                     }
                     return ListView.builder(
                       itemCount: habitViewModel.habits.length,
+                     // reverse: true,
                       itemBuilder: (context, index) {
                         Habit habit = habitViewModel.habits[index];
                         return GestureDetector(
                           onTap: () {
-                            habit.isCompleted
+                            (habit.isCompleted || habit.fromChallenge!=null)
                             ?null
-                            :_showBottomSheet(context,habit:habit);
+                            :_showBottomSheet(context,initialSelectedDate,habit:habit);
                           },
                           child: buildHabitItem(habit, context,habitViewModel),
                         );
@@ -117,7 +118,7 @@ class HabitPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(94.0.r),
             ),
             onPressed: () {
-              _showBottomSheet(context);
+              _showBottomSheet(context,initialSelectedDate);
             },
             child: Icon(Icons.add),
           ),
@@ -127,12 +128,12 @@ class HabitPage extends StatelessWidget {
     );
   }
 
-  void _showBottomSheet(BuildContext context, {Habit? habit}) {
+  void _showBottomSheet(BuildContext context, Rx<DateTime> initialSelectedDate, {Habit? habit}) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return HabitBottomSheetContent(habit: habit, habitViewModel: habitViewModel);
+        return HabitBottomSheetContent(habit: habit, habitViewModel: habitViewModel,today:initialSelectedDate);
       },
     ).whenComplete(() {
       Get.delete<HabitBottomSheetController>(); // حذف کنترلر وقتی BottomSheet بسته شد

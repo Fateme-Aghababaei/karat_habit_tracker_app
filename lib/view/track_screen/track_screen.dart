@@ -52,12 +52,12 @@ class TrackPage extends StatelessWidget {
               if (trackViewModel.isLoading.value) {
                 return CircularProgressIndicator();
               }
-               else if (trackViewModel.tracksMap.isEmpty) {
+                if (!trackViewModel.isLoading.value && trackViewModel.tracksMap.isEmpty) {
                 return Text(
                   'هنوز رکوردی را ثبت نکرده‌اید',
                   style: Theme.of(context).textTheme.bodyLarge,
                 );
-              } else {
+              }
                 return ListView.builder(
                   itemCount: trackViewModel.tracksMap.length,
                   itemBuilder: (context, index) {
@@ -90,7 +90,7 @@ class TrackPage extends StatelessWidget {
                   },
                 );
               }
-            }),
+            ),
           ),
         ),
       ),

@@ -61,8 +61,7 @@ class TrackViewModel extends GetxController {
   void _loadTracksFromStorage() {
     final storedTracks = box.read('tracksMap');
     if (storedTracks != null) {
-      tracksMap.clear();
-      tracksMap.value = storedTracks;
+      tracksMap.assignAll(storedTracks) ;
     }
   }
 
@@ -72,13 +71,12 @@ class TrackViewModel extends GetxController {
       isLoading(true);
       final tracks = await _trackRepository.getUserTracks(page: page, itemsPerPage: itemsPerPage);
       if (tracks != null) {
-        tracksMap.clear(); // پاک کردن Map قبل از اضافه کردن داده‌های جدید
-        tracks.forEach((date, trackList) {
-          tracksMap[date] = trackList; // اضافه کردن داده‌های جدید به Map
-        });
+         // پاک کردن Map قبل از اضافه کردن داده‌های جدید
+        tracksMap.assignAll(tracks);
 
-        if (itemsPerPage == 3)
-        _saveTracksToStorage();
+        if (itemsPerPage == 3) {
+          _saveTracksToStorage();
+        }
 
       } else {
         _loadTracksFromStorage();
@@ -150,7 +148,7 @@ class TrackViewModel extends GetxController {
 
   // دریافت لیست تگ‌ها
   Future<void> loadUserTags() async {
-    isLoading(true);
+
     try {
       var loadedTags = await _trackRepository.getUserTags();
       if (loadedTags != null) {
@@ -163,8 +161,6 @@ class TrackViewModel extends GetxController {
     } catch (e) {
       print("Error loading tags: $e");
       _loadTagsFromStorage();
-    } finally {
-      isLoading(false);
     }
   }
 

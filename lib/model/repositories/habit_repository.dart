@@ -56,24 +56,22 @@ class HabitRepository{
       final data = {
         'name': name,
         'description': description,
-        'tag': tagId,
-        'due_date': dueDate,
         'is_repeated': isRepeated,
-        'repeated_days': repeatedDays,
       };
-
+      if (dueDate != null) {
+        data['due_date'] = dueDate;
+      }
+      if (tagId != null) {
+        data['tag'] = tagId;
+      }
+      if (repeatedDays != null) {
+        data['repeated_days'] =repeatedDays;
+      }
       // داده‌ها را قبل از ارسال چاپ کنید
       print('Data to be sent: $data');
       final response = await dio.post(
         'habit/add_habit/',
-        data: {
-          'name': name,
-          'description': description,
-          'tag': tagId,
-          'due_date': dueDate,
-          'is_repeated': isRepeated,
-          'repeated_days': repeatedDays,
-        },
+        data: data
       );
 
       print(response.statusCode) ;
@@ -104,29 +102,22 @@ class HabitRepository{
         'id': id,
         'name': name,
         'description': description,
-        'tag': tagId,
-        'due_date': dueDate,
         'is_repeated': isRepeated,
-        'repeated_days': repeatedDays,
       };
-
-      // داده‌ها را قبل از ارسال چاپ کنید
-      print('Data to be sent: $data');
+      if (dueDate != null) {
+        data['due_date'] = dueDate;
+      }
+      if (tagId != null) {
+        data['tag'] = tagId;
+      }
+      if (repeatedDays != null) {
+        data['repeated_days'] =repeatedDays;
+      }
       final response = await dio.post(
         'habit/edit_habit/',
-        data: {
-          'id': id,
-          'name': name,
-          'description': description,
-          'tag': tagId,
-          'due_date': dueDate,
-          'is_repeated': isRepeated,
-          'repeated_days': repeatedDays,
-        },
+        data: data
       );
-      print(response.statusCode) ;
-      print(response.data["error"]);
-      print(response.statusMessage);
+    print(response.data);
       if (response.statusCode == 200) {
         return Habit.fromJson(response.data);
       } else {

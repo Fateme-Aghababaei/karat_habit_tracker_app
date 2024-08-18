@@ -10,14 +10,14 @@ import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 class HabitBottomSheetContent extends StatelessWidget {
   final Habit? habit;
   final HabitViewModel habitViewModel;
-
-  const HabitBottomSheetContent({super.key, this.habit, required this.habitViewModel});
+   final Rx<DateTime> today;
+  const HabitBottomSheetContent({super.key, this.habit, required this.habitViewModel, required this.today});
 
 
 
   @override
   Widget build(BuildContext context) {
-    final HabitBottomSheetController controller = Get.put(HabitBottomSheetController(habit: habit,habitViewModel));
+    final HabitBottomSheetController controller = Get.put(HabitBottomSheetController(habit: habit,habitViewModel,today));
     return Padding(
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: SingleChildScrollView(
@@ -431,21 +431,52 @@ class HabitBottomSheetContent extends StatelessWidget {
                 ),
 
                 SizedBox(height: 16.0.r),
-                Obx(() => ElevatedButton(
-                  onPressed: controller.isSaveButtonEnabled.value
-                      ? () {
-
-                    controller.saveHabitOrTask();
-                  }
-                      : null,
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: Size(double.maxFinite, 40.0.r),
-                      backgroundColor: controller.selectedTab.value == 0
-                          ? Theme.of(context).primaryColor
-                          : Theme.of(context).colorScheme.secondary
+                if (habit == null) ...[
+                  Obx(() => ElevatedButton(
+                    onPressed: controller.isSaveButtonEnabled.value
+                        ? () {
+                      controller.saveHabitOrTask();
+                    }
+                        : null,
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: Size(double.maxFinite, 40.0.r),
+                        backgroundColor: controller.selectedTab.value == 0
+                            ? Theme.of(context).primaryColor
+                            : Theme.of(context).colorScheme.secondary
+                    ),
+                    child: Text("ذخیره"),
+                  )),
+                ] else ...[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Obx(() => ElevatedButton(
+                        onPressed: controller.isSaveButtonEnabled.value
+                            ? () {
+                          controller.saveHabitOrTask();
+                        }
+                            : null,
+                        style: ElevatedButton.styleFrom(
+                            minimumSize: Size(MediaQuery.of(context).size.width * 0.45, 40.0.r),
+                            backgroundColor: controller.selectedTab.value == 0
+                                ? Theme.of(context).primaryColor
+                                : Theme.of(context).colorScheme.secondary
+                        ),
+                        child: Text("ذخیره"),
+                      )),
+                      ElevatedButton(
+                        onPressed: () {
+                          habitViewModel.deleteHabit(habit!.id, DateTime.now().toIso8601String().split('T')[0]);
+                          Get.back();
+                        },
+                        style: ElevatedButton.styleFrom(
+                            minimumSize: Size(MediaQuery.of(context).size.width * 0.45, 40.0.r),
+                            backgroundColor: Colors.redAccent), // رنگ دکمه حذف قرمز
+                        child: Text("حذف"),
+                      ),
+                    ],
                   ),
-                  child: Text("ذخیره"),
-                )),
+                ],
               ],
             ),
           ),

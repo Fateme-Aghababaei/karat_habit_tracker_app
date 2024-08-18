@@ -19,6 +19,7 @@ class HabitViewModel extends GetxController {
   final String todayDate = DateTime.now().toIso8601String().split('T')[0];
   final SideBarController sideBarController = Get.find();
 
+
   @override
   void onInit() {
     super.onInit();
@@ -92,7 +93,7 @@ class HabitViewModel extends GetxController {
   }
   // Load User Tags
   Future<void> loadUserTags() async {
-    isLoading(true);
+
     try {
       var loadedTags = await _habitRepository.getUserTags();
       if (loadedTags != null) {
@@ -105,8 +106,6 @@ class HabitViewModel extends GetxController {
     } catch (e) {
       print("Error loading tags: $e");
       _loadTagsFromStorage();
-    } finally {
-      isLoading(false);
     }
   }
 
@@ -176,6 +175,7 @@ class HabitViewModel extends GetxController {
         isRepeated: isRepeated,
         repeatedDays: repeatedDays,
       );
+
       if (updatedHabit != null) {
         int index = habits.indexWhere((habit) => habit.id == id);
         if (index != -1) {

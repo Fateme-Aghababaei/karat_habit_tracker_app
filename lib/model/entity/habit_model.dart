@@ -44,8 +44,8 @@ class Habit {
     startDate: json["start_date"],
     dueDate: json["due_date"],
     score: json["score"],
-    isRepeated: json["is_repeated"],
-    isCompleted: json["is_completed"],
+    isRepeated: json["is_repeated"] ?? false,  // استفاده از ?? برای مدیریت null
+    isCompleted: json["is_completed"] ?? false, // استفاده از ?? برای مدیریت null
     repeatedDays: json["repeated_days"],
     completedDate: json["completed_date"],
     tag: json["tag"] == null ? null : Tag.fromJson(json["tag"]),

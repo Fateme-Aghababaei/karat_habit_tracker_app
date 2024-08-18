@@ -16,23 +16,23 @@ class HabitBottomSheetController extends GetxController {
   var selectedShamsiDate = ''.obs;
   final Habit? habit;
   final HabitViewModel habitViewModel;
+  final Rx<DateTime> today;
 
-  HabitBottomSheetController(this.habitViewModel, {this.habit});
+  HabitBottomSheetController(this.habitViewModel, this.today, {this.habit});
 
+  @override
   @override
   void onInit() {
     super.onInit();
 
     final habit = this.habit;
     if (habit != null) {
-      print(habit.repeatedDays);
-      print(habit.isRepeated);
-      titleController.value.text = habit.name ;
+      titleController.value.text = habit.name;
       descriptionController.value.text = habit.description ?? '';
       selectedDays.value = habit.repeatedDays ?? '0000000';
       selectedTag.value = habit.tag?.id;
       selectedDate.value = habit.dueDate ?? '';
-      selectedTab.value=habit.isRepeated?0:1;
+      selectedTab.value = habit.isRepeated ? 0 : 1;
 
       // Convert the saved date to Jalali and set it for display
       if (selectedDate.value.isNotEmpty) {
@@ -45,7 +45,6 @@ class HabitBottomSheetController extends GetxController {
       if (selectedDays.value == '1111111') {
         allDaysSelected.value = true;
       }
-
     }
 
     titleController.value.addListener(updateSaveButtonState);
@@ -53,6 +52,7 @@ class HabitBottomSheetController extends GetxController {
     ever(selectedTab, (_) => updateSaveButtonState());
     ever(selectedDays, (_) => updateSaveButtonState());
     ever(selectedDate, (_) => updateSaveButtonState());
+    ever(selectedTag, (_) => updateSaveButtonState()); // اضافه کردن نظارت بر selectedTag
   }
 
   void updateSaveButtonState() {
@@ -102,10 +102,10 @@ class HabitBottomSheetController extends GetxController {
         name:titleController.value.text,
         description:descriptionController.value.text==''?null:descriptionController.value.text,
         tagId: selectedTag.value,
-        dueDate:selectedDate.value,
+        dueDate:selectedDate.value==''?null:selectedDate.value,
         isRepeated:selectedTab.value==0?true:false,
         repeatedDays:selectedTab.value==0?selectedDays.value:null,
-        today: DateTime.now().toIso8601String().split('T')[0]) ;
+        today: today.value.toIso8601String().split('T')[0] );
     print('Adding new habit');
     Get.back();
   }
@@ -116,10 +116,10 @@ class HabitBottomSheetController extends GetxController {
         name:titleController.value.text,
         description:descriptionController.value.text==''?null:descriptionController.value.text,
         tagId: selectedTag.value,
-        dueDate:selectedDate.value,
+        dueDate:selectedDate.value==''?null:selectedDate.value,
         isRepeated:selectedTab.value==0?true:false,
         repeatedDays:selectedTab.value==0?selectedDays.value:null,
-        today: DateTime.now().toIso8601String().split('T')[0]) ;
+        today: today.value.toIso8601String().split('T')[0] );
     print('Editing existing habit');
     Get.back();
   }
