@@ -1,6 +1,7 @@
 // AppRoutes.dart
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:karat_habit_tracker_app/view/about_screen.dart';
+import 'package:karat_habit_tracker_app/view/challenge_screen/challenge_screen.dart';
 import 'package:karat_habit_tracker_app/view/faq_screen.dart';
 import '../../view/habit_screen/habit_screen.dart';
 import '../../view/login_screen/login_screen.dart';
@@ -23,6 +24,8 @@ final List<GetPage> routes = [
   GetPage(name:AppRouteName.trackScreen, page: () => TrackPage()),
   GetPage(name:AppRouteName.aboutScreen, page: () => const AboutPage()),
   GetPage(name:AppRouteName.faqScreen, page: () => const FAQPage()),
+  GetPage(name:AppRouteName.challengeScreen, page: () => ChallengePage()),
+
 
 
 

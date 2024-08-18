@@ -105,7 +105,7 @@ class HabitBottomSheetController extends GetxController {
         dueDate:selectedDate.value==''?null:selectedDate.value,
         isRepeated:selectedTab.value==0?true:false,
         repeatedDays:selectedTab.value==0?selectedDays.value:null,
-        today: today.value.toIso8601String().split('T')[0] );
+        );
     print('Adding new habit');
     Get.back();
   }
@@ -119,7 +119,7 @@ class HabitBottomSheetController extends GetxController {
         dueDate:selectedDate.value==''?null:selectedDate.value,
         isRepeated:selectedTab.value==0?true:false,
         repeatedDays:selectedTab.value==0?selectedDays.value:null,
-        today: today.value.toIso8601String().split('T')[0] );
+        );
     print('Editing existing habit');
     Get.back();
   }

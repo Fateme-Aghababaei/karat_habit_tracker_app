@@ -101,6 +101,11 @@ class SideBar extends StatelessWidget {
         selected: Controller.selectedIndex.value == index,
         onTap: () async {
           Controller.updateIndex(index);
+          if (index == 2 ) {
+            Controller.shouldRefreshChallengePage(true);
+          } else {
+            Controller.shouldRefreshChallengePage(false);
+          }
           Get.back(); // بستن منو بعد از انتخاب آیتم
 
           dynamic result;
@@ -127,6 +132,9 @@ class SideBar extends StatelessWidget {
 
           if (result == true) {
             Controller.fetchUserBrief();
+          }
+          if (result == true&& Controller.shouldRefreshChallengePage.value) {
+            Controller.refreshChallengePage();
           }
         },
       );

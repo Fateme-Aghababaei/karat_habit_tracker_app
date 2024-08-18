@@ -27,7 +27,7 @@ class HabitViewModel extends GetxController {
   }
 
   Future<void> _loadTodayHabits() async {
-      await loadUserHabits(todayDate);
+      await loadUserHabits(todayDate,true);
   }
 
   void _loadHabitsFromStorage() {
@@ -130,7 +130,6 @@ class HabitViewModel extends GetxController {
     required String? dueDate,
     required bool isRepeated,
     required String? repeatedDays,
-    required String today,
   }) async {
     try {
       var newHabit = await _habitRepository.addHabit(
@@ -142,12 +141,8 @@ class HabitViewModel extends GetxController {
         repeatedDays: repeatedDays,
       );
       if (newHabit != null) {
-        habits.add(newHabit);
+        loadUserHabits(todayDate,false);
 
-        // فقط اگر تاریخ مربوط به امروز باشد، در GetStorage ذخیره می‌کنیم
-        if (today == todayDate) {
-          _saveHabitsToStorage();
-        }
       }
     } catch (e) {
       print("Error adding habit: $e");
@@ -163,7 +158,6 @@ class HabitViewModel extends GetxController {
     required String? dueDate,
     required bool isRepeated,
     required String? repeatedDays,
-    required String today,
   }) async {
     try {
       var updatedHabit = await _habitRepository.editHabit(
@@ -177,16 +171,7 @@ class HabitViewModel extends GetxController {
       );
 
       if (updatedHabit != null) {
-        int index = habits.indexWhere((habit) => habit.id == id);
-        if (index != -1) {
-          habits[index] = updatedHabit;
-          habits.refresh();  // Refresh the list to update the UI
-
-          // فقط اگر تاریخ مربوط به امروز باشد، در GetStorage ذخیره می‌کنیم
-          if (today == todayDate) {
-            _saveHabitsToStorage();
-          }
-        }
+        loadUserHabits(todayDate,false);
       }
     } catch (e) {
       print("Error editing habit: $e");
@@ -222,8 +207,11 @@ class HabitViewModel extends GetxController {
   }
 
   // Get User Habits for a specific date
-  Future<void> loadUserHabits(String date) async {
-    isLoading(true);
+  final RxBool fetchError = false.obs; // متغیر برای نمایش خطا
+
+  Future<void> loadUserHabits(String date, bool init) async {
+    isLoading(init?true :false);
+    fetchError(false); // قبل از شروع فچ کردن داده‌ها، مطمئن شوید که خطا روی false تنظیم شده است
     try {
       var loadedHabits = await _habitRepository.getUserHabits(date);
       if (loadedHabits != null) {
@@ -231,16 +219,22 @@ class HabitViewModel extends GetxController {
         if (date == todayDate) {
           _saveHabitsToStorage();
         }
-      } else {
+      } else if (loadedHabits == null && date == todayDate) {
         _loadHabitsFromStorage();
+      } else {
+        fetchError(true); // در صورت نبودن عادت‌ها، خطا را روی true تنظیم کنید
       }
     } catch (e) {
       print("Error loading habits: $e");
-      _loadHabitsFromStorage();
+      if (date == todayDate) {
+        _loadHabitsFromStorage();
+      }
+      else{fetchError(true);}
     } finally {
       isLoading(false);
     }
   }
+
 
   // Complete a Habit
   Future<void> completeHabit(int id, String dueDate,String today) async {

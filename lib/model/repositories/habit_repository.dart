@@ -168,7 +168,7 @@ class HabitRepository{
         return habits;
       }
       else{
-        return [];
+        return null;
       }
     } catch (e) {
       print('Error fetching user habits: $e');

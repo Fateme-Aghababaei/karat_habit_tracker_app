@@ -8,10 +8,11 @@ import '../components/AppBar.dart';
 import '../components/BottomNavigationBar.dart';
 import '../components/PersianHorizontalDatePicker.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
-import '../components/Sidebar/SideBarController.dart';
 import 'HabitBottomSheetContent.dart';
 import 'habitItem.dart';
 import 'habit_controller.dart';
+import 'habit_error.dart';
+
 
 class HabitPage extends StatelessWidget {
   final HabitViewModel habitViewModel = Get.put(HabitViewModel());
@@ -35,10 +36,9 @@ class HabitPage extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(userScore: habitViewModel.sideBarController.userScore),
       drawer: SideBar(),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0.r),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.69,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0.r),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -62,7 +62,7 @@ class HabitPage extends StatelessWidget {
                         updateDates(gregorianDate.toDateTime());
 
                         String formattedDate = "${gregorianDate.year.toString().padLeft(4, '0')}-${gregorianDate.month.toString().padLeft(2, '0')}-${gregorianDate.day.toString().padLeft(2, '0')}";
-                        habitViewModel.loadUserHabits(formattedDate);
+                        habitViewModel.loadUserHabits(formattedDate,true);
                       }
                     },
                   ),
@@ -73,15 +73,20 @@ class HabitPage extends StatelessWidget {
                   initialSelectedDate: initialSelectedDate.value,
                   onDateSelected: (date) {
                     String? formattedDate = date?.toIso8601String().split('T')[0];
-                    habitViewModel.loadUserHabits(formattedDate!);
+                    habitViewModel.loadUserHabits(formattedDate!,true);
                   },
                   context: context,
                 )),
                 SizedBox(height: 12.0.r),
-                Expanded(
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.55,
                   child: Obx(() {
                     if (habitViewModel.isLoading.value) {
                       return const Center(child: CircularProgressIndicator());
+                    }
+                    else if (habitViewModel.fetchError.value) {
+                      return  FractionallySizedBox(widthFactor: 1.0.r, // اندازه عرض ویجت Error را به 80% عرض کانتینر تنظیم می‌کند
+                          heightFactor: 0.9.r,child: const HError());
                     }
                      else if (habitViewModel.habits.isEmpty && habitViewModel.isLoading.value==false) {
                       return Center(child: Text('هیچ عادتی برای این روز وجود ندارد.',
@@ -89,7 +94,6 @@ class HabitPage extends StatelessWidget {
                     }
                     return ListView.builder(
                       itemCount: habitViewModel.habits.length,
-                     // reverse: true,
                       itemBuilder: (context, index) {
                         Habit habit = habitViewModel.habits[index];
                         return GestureDetector(

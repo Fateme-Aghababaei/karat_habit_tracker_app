@@ -8,7 +8,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   final RxInt selectedIndex ;
   final List<String> routeNames = [
     AppRouteName.profileScreen,
-    AppRouteName.settingScreen,
+    AppRouteName.challengeScreen,
     AppRouteName.trackScreen,
     AppRouteName.habitScreen,
   ];

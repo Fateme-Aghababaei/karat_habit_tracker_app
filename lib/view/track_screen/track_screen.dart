@@ -43,53 +43,55 @@ class TrackPage extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(userScore: sideBarController.userScore),
       drawer: SideBar(),
-      body: Padding(
-        padding: EdgeInsets.all(16.0.r),
-        child: Container(
-          height: MediaQuery.of(context).size.height * 0.64,
-          child: Center(
-            child: Obx(() {
-              if (trackViewModel.isLoading.value) {
-                return CircularProgressIndicator();
-              }
-                if (!trackViewModel.isLoading.value && trackViewModel.tracksMap.isEmpty) {
-                return Text(
-                  'هنوز رکوردی را ثبت نکرده‌اید',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                );
-              }
-                return ListView.builder(
-                  itemCount: trackViewModel.tracksMap.length,
-                  itemBuilder: (context, index) {
-                    String date = trackViewModel.tracksMap.keys.elementAt(index);
-                    List<Track> tracks = trackViewModel.tracksMap[date]!;
-                    if (tracks.isEmpty) return const SizedBox.shrink();
-
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          trackViewModel.convertToJalali(date), // تاریخ روز
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            fontSize: 16.sp,
-                            fontFamily: "IRANYekan_number",
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(16.0.r),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.65,
+            child: Center(
+              child: Obx(() {
+                if (trackViewModel.isLoading.value) {
+                  return CircularProgressIndicator();
+                }
+                  if (!trackViewModel.isLoading.value && trackViewModel.tracksMap.isEmpty) {
+                  return Text(
+                    'هنوز رکوردی را ثبت نکرده‌اید',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  );
+                }
+                  return ListView.builder(
+                    itemCount: trackViewModel.tracksMap.length,
+                    itemBuilder: (context, index) {
+                      String date = trackViewModel.tracksMap.keys.elementAt(index);
+                      List<Track> tracks = trackViewModel.tracksMap[date]!;
+                      if (tracks.isEmpty) return const SizedBox.shrink();
+        
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            trackViewModel.convertToJalali(date), // تاریخ روز
+                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              fontSize: 16.sp,
+                              fontFamily: "IRANYekan_number",
+                            ),
                           ),
-                        ),
-                        ...tracks.map((track) {
-                          return GestureDetector(
-                              key: ValueKey(track.id),
-                            onTap: () {
-                              _showBottomSheet(context, track: track, withTimer: false); // باز کردن BottomSheet با حالت ویرایش
-                            },
-                            child: buildTrackItem(track, context),
-                          );
-                        }),
-                        SizedBox(height: 12.0.r,)
-                      ],
-                    );
-                  },
-                );
-              }
+                          ...tracks.map((track) {
+                            return GestureDetector(
+                                key: ValueKey(track.id),
+                              onTap: () {
+                                _showBottomSheet(context, track: track, withTimer: false); // باز کردن BottomSheet با حالت ویرایش
+                              },
+                              child: buildTrackItem(track, context),
+                            );
+                          }),
+                          SizedBox(height: 12.0.r,)
+                        ],
+                      );
+                    },
+                  );
+                }
+              ),
             ),
           ),
         ),

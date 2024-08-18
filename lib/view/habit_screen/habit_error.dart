@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class Error extends StatelessWidget {
+class HError extends StatelessWidget {
   final String? errorMessage;
   final String? errorDescription;
 
 
-  const Error({
+  const HError({
     super.key,
     this.errorMessage = 'متأسفیم، مشکلی رخ داده است!',
     this.errorDescription = 'ظاهراً در ارتباط شما با سرور مشکلی وجود دارد. لطفاً اتصال به اینترنت خود را بررسی کرده و دوباره تلاش کنید.',
@@ -26,11 +26,10 @@ class Error extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-             SizedBox(height: 40.0.r),
               Image.asset(
                 'assets/images/error.png', // مسیر ثابت تصویر
                 width: screenWidth * 0.9,
-                height: screenHeight * 0.36,
+                height: screenHeight * 0.34,
               ),
               SizedBox(height: 10.0.r),
 

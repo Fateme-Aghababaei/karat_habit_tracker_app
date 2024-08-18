@@ -4,10 +4,13 @@ import 'package:get_storage/get_storage.dart';
 
 import '../../../model/entity/user_model.dart';
 import '../../../model/repositories/user_repository.dart';
+import '../../../viewmodel/challenge_viewmodel.dart';
 
 class SideBarController extends GetxController {
   final UserRepository _userRepository = UserRepository();
   var selectedIndex = 0.obs;
+  var shouldRefreshChallengePage = false.obs;
+
   // اطلاعات کاربر
   RxString firstName = ''.obs;
   RxString userName = ''.obs;
@@ -44,6 +47,11 @@ class SideBarController extends GetxController {
   }
   void updateScore(int index) {
     userScore.value =userScore.value+ index;
+  }
+  void refreshChallengePage() {
+    final ChallengeViewModel challengeViewModel = Get.put(ChallengeViewModel());
+    challengeViewModel.onInit();
+
   }
   // فراخوانی اولیه در زمان ساخت کنترلر
   @override

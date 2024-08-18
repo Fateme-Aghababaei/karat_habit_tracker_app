@@ -72,12 +72,12 @@ class Challenge {
 class CreatedBy {
   final String firstName;
   final String username;
-  final String photo;
+  String? photo;
 
   CreatedBy({
     required this.firstName,
     required this.username,
-    required this.photo,
+    this.photo,
   });
 
   factory CreatedBy.fromRawJson(String str) => CreatedBy.fromJson(json.decode(str));

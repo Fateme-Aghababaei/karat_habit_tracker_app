@@ -122,6 +122,7 @@ class HabitBottomSheetContent extends StatelessWidget {
                     ),
                     SizedBox(height: 4.0.r,),
                     TextField(
+                      textInputAction: TextInputAction.next,
                       controller: controller.titleController.value,
                       decoration: InputDecoration(
                         filled: true,
@@ -170,6 +171,7 @@ class HabitBottomSheetContent extends StatelessWidget {
                     ),
                     SizedBox(height: 4.0.r,),
                     TextField(
+                      textInputAction: TextInputAction.done,
                       controller: controller.descriptionController.value,
                       decoration: InputDecoration(
                         filled: true,
