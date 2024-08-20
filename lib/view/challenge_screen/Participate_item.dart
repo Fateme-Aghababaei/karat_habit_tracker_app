@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:karat_habit_tracker_app/model/entity/challenge_model.dart';
 
 import '../../model/constant.dart';
+import '../../viewmodel/challenge_viewmodel.dart';
+import 'SpecificChallengePage.dart';
 
 class ParticipatedChallengeItemWidget extends StatelessWidget {
   final Challenge challenge;
-
-  const ParticipatedChallengeItemWidget({super.key, required this.challenge});
+  final ChallengeViewModel challengeViewModel;
+  const ParticipatedChallengeItemWidget({super.key, required this.challenge, required this.challengeViewModel});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +20,12 @@ class ParticipatedChallengeItemWidget extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           // نمایش جزئیات چالش
-          // Get.toNamed(AppRoutes.challengeDetailPage, arguments: challenge);
+          challengeViewModel.selectedChallenge.value=challenge;
+          Get.to(() => SpecificChallengePage(
+            challengeViewModel: challengeViewModel,
+            challenge:challengeViewModel.selectedChallenge ,
+            isFromMyChallenges: true,  // یا false بسته به نیاز
+          ));
         },
         child: Container(
           decoration: BoxDecoration(
@@ -34,10 +43,19 @@ class ParticipatedChallengeItemWidget extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    CircleAvatar(
-                      backgroundImage: challenge.photo != null
-                          ? NetworkImage('$baseUrl${challenge.photo}')
-                          : const AssetImage('assets/images/challenge.jpg') as ImageProvider,
+                    Container(
+                      width: 40.0.r, // عرض عکس (می‌توانید اندازه را تنظیم کنید)
+                      height: 40.0.r,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0.r), // گوشه‌های کمی گرد. اگر گوشه‌ها کاملاً صاف باید مقدار 0 بگذارید
+                        image: DecorationImage(
+                          image: challenge.photo != null
+                              ? NetworkImage('$baseUrl${challenge.photo}')
+                              : const AssetImage('assets/images/challenge.png') as ImageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                        color:challenge.photo != null?Colors.grey.shade400: Theme.of(context).scaffoldBackgroundColor,
+                      ),
                     ),
                     SizedBox(width: 10.0.r),
                     Column(

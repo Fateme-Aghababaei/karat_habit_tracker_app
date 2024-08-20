@@ -9,7 +9,7 @@ import '../components/Sidebar/Sidebar.dart';
 import 'Participate_item.dart';
 import 'addChallenge.dart';
 import 'allChallenges.dart';
-import 'challenge_controller.dart';
+import 'add_challenge_controller.dart';
 import 'challenge_item.dart';
 
 class ChallengePage extends StatelessWidget {
@@ -21,9 +21,9 @@ class ChallengePage extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(userScore: challengeViewModel.sideBarController.userScore),
       drawer: SideBar(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0.r),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.0.r),
+        child: Center(
           child: Obx(() {
             if (challengeViewModel.isLoading.value) {
               return const Center(child: CircularProgressIndicator());
@@ -31,6 +31,7 @@ class ChallengePage extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                SizedBox(height: 10.0.r,),
                   // بخش چالش‌های جدید
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -41,7 +42,7 @@ class ChallengePage extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Get.to( AllChallengesPage(challenges:challengeViewModel.challenges));
+                          Get.to( AllChallengesPage(challengeViewModel: challengeViewModel,));
                         },
                         child: Text(
                           'مشاهده همه',
@@ -61,7 +62,7 @@ class ChallengePage extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final challenge = challengeViewModel.challenges[
                         challengeViewModel.challenges.length - 1 - index];
-                        return ChallengeItemWidget(challenge: challenge);
+                        return ChallengeItemWidget(challenge: challenge,challengeViewModel: challengeViewModel,);
                       },
                     ),
                   ),
@@ -73,14 +74,14 @@ class ChallengePage extends StatelessWidget {
                   ),
                   SizedBox(height: 8.0.r),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.3, // ارتفاع معین برای بخش "چالش‌های من"
+                    height: MediaQuery.of(context).size.height * 0.32, // ارتفاع معین برای بخش "چالش‌های من"
                     child: challengeViewModel.participatedChallenges.isEmpty
                         ? const Center(child: Text('شما در هیچ چالشی شرکت نکرده‌اید.'))
                         : ListView.builder(
                       itemCount: challengeViewModel.participatedChallenges.length,
                       itemBuilder: (context, index) {
                         final challenge = challengeViewModel.participatedChallenges[index];
-                        return ParticipatedChallengeItemWidget(challenge: challenge);
+                        return ParticipatedChallengeItemWidget(challenge: challenge,challengeViewModel: challengeViewModel,);
                       },
                     ),
                   ),

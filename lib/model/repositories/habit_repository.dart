@@ -150,7 +150,8 @@ class HabitRepository{
   Future<void> deleteHabit(int id) async {
     try {
       final response = await dio.delete('habit/delete_habit/', queryParameters: {'id': id});
-
+print(response.statusMessage);
+print(response.statusCode);
       if (response.statusCode != 200) {
         throw Exception('Failed to delete habit');
       }

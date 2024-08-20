@@ -1,5 +1,13 @@
+
+import 'dart:io';
+
+import 'package:path/path.dart';
 import '../constant.dart';
 import '../entity/challenge_model.dart';
+
+import 'package:dio/dio.dart';
+
+import 'package:path/path.dart' as path;
 
 class ChallengeRepository {
 
@@ -12,16 +20,23 @@ class ChallengeRepository {
     String? photo,
   }) async {
     try {
+      FormData formData;
+
+      formData = FormData.fromMap({
+        'name': name,
+        'description': description,
+        'start_date': startDate,
+        'end_date': endDate,
+          'photo': photo!=null? await MultipartFile.fromFile(photo, filename: basename(photo)):null,
+      });
+
       final response = await dio.post(
         'challenge/add_challenge/',
-        data: {
-          'name': name,
-          'description': description,
-          'start_date': startDate,
-          'end_date': endDate,
-          'photo': photo,
-        },
+        data: formData,
       );
+
+      print(response.statusCode);
+      print(response.statusMessage);
 
       if (response.statusCode == 200) {
         return Challenge.fromJson(response.data);

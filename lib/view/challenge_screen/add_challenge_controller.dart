@@ -187,6 +187,22 @@ class AddChallengeController extends GetxController {
                   Get.back();
                 },
               ),
+              ListTile(
+                leading: const Icon(Icons.delete,size: 20),
+                title:  Text('حذف تصویر فعلی',style:selectedImagePath.value.isNotEmpty
+                    ? Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 14.sp)
+                    :Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 14.sp,color: Theme.of(context).disabledColor),),
+                onTap: () {
+                  if(selectedImagePath.value.isNotEmpty)
+                  {
+                    selectedImagePath.value='';
+                    Get.back();
+                  }
+                  else{
+                    null;
+                  }
+                },
+              ),
             ],
           ),
         );
@@ -195,6 +211,7 @@ class AddChallengeController extends GetxController {
   }
 
   void saveChallenge() {
+
     challengeViewModel.addChallenge(
       name: nameController.text,
       description: descriptionController.text,

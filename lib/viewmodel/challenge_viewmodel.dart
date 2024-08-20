@@ -184,6 +184,12 @@ class ChallengeViewModel extends GetxController {
         // افزودن چالش جدید به لیست شرکت کرده‌ها
         participatedChallenges.insert(0, participatedChallenge);
         participatedChallenges.refresh();
+        int index = challenges.indexWhere((challenge) => challenge.id == participatedChallenge.id);
+        if (index != -1) {
+          // جایگزینی چالش
+          challenges[index] = participatedChallenge;
+        }
+        challenges.refresh();
 
         // اطمینان از اینکه فقط 4 چالش در حافظه ذخیره می‌شود
         if (participatedChallenges.length > 4) {
@@ -220,6 +226,18 @@ class ChallengeViewModel extends GetxController {
     }
   }
 
+  Future<void> deleteChallenge(int id) async {
+    try {
+      final response = await _challengeRepository.deleteChallenge(id);
+
+      participatedChallenges.removeWhere((challenge) => challenge.id == id);
+      participatedChallenges.refresh();
+
+      _saveParticipatedChallengesToStorage(participatedChallenges);
+    } catch (e) {
+      print("Failed to delete challenge: $e");
+    }
+  }
 
 
 

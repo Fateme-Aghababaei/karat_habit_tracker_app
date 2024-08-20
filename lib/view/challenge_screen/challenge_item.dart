@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:karat_habit_tracker_app/model/entity/challenge_model.dart';
 
 import '../../model/constant.dart';
+import '../../viewmodel/challenge_viewmodel.dart';
+import 'SpecificChallengePage.dart';
 
 class ChallengeItemWidget extends StatelessWidget {
   final Challenge challenge;
+  final ChallengeViewModel challengeViewModel;
 
-  const ChallengeItemWidget({Key? key, required this.challenge}) : super(key: key);
+  const ChallengeItemWidget({super.key, required this.challenge, required this.challengeViewModel});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +21,12 @@ class ChallengeItemWidget extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           // نمایش جزئیات چالش
-          // Get.toNamed(AppRoutes.challengeDetailPage, arguments: challenge);
+          challengeViewModel.selectedChallenge.value=challenge;
+          Get.to(() => SpecificChallengePage(
+            challengeViewModel: challengeViewModel,
+            challenge:challengeViewModel.selectedChallenge ,
+            isFromMyChallenges: false,  // یا false بسته به نیاز
+          ));
         },
         child: Container(
           width: MediaQuery.of(context).size.width * 0.62,
@@ -25,8 +35,8 @@ class ChallengeItemWidget extends StatelessWidget {
             image: DecorationImage(
               image: challenge.photo != null
                   ? NetworkImage('$baseUrl${challenge.photo}')
-                  : const AssetImage('assets/images/profile.png') as ImageProvider,
-              fit: BoxFit.cover,
+                  : const AssetImage('assets/images/challenge.png') as ImageProvider,
+              fit: BoxFit.fill
             ),
           ),
           child: Stack(

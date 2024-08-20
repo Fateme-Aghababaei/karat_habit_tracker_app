@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:karat_habit_tracker_app/utils/routes/AppRoutes.dart';
 import '../../model/entity/challenge_model.dart';
+import '../../viewmodel/challenge_viewmodel.dart';
 import 'challenge_item.dart';
 
 class AllChallengesPage extends StatelessWidget {
-  final List<Challenge> challenges;
-
-  AllChallengesPage({required this.challenges});
+  final ChallengeViewModel challengeViewModel;
+  const AllChallengesPage({super.key, required this.challengeViewModel});
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +37,10 @@ class AllChallengesPage extends StatelessWidget {
                 mainAxisSpacing: 12.0.r, // فاصله عمودی بین آیتم‌ها
                 childAspectRatio: 1.5, // نسبت ارتفاع به عرض آیتم‌ها
               ),
-              itemCount: challenges.length,
+              itemCount: challengeViewModel.challenges.length,
               itemBuilder: (context, index) {
-                final challenge = challenges[index];
-                return ChallengeItemWidget(challenge: challenge);
+                final challenge = challengeViewModel.challenges[index];
+                return ChallengeItemWidget(challenge: challenge,challengeViewModel: challengeViewModel,);
               },
             ),
           ),

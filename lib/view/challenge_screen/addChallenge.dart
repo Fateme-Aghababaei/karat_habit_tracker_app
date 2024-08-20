@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'challenge_controller.dart';
+import 'add_challenge_controller.dart';
 
 class AddChallengeBottomSheet extends StatelessWidget {
   final AddChallengeController controller;
@@ -12,13 +12,13 @@ class AddChallengeBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
+      child: SingleChildScrollView(
         child: Container(
-
+            
           padding: EdgeInsets.all(16.0.r),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -26,17 +26,25 @@ class AddChallengeBottomSheet extends StatelessWidget {
             children: [
               Obx(() {
                 return Container(
-                  width: MediaQuery.of(context).size.width * 0.88,
-                  height: MediaQuery.of(context).size.height * 0.23,
+                  width: MediaQuery.of(context).size.width * 0.83,
+                  height: MediaQuery.of(context).size.height * 0.20,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0.r), // گوشه‌های گرد، اگر گوشه‌ها مربعی باید 0.0 بگذارید
                     image: DecorationImage(
                       image: controller.selectedImagePath.value.isNotEmpty
                           ? FileImage(File(controller.selectedImagePath.value)) as ImageProvider
-                          : const AssetImage('assets/images/challenge.jpg'),
+                          : const AssetImage('assets/images/challenge.png'),
                       fit: BoxFit.cover,
                     ),
-                    color: Colors.transparent, // رنگ پس‌زمینه اگر تصویر موجود نباشد
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
                   ),
                 );
               }),
@@ -108,6 +116,7 @@ class AddChallengeBottomSheet extends StatelessWidget {
                   ),
                   SizedBox(height: 4.0.r,),
                   TextField(
+                    maxLines: 2,
                     textInputAction: TextInputAction.done,
                     controller: controller.descriptionController,
                     decoration: InputDecoration(
@@ -199,8 +208,8 @@ class AddChallengeBottomSheet extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 10.0.r),
-
-// GestureDetector برای انتخاب تاریخ پایان (شمسی و میلادی)
+            
+            // GestureDetector برای انتخاب تاریخ پایان (شمسی و میلادی)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -256,7 +265,7 @@ class AddChallengeBottomSheet extends StatelessWidget {
                   ),
                 ],
               ),
-
+            
               SizedBox(height: 16.0.r),
               Obx(() => ElevatedButton(
                 onPressed: controller.isSaveButtonEnabled.value
