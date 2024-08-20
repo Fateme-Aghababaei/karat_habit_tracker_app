@@ -6,6 +6,7 @@ import 'package:karat_habit_tracker_app/viewmodel/challenge_viewmodel.dart';
 import '../components/AppBar.dart';
 import '../components/BottomNavigationBar.dart';
 import '../components/Sidebar/Sidebar.dart';
+import '../error_screen.dart';
 import 'Participate_item.dart';
 import 'addChallenge.dart';
 import 'allChallenges.dart';
@@ -23,72 +24,78 @@ class ChallengePage extends StatelessWidget {
       drawer: SideBar(),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.0.r),
-        child: Center(
-          child: Obx(() {
-            if (challengeViewModel.isLoading.value) {
-              return const Center(child: CircularProgressIndicator());
-            } else {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                SizedBox(height: 10.0.r,),
-                  // بخش چالش‌های جدید
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'چالش‌های جدید',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Get.to( AllChallengesPage(challengeViewModel: challengeViewModel,));
-                        },
-                        child: Text(
-                          'مشاهده همه',
-                          style: TextStyle(color: Theme.of(context).primaryColor),
+        child: SingleChildScrollView(
+          child: Center(
+            child: Obx(() {
+              if (challengeViewModel.isLoading.value) {
+                return const Center(child: CircularProgressIndicator());
+              }
+               if (challengeViewModel.fetchError.value) {
+                return  FractionallySizedBox(widthFactor: 1.0.r, // اندازه عرض ویجت Error را به 80% عرض کانتینر تنظیم می‌کند
+                    heightFactor: 0.9.r,child: const Error());
+              }else {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                  SizedBox(height: 10.0.r,),
+                    // بخش چالش‌های جدید
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'چالش‌های جدید',
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to( AllChallengesPage(challengeViewModel: challengeViewModel,));
+                          },
+                          child: Text(
+                            'مشاهده همه',
+                            style: TextStyle(color: Theme.of(context).primaryColor),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8.0.r),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.23,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: challengeViewModel.challenges.length > 5
+                            ? 5
+                            : challengeViewModel.challenges.length,
+                        itemBuilder: (context, index) {
+                          final challenge = challengeViewModel.challenges[
+                          challengeViewModel.challenges.length - 1 - index];
+                          return ChallengeItemWidget(challenge: challenge,challengeViewModel: challengeViewModel,);
+                        },
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 8.0.r),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.23,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: challengeViewModel.challenges.length > 5
-                          ? 5
-                          : challengeViewModel.challenges.length,
-                      itemBuilder: (context, index) {
-                        final challenge = challengeViewModel.challenges[
-                        challengeViewModel.challenges.length - 1 - index];
-                        return ChallengeItemWidget(challenge: challenge,challengeViewModel: challengeViewModel,);
-                      },
                     ),
-                  ),
-                  SizedBox(height: 24.0.r),
-                  // بخش چالش‌های من
-                  Text(
-                    'چالش‌های من',
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                  SizedBox(height: 8.0.r),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.32, // ارتفاع معین برای بخش "چالش‌های من"
-                    child: challengeViewModel.participatedChallenges.isEmpty
-                        ? const Center(child: Text('شما در هیچ چالشی شرکت نکرده‌اید.'))
-                        : ListView.builder(
-                      itemCount: challengeViewModel.participatedChallenges.length,
-                      itemBuilder: (context, index) {
-                        final challenge = challengeViewModel.participatedChallenges[index];
-                        return ParticipatedChallengeItemWidget(challenge: challenge,challengeViewModel: challengeViewModel,);
-                      },
+                    SizedBox(height: 24.0.r),
+                    // بخش چالش‌های من
+                    Text(
+                      'چالش‌های من',
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
-                  ),
-                ],
-              );
-            }
-          }),
+                    SizedBox(height: 8.0.r),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.32, // ارتفاع معین برای بخش "چالش‌های من"
+                      child: challengeViewModel.participatedChallenges.isEmpty
+                          ? const Center(child: Text('شما در هیچ چالشی شرکت نکرده‌اید.'))
+                          : ListView.builder(
+                        itemCount: challengeViewModel.participatedChallenges.length,
+                        itemBuilder: (context, index) {
+                          final challenge = challengeViewModel.participatedChallenges[index];
+                          return ParticipatedChallengeItemWidget(challenge: challenge,challengeViewModel: challengeViewModel,);
+                        },
+                      ),
+                    ),
+                  ],
+                );
+              }
+            }),
+          ),
         ),
       ),
       floatingActionButton: Align(

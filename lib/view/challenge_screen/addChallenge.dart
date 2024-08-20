@@ -18,8 +18,7 @@ class AddChallengeBottomSheet extends StatelessWidget {
       ),
       child: SingleChildScrollView(
         child: Container(
-            
-          padding: EdgeInsets.all(16.0.r),
+          padding: EdgeInsets.only(top: 30.0.r,bottom: 16.0.r,left: 16.0.r,right: 16.0.r),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -29,7 +28,7 @@ class AddChallengeBottomSheet extends StatelessWidget {
                   width: MediaQuery.of(context).size.width * 0.83,
                   height: MediaQuery.of(context).size.height * 0.20,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0.r), // گوشه‌های گرد، اگر گوشه‌ها مربعی باید 0.0 بگذارید
+                    borderRadius: BorderRadius.circular(8.0.r),
                     image: DecorationImage(
                       image: controller.selectedImagePath.value.isNotEmpty
                           ? FileImage(File(controller.selectedImagePath.value)) as ImageProvider
@@ -208,8 +207,8 @@ class AddChallengeBottomSheet extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 10.0.r),
-            
-            // GestureDetector برای انتخاب تاریخ پایان (شمسی و میلادی)
+
+              // GestureDetector برای انتخاب تاریخ پایان (شمسی و میلادی)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -265,15 +264,15 @@ class AddChallengeBottomSheet extends StatelessWidget {
                   ),
                 ],
               ),
-            
+
               SizedBox(height: 16.0.r),
               Obx(() => ElevatedButton(
-                onPressed: controller.isSaveButtonEnabled.value
-                    ? () => controller.saveChallenge()
-                    : null,
+                  onPressed: controller.isSaveButtonEnabled.value
+                      ? () => controller.saveChallenge()
+                      : null,
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.maxFinite, 40.0.r)),
-                child: const Text('ذخیره')
+                      minimumSize: Size(double.maxFinite, 40.0.r)),
+                  child: const Text('ذخیره')
               )),
             ],
           ),

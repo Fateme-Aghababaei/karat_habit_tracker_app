@@ -6,9 +6,18 @@ String calculateTimeDifference(String startDatetime, String endDatetime) {
   DateTime start = DateTime.parse(startDatetime);
   DateTime end = DateTime.parse(endDatetime);
   Duration difference = end.difference(start);
-  String formattedDifference = difference.toString().split('.').first.padLeft(8, "0");
+
+  // استخراج ساعت، دقیقه و ثانیه از Duration
+  String hours = difference.inHours.toString().padLeft(2, '0');
+  String minutes = (difference.inMinutes % 60).toString().padLeft(2, '0');
+  String seconds = (difference.inSeconds % 60).toString().padLeft(2, '0');
+
+  // ترکیب ساعت، دقیقه و ثانیه به فرمت hh:mm:ss
+  String formattedDifference = "$hours:$minutes:$seconds";
+
   return formattedDifference;
 }
+
 
 Widget buildTrackItem(Track track, BuildContext context,) {
   return Container(

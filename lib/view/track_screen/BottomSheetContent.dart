@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:karat_habit_tracker_app/viewmodel/track_viewmodel.dart';
-import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import '../../model/entity/track_model.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
+
+import '../../viewmodel/track_viewmodel.dart';
 import '../habit_screen/tagDialog.dart';
 
 class BottomSheetContent extends StatefulWidget {
@@ -13,8 +14,8 @@ class BottomSheetContent extends StatefulWidget {
   final int elapsedTime;
   final TrackViewModel trackViewModel;
   final Track? track;
-  final Rx<TimeOfDay> startTimeRx;
-  final Rx<TimeOfDay> endTimeRx;
+  final Rx<DateTime> startTimeRx;
+  final Rx<DateTime> endTimeRx;
 
   BottomSheetContent({
     super.key,
@@ -23,8 +24,8 @@ class BottomSheetContent extends StatefulWidget {
     this.track,
     required this.elapsedTime,
     required this.trackViewModel,
-  })  : startTimeRx = TimeOfDay.fromDateTime(startTime ?? DateTime.now()).obs,
-        endTimeRx = TimeOfDay.fromDateTime(endTime ?? DateTime.now()).obs;
+  })  : startTimeRx = (startTime ?? DateTime.now()).obs,
+        endTimeRx = (endTime ?? DateTime.now()).obs;
 
   @override
   State<BottomSheetContent> createState() => _BottomSheetContentState();
@@ -33,7 +34,6 @@ class BottomSheetContent extends StatefulWidget {
 class _BottomSheetContentState extends State<BottomSheetContent> {
   late TextEditingController nameController;
   Rx<int?> selectedTagId = Rx<int?>(null);
-
 
   @override
   void initState() {
@@ -44,36 +44,41 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
     selectedTagId.value = widget.track?.tag?.id;
 
     if (widget.track != null) {
-      // تبدیل زمان‌های دریافت شده به فرمت TimeOfDay
-      widget.startTimeRx.value = _parseTime(widget.track!.startDatetime);
-      widget.endTimeRx.value = _parseTime(widget.track!.endDatetime);
+      // تبدیل زمان‌های دریافت شده به فرمت DateTime
+      widget.startTimeRx.value = DateTime.parse(widget.track!.startDatetime);
+      widget.endTimeRx.value = DateTime.parse(widget.track!.endDatetime);
     }
-  }
-
-  TimeOfDay _parseTime(String dateTimeString) {
-    String timePart = dateTimeString.split('T')[1];
-    List<String> timeParts = timePart.split(':');
-    int hour = int.parse(timeParts[0]);
-    int minute = int.parse(timeParts[1]);
-
-    return TimeOfDay(hour: hour, minute: minute);
   }
 
   Future<void> _selectTime(BuildContext context, bool isStartTime) async {
     if (widget.track == null) {
-      final picked = await showPersianTimePicker(
+      final pickedTime = await showTimePicker(
         context: context,
-        initialTime: isStartTime ? widget.startTimeRx.value : widget.endTimeRx.value,
+        initialTime: TimeOfDay.fromDateTime(isStartTime ? widget.startTimeRx.value : widget.endTimeRx.value),
       );
 
-      if (picked != null) {
+      if (pickedTime != null) {
+        final DateTime currentDate = widget.startTimeRx.value;
+        final DateTime newDateTime = DateTime(
+          currentDate.year,
+          currentDate.month,
+          currentDate.day,
+          pickedTime.hour,
+          pickedTime.minute,
+          currentDate.second,
+        );
+
         if (isStartTime) {
-          widget.startTimeRx.value = picked;
+          widget.startTimeRx.value = newDateTime;
         } else {
-          widget.endTimeRx.value = picked;
+          widget.endTimeRx.value = newDateTime;
         }
       }
     }
+  }
+
+  String _formatDateTime(DateTime dateTime) {
+    return "${dateTime.toIso8601String().split('.')[0]}";
   }
 
   @override
@@ -95,22 +100,29 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                       ),
                       heroTag: "add_top",
                       onPressed: () async {
-                        String? name = nameController.text.isEmpty ? "بدون عنوان" : nameController.text;
+                        String name = nameController.text.isEmpty ? "بدون عنوان" : nameController.text;
                         if (widget.track != null) {
                           // حالت ویرایش
-                          await widget.trackViewModel.editTrack(widget.track!.id, name, tagId: selectedTagId.value);
+                          await widget.trackViewModel.editTrack(
+                            widget.track!.id,
+                            name,
+                            tagId: selectedTagId.value,
+                          );
                         } else {
                           // حالت افزودن
-                          String startDatetime = "${DateTime.now().toString().split(' ')[0]}T${widget.startTimeRx.value.hour.toString().padLeft(2, '0')}:${widget.startTimeRx.value.minute.toString().padLeft(2, '0')}:00";
-                          String endDatetime = "${DateTime.now().toString().split(' ')[0]}T${widget.endTimeRx.value.hour.toString().padLeft(2, '0')}:${widget.endTimeRx.value.minute.toString().padLeft(2, '0')}:00";
-                          await widget.trackViewModel.addTrack(name, startDatetime, endDatetime, tagId: selectedTagId.value);
+                          await widget.trackViewModel.addTrack(
+                            name,
+                            _formatDateTime(widget.startTimeRx.value),
+                            _formatDateTime(widget.endTimeRx.value),
+                            tagId: selectedTagId.value,
+                          );
                         }
 
                         widget.trackViewModel.isTextInputVisible.value = false;
                         widget.trackViewModel.isAddPressed.value = true;
                         Get.back();
                       },
-                      child: Icon(widget.track != null ? Icons.check : Icons.add), // تغییر آیکون به "تیک" در حالت ویرایش
+                      child: Icon(widget.track != null ? Icons.check : Icons.add),
                     ),
                     SizedBox(width: 8.0.r),
                     FloatingActionButton(
@@ -163,7 +175,7 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                       SizedBox(height: 6.0.r),
                       TextField(
                         textInputAction: TextInputAction.done,
-                        controller: nameController,  // اضافه کردن کنترلر برای دریافت مقدار
+                        controller: nameController,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Theme.of(context).scaffoldBackgroundColor,
@@ -203,13 +215,13 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                       SizedBox(height: 4.0.r),
                       Obx(() {
                         return Wrap(
-                          spacing: 4.0.r, // فاصله افقی بین تگ‌ها
-                          runSpacing: 4.0.r, // فاصله عمودی بین خطوط تگ‌ها
+                          spacing: 4.0.r,
+                          runSpacing: 4.0.r,
                           children: [
                             for (var tag in widget.trackViewModel.tagsList)
                               GestureDetector(
                                 onTap: () {
-                                 selectedTagId.value = selectedTagId.value == tag.id ? null : tag.id;
+                                  selectedTagId.value = selectedTagId.value == tag.id ? null : tag.id;
                                 },
                                 child: Obx(() => Chip(
                                   label: Text(
@@ -227,8 +239,8 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                                       : Theme.of(context).scaffoldBackgroundColor,
                                   side: BorderSide(
                                     color: selectedTagId.value == tag.id
-                                        ? Color(0XFFD2E3D8) // رنگ نارنجی یا رنگ اصلی تم
-                                        : Colors.grey.shade300, // رنگ پیش‌فرض برای تگ‌های دیگر
+                                        ? Color(0XFFD2E3D8)
+                                        : Colors.grey.shade300,
                                   ),
                                 )),
                               ),
@@ -247,8 +259,8 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                                   side: BorderSide(color: Colors.grey.shade300),
                                 ),
                               ),
-                              onTap: (){
-                               showCreateTagDialog(context, null, widget.trackViewModel);
+                              onTap: () {
+                                showCreateTagDialog(context, null, widget.trackViewModel);
                               },
                             ),
                           ],
@@ -268,7 +280,7 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                               SizedBox(height: 4.0.r),
                               GestureDetector(
                                 onTap: widget.track != null
-                                    ? null // اگر در حالت ویرایش است، قابلیت ویرایش غیرفعال شود
+                                    ? null
                                     : () => _selectTime(context, true),
                                 child: Obx(() => Container(
                                   padding: EdgeInsets.symmetric(horizontal: 16.0.r, vertical: 8.0.r),
@@ -277,7 +289,7 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                                     borderRadius: BorderRadius.circular(8.0.r),
                                   ),
                                   child: Text(
-                                    widget.startTimeRx.value.format(context),
+                                    TimeOfDay.fromDateTime(widget.startTimeRx.value).format(context),
                                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                       fontFamily: "IRANYekan_number",
                                       fontSize: 16.sp,
@@ -299,7 +311,7 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                               SizedBox(height: 4.0.r),
                               GestureDetector(
                                 onTap: widget.track != null
-                                    ? null // اگر در حالت ویرایش است، قابلیت ویرایش غیرفعال شود
+                                    ? null
                                     : () => _selectTime(context, false),
                                 child: Obx(() => Container(
                                   padding: EdgeInsets.symmetric(horizontal: 16.0.r, vertical: 8.0.r),
@@ -308,7 +320,7 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                                     borderRadius: BorderRadius.circular(8.0.r),
                                   ),
                                   child: Text(
-                                    widget.endTimeRx.value.format(context),
+                                    TimeOfDay.fromDateTime(widget.endTimeRx.value).format(context),
                                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                       fontFamily: "IRANYekan_number",
                                       fontSize: 16.sp,
@@ -332,4 +344,3 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
     );
   }
 }
-

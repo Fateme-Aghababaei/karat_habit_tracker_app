@@ -5,11 +5,13 @@ import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import '../../model/entity/challenge_model.dart';
 import 'package:intl/intl.dart';
 
-import '../../model/entity/habit_model.dart'; // برای مدیریت تاریخ
+import '../../model/entity/habit_model.dart';
+import '../components/Sidebar/SideBarController.dart'; // برای مدیریت تاریخ
 
 class SpecificChallengeController extends GetxController {
   final Rxn<Challenge> challenge;
   final bool isFromMyChallenges;
+  final SideBarController sideBarController = Get.find();
 
   SpecificChallengeController({required this.challenge, required this.isFromMyChallenges});
 
@@ -18,6 +20,7 @@ class SpecificChallengeController extends GetxController {
   var isOwner = false.obs;
   var canEdit = false.obs;
   var canJoin = false.obs;
+  var canJoinButDisabled = false.obs; // اضافه کردن متغیر برای غیرفعال کردن دکمه
   var canSave = false.obs;
 
   List<Habit> originalHabits = [];
@@ -56,14 +59,21 @@ class SpecificChallengeController extends GetxController {
 
     // بررسی اینکه آیا می‌تواند در چالش شرکت کند
     if (!hasJoined.value && now.isBefore(startDate)) {
-      canJoin.value = true;
+      if (sideBarController.userScore >= challenge.value!.price) {
+        canJoin.value = true;
+        canJoinButDisabled.value = false; // فعال کردن دکمه اگر امتیاز کافی باشد
+      } else {
+        canJoin.value = true;
+        canJoinButDisabled.value = true; // غیرفعال کردن دکمه اگر امتیاز کافی نباشد
+      }
     } else {
       canJoin.value = false;
+      canJoinButDisabled.value = false;
     }
   }
 
   void editHabit(int index, String newName) {
-   // challenge.habits[index].name = newName;
+    // challenge.habits[index].name = newName;
     canSave.value = true; // فعال‌سازی دکمه ذخیره تغییرات
   }
 
@@ -82,10 +92,6 @@ class SpecificChallengeController extends GetxController {
     hasJoined.value = true;
     _checkConditions(); // به‌روزرسانی شرایط پس از پیوستن به چالش
   }
-
-
-
-
 
   String convertToJalali(String date) {
     // تقسیم تاریخ برای بدست آوردن سال، ماه و روز

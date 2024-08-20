@@ -250,30 +250,46 @@ class SpecificChallengePage extends StatelessWidget {
 
                 Obx(() {
                   if (controller.canEdit.value) {
-                    return  ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              minimumSize: Size(double.maxFinite, 40.0.r),
-                  backgroundColor: Colors.redAccent),
-                          onPressed: () {
-                           challengeViewModel.deleteChallenge(challenge.value!.id);
-                           Get.back();
-                          },
-                          child: Text('حذف چالش'),
-                        );
-                  } else if (controller.canJoin.value) {
                     return ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                        minimumSize: Size(double.maxFinite , 40.0.r)),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(double.maxFinite, 40.0.r),
+                        backgroundColor: Colors.redAccent,
+                      ),
                       onPressed: () {
-                         challengeViewModel.participateInChallenge(challengeId: challenge.value!.id);
-                        controller.joinChallenge();
+                        challengeViewModel.deleteChallenge(challenge.value!.id);
+                        Get.back();
                       },
+                      child: Text('حذف چالش'),
+                    );
+                  } else if (!controller.hasJoined.value) {
+                    // نمایش دکمه شرکت در چالش فقط اگر کاربر قبلاً در چالش شرکت نکرده باشد
+                    return ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(double.maxFinite, 40.0.r),
+                      ),
+                      onPressed: controller.canJoin.value && !controller.canJoinButDisabled.value
+                          ? () async {
+                        try {
+                          await challengeViewModel.participateInChallenge(challengeId: challenge.value!.id);
+                          controller.joinChallenge();
+                        } catch (error) {
+                          Get.snackbar(
+                            'خطا',
+                            error.toString(),
+                            snackPosition: SnackPosition.TOP,
+                            backgroundColor: Colors.redAccent,
+                            colorText: Colors.white,
+                          );
+                        }
+                      }
+                          : null, // دکمه غیر فعال می‌شود اگر شرایط شرکت در چالش برقرار نباشد یا امتیاز کافی نباشد
                       child: Text('شرکت در چالش'),
                     );
                   } else {
-                    return SizedBox.shrink();
+                    return SizedBox.shrink(); // اگر کاربر قبلاً در چالش شرکت کرده باشد، دکمه نمایش داده نمی‌شود
                   }
                 }),
+
               ],
             ),
           ),

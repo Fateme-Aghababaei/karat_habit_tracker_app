@@ -149,12 +149,12 @@ class ChallengeRepository {
       if (response.statusCode == 200) {
         return Challenge.fromJson(response.data);
       } else if (response.statusCode == 404 || response.statusCode == 400 || response.statusCode == 409) {
-        throw Exception(response.data['error']);
+        throw response.data['error'];
       } else {
         return null;
       }
     } catch (e) {
-      throw Exception('Failed to participate in challenge: $e');
+      rethrow;
     }
   }
 

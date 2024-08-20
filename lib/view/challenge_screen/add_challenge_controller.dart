@@ -49,11 +49,51 @@ class AddChallengeController extends GetxController {
   }
 
   void updateSaveButtonState() {
-    isSaveButtonEnabled.value = nameController.text.isNotEmpty &&
+    // بررسی پر بودن فیلدها
+    bool areFieldsFilled = nameController.text.isNotEmpty &&
         descriptionController.text.isNotEmpty &&
-       selectedShamsiStartDate.value.isNotEmpty &&
+        selectedShamsiStartDate.value.isNotEmpty &&
         selectedShamsiEndDate.value.isNotEmpty;
+
+    // اگر فیلدهای تاریخ پر شده باشند، تاریخ‌ها را بررسی می‌کنیم
+    if (selectedShamsiStartDate.value.isNotEmpty && selectedShamsiEndDate.value.isNotEmpty) {
+      // بررسی اینکه تاریخ شروع بعد از تاریخ پایان نباشد
+      bool isStartDateBeforeEndDate = DateTime.parse(selectedStartDate.value)
+          .isBefore(DateTime.parse(selectedEndDate.value));
+
+      // بررسی اینکه تاریخ شروع در آینده یا امروز باشد
+      bool isStartDateInFutureOrToday = DateTime.parse(selectedStartDate.value)
+          .isAfter(DateTime.now()) ||
+          DateTime.parse(selectedStartDate.value)
+              .isAtSameMomentAs(DateTime.now());
+
+      // اگر تاریخ‌ها مشکل داشته باشند، اسنک بار نمایش داده می‌شود
+      if (!isStartDateBeforeEndDate) {
+        Get.snackbar(
+          'خطای تاریخ',
+          'تاریخ شروع نباید بعد از تاریخ پایان باشد.',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.redAccent,
+          colorText: Colors.white,
+        );
+      } else if (!isStartDateInFutureOrToday) {
+        Get.snackbar(
+          'خطای تاریخ',
+          'تاریخ شروع رد شده است.',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.redAccent,
+          colorText: Colors.white,
+        );
+      }
+
+      // فعال کردن دکمه ذخیره فقط اگر تمامی شرایط برقرار باشد
+      isSaveButtonEnabled.value = areFieldsFilled && isStartDateBeforeEndDate && isStartDateInFutureOrToday;
+    } else {
+      // اگر فیلدهای تاریخ پر نشده باشند، فقط بر اساس پر بودن فیلدهای دیگر تصمیم می‌گیریم
+      isSaveButtonEnabled.value = areFieldsFilled;
+    }
   }
+
 
 
   Future<void> pickStartDate(BuildContext context) async {

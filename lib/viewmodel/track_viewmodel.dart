@@ -179,6 +179,7 @@ class TrackViewModel extends GetxController {
   void _loadTagsFromStorage() {
     var storedTags = box.read<List>('tags'); // خواندن لیست تگ‌ها به عنوان List<dynamic>
     if (storedTags != null) {
+      print("gfgf");
       tagsList.assignAll(storedTags.map((tag) => Tag.fromJson(tag)).toList());
     }
   }
