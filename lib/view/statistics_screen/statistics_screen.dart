@@ -20,36 +20,41 @@ class StatisticsPage extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(userScore: statisticsViewModel.sideBarController.userScore),
       drawer: SideBar(),
-      body: SingleChildScrollView(
-        child: Obx(() {
-          if (statisticsViewModel.isLoading.value) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (statisticsViewModel.fetchError.value) {
-            return FractionallySizedBox(
-              widthFactor: 1.0.r,
-              heightFactor: 0.9.r,
-              child: const Error(),
-            );
-          }
-        
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                TodayStatisticsWidget(
-                  totalHabits: statisticsViewModel.statisticsList[0].totalHabits,
-                  completedHabits: statisticsViewModel.statisticsList[0].completedHabits,
-                ),
-                SizedBox(height: 24.0.r,),
-                StatisticsBarChart(statistics: statisticsViewModel.statisticsList),
-                SizedBox(height: 24.0.r,),
-                TagPieChart(statistics: statisticsViewModel.statisticsList),
-              ],
-            ),
+      body: Obx(() {
+        if (statisticsViewModel.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (statisticsViewModel.fetchError.value) {
+          return FractionallySizedBox(
+            widthFactor: 1.0.r,
+            heightFactor: 0.9.r,
+            child: const Error(),
           );
-        }),
-      ),
+        }
+
+        return SizedBox(
+          height:MediaQuery.of(context).size.height * 0.79,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch, // برای پر کردن عرض موجود
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TodayStatisticsWidget(
+                    totalHabits: statisticsViewModel.statisticsList[0].totalHabits,
+                    completedHabits: statisticsViewModel.statisticsList[0].completedHabits,
+                  ),
+                  SizedBox(height: 20.0.r,),
+                  StatisticsBarChart(statistics: statisticsViewModel.statisticsList),
+                  SizedBox(height: 20.0.r,),
+                  TagPieChart(statistics: statisticsViewModel.statisticsList),
+                ],
+              ),
+            ),
+          ),
+        );
+      }),
       bottomNavigationBar: CustomBottomNavigationBar(selectedIndex: 0.obs),
     );
   }
