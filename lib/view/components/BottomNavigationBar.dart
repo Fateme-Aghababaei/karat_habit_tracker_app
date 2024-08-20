@@ -7,7 +7,7 @@ import 'package:karat_habit_tracker_app/utils/routes/RouteNames.dart';
 class CustomBottomNavigationBar extends StatelessWidget {
   final RxInt selectedIndex ;
   final List<String> routeNames = [
-    AppRouteName.profileScreen,
+    AppRouteName.statisticsScreen,
     AppRouteName.challengeScreen,
     AppRouteName.trackScreen,
     AppRouteName.habitScreen,

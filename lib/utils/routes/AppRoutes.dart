@@ -10,6 +10,7 @@ import '../../view/profile_screen/profile.dart';
 import '../../view/profile_screen/profile_binding.dart';
 import '../../view/setting_screen/setting_screen.dart';
 import '../../view/signup_screen/signup_screen.dart';
+import '../../view/statistics_screen/statistics_screen.dart';
 import '../../view/track_screen/track_screen.dart';
 import 'RouteNames.dart';
 export 'package:get/get.dart';
@@ -25,9 +26,7 @@ final List<GetPage> routes = [
   GetPage(name:AppRouteName.aboutScreen, page: () => const AboutPage()),
   GetPage(name:AppRouteName.faqScreen, page: () => const FAQPage()),
   GetPage(name:AppRouteName.challengeScreen, page: () => ChallengePage()),
-
-
-
+  GetPage(name:AppRouteName.statisticsScreen, page: () => StatisticsPage()),
 
 ];
 

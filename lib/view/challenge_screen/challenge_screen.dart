@@ -24,17 +24,17 @@ class ChallengePage extends StatelessWidget {
       drawer: SideBar(),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.0.r),
-        child: SingleChildScrollView(
-          child: Center(
-            child: Obx(() {
-              if (challengeViewModel.isLoading.value) {
-                return const Center(child: CircularProgressIndicator());
-              }
-               if (challengeViewModel.fetchError.value) {
-                return  FractionallySizedBox(widthFactor: 1.0.r, // اندازه عرض ویجت Error را به 80% عرض کانتینر تنظیم می‌کند
-                    heightFactor: 0.9.r,child: const Error());
-              }else {
-                return Column(
+        child: Center(
+          child: Obx(() {
+            if (challengeViewModel.isLoading.value) {
+              return const Center(child: CircularProgressIndicator());
+            }
+             if (challengeViewModel.fetchError.value) {
+              return  FractionallySizedBox(widthFactor: 1.0.r, // اندازه عرض ویجت Error را به 80% عرض کانتینر تنظیم می‌کند
+                  heightFactor: 0.9.r,child: const Error());
+            }else {
+              return SingleChildScrollView(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                   SizedBox(height: 10.0.r,),
@@ -92,10 +92,10 @@ class ChallengePage extends StatelessWidget {
                       ),
                     ),
                   ],
-                );
-              }
-            }),
-          ),
+                ),
+              );
+            }
+          }),
         ),
       ),
       floatingActionButton: Align(

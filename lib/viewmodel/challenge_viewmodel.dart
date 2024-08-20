@@ -32,8 +32,6 @@ class ChallengeViewModel extends GetxController {
       var loadedChallenges = await _challengeRepository.getActiveChallenges();
       if (loadedChallenges != null) {
         challenges.assignAll(loadedChallenges);
-      } else {
-
       }
     } catch (e) {
       fetchError(true);
@@ -50,8 +48,6 @@ class ChallengeViewModel extends GetxController {
       var loadedChallenges = await _challengeRepository.getParticipatedChallenges();
       if (loadedChallenges != null) {
         participatedChallenges.assignAll(loadedChallenges);
-      } else {
-
       }
     } catch (e) {
       fetchError(true);
