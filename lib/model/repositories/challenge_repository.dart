@@ -1,5 +1,4 @@
 
-import 'dart:io';
 
 import 'package:path/path.dart';
 import '../constant.dart';
@@ -7,7 +6,6 @@ import '../entity/challenge_model.dart';
 
 import 'package:dio/dio.dart';
 
-import 'package:path/path.dart' as path;
 
 class ChallengeRepository {
 

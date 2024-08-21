@@ -78,7 +78,6 @@ class HabitRepository{
       print(response.data["error"]);
       print(response.statusMessage);
       if (response.statusCode == 200) {
-
         return Habit.fromJson(response.data);
       } else {
         return null;

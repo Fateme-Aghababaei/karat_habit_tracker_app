@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'badge_model.dart';
+
 class UserModel {
   final int? id;
   final String? username;
@@ -12,6 +14,10 @@ class UserModel {
   final int? followersNum;
   final int? followingsNum;
   final bool? notif_enabled;
+  final List<Badge> badges;
+  final int completedChallengesNum;
+  final int completedHabitsNum;
+  final int unreadNotifsNum;
 
   UserModel({
     this.id,
@@ -24,7 +30,11 @@ class UserModel {
     this.inviter,
     this.followersNum,
     this.followingsNum,
-    this.notif_enabled
+    this.notif_enabled,
+    required this.badges,
+    required this.completedChallengesNum,
+    required this.completedHabitsNum,
+    required this.unreadNotifsNum,
   });
 
   factory UserModel.fromRawJson(String str) => UserModel.fromJson(json.decode(str));
@@ -43,6 +53,10 @@ class UserModel {
     followersNum: json["followers_num"],
     followingsNum: json["followings_num"],
     notif_enabled: json["notif_enabled"],
+    badges: List<Badge>.from(json["badges"].map((x) => Badge.fromJson(x))),
+    completedChallengesNum: json["completed_challenges_num"],
+    completedHabitsNum: json["completed_habits_num"],
+    unreadNotifsNum: json["unread_notifs_num"],
 
   );
 
@@ -58,6 +72,10 @@ class UserModel {
     "followers_num": followersNum,
     "followings_num": followingsNum,
     "notif_enabled":notif_enabled,
+    "badges": List<dynamic>.from(badges.map((x) => x.toJson())),
+    "completed_challenges_num": completedChallengesNum,
+    "completed_habits_num": completedHabitsNum,
+    "unread_notifs_num": unreadNotifsNum,
 
   };
 }

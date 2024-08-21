@@ -5,6 +5,7 @@ import 'package:karat_habit_tracker_app/model/entity/account_model.dart';
 import 'package:karat_habit_tracker_app/model/repositories/account_repository.dart';
 
 import '../../utils/routes/RouteNames.dart';
+import '../components/Sidebar/SideBarController.dart';
 
 class SignUpController extends GetxController {
   final emailController = TextEditingController();
@@ -46,7 +47,7 @@ class SignUpController extends GetxController {
     isLoading.value = true;
     AccountModel user = AccountModel(
       email: emailController.text.trim().toLowerCase(),
-      password: passwordController.text.trim(),
+      password: passwordController.text,
       inviter: referralCodeController.text.isNotEmpty ? referralCodeController.text : null,
     );
 

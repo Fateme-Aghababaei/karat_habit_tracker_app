@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:karat_habit_tracker_app/utils/routes/RouteNames.dart';
+import 'package:karat_habit_tracker_app/viewmodel/streak_viewmodel.dart';
 import '../model/constant.dart';
+import 'components/Sidebar/SideBarController.dart';
 
 class SplashScreen extends StatelessWidget {
   final box = GetStorage();
@@ -57,7 +59,6 @@ class SplashScreen extends StatelessWidget {
     final token = box.read('auth_token');
     if (token != null) {
       dio.options.headers["Authorization"] = "Token ${token}";
-      //Get.offNamed(AppRouteName.onBoardingScreen);
       Get.offNamed(AppRouteName.habitScreen);
     } else {
       Get.offNamed(AppRouteName.onBoardingScreen);

@@ -11,7 +11,6 @@ import 'package:karat_habit_tracker_app/view/splash_screen.dart';
 
 void main() async {
   await GetStorage.init();
-  Get.put(SideBarController());
   runApp(MyApp());
 }
 

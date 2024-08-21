@@ -7,6 +7,7 @@ import '../model/entity/track_model.dart';
 import '../model/repositories/track_repository.dart';
 
 class TrackViewModel extends GetxController {
+
   final TrackRepository _trackRepository = TrackRepository();
   final box = GetStorage();
   var isLoading = false.obs;

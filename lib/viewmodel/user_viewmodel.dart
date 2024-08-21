@@ -4,15 +4,17 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:karat_habit_tracker_app/utils/routes/RouteNames.dart';
 import 'package:karat_habit_tracker_app/view/setting_screen/setting_screen.dart';
+import '../model/entity/brief_model.dart';
 import '../model/entity/follower_following_model.dart';
 import '../model/entity/user_model.dart';
 import '../model/repositories/user_repository.dart';
+import '../view/profile_screen/searchScreen.dart';
 
 class UserViewModel extends GetxController {
   final UserRepository _userRepository = UserRepository();
 
   // User Profile
-  var userProfile = UserModel().obs;
+  var userProfile = UserModel(badges: [], completedChallengesNum: 0, completedHabitsNum: 0, unreadNotifsNum:0,).obs;
   var userFriends=Follower_Following(followers: [], followings: []).obs;
   RxBool isLoadingUserProfile = false.obs;
   RxBool isLoadingFollowers = false.obs;
@@ -31,6 +33,7 @@ class UserViewModel extends GetxController {
 
   Future<void> _loadUserProfile() async {
     await fetchUserProfile(username,false);
+    print(userProfile);
     await fetchFollowerFollowing(username,false);
     checkIfFollowing();
   }
@@ -42,9 +45,9 @@ class UserViewModel extends GetxController {
 
   }
   // Get user profile
-  Future<void> fetchUserProfile(String? username, bool fromedit) async {
+  Future<void> fetchUserProfile(String? username, bool fromEdit) async {
     try {
-      isLoadingUserProfile(fromedit?false:true);
+      isLoadingUserProfile(fromEdit?false:true);
       UserModel? profile = await _userRepository.getUserProfile(username);
       userProfile(profile);
 
@@ -108,7 +111,7 @@ class UserViewModel extends GetxController {
     }
   }
 
-  Future<void> handleElevatedButton() async {
+  Future<void> handleElevatedButton(UserViewModel userViewModel) async {
     if (username != null) {
       isLoading(true); // نمایش وضعیت بارگذاری
 
@@ -133,7 +136,7 @@ class UserViewModel extends GetxController {
         isFollowing.value = !isFollowing.value; // تغییر وضعیت فالو
       }
     } else {
-     Get.to(SettingsPage(),arguments: null);
+     Get.to(UserSearchPage(userSearchViewModel: userViewModel,));
     }
   }
 
@@ -249,6 +252,24 @@ class UserViewModel extends GetxController {
       );
     } finally {
       isLoading(false);
+    }
+  }
+
+  final RxList<Brief> userList = <Brief>[].obs; // لیستی که UI براساس آن آپدیت می‌شود.
+  RxBool isSearched = false.obs;
+
+  Future<void> searchUsersByUsername(String username) async {
+    try {
+      errorMessage.value = ''; // خالی کردن پیام خطا
+      List<Brief>? users = await _userRepository.searchUsers(username);
+      if (users != null ) {
+        userList.assignAll(users);
+      } else {
+        errorMessage.value ="error";
+      }
+      isSearched.value=true;
+    } catch (e) {
+      errorMessage.value = e.toString();
     }
   }
 }

@@ -146,15 +146,15 @@ class _TagPieChartState extends State<TagPieChart> with SingleTickerProviderStat
   List<Widget> _getTagWidgets(Map<int, Map<String, dynamic>> tagDurations) {
     return tagDurations.entries.map((entry) {
       return Row(
+
         children: [
-          Container(
-            width: 12.r,
-            height: 12.r,
-            color: Color(int.parse('0xFF${entry.value['color']}')),
+          CircleAvatar(
+            radius: 6.r, // تنظیم شعاع دایره
+            backgroundColor: Color(int.parse('0xFF${entry.value['color']}')), // تنظیم رنگ پس‌زمینه
           ),
           SizedBox(width: 8.w),
           Text(
-            '${_formatDuration(entry.value['duration'])} ${entry.value['name']}',
+            ' ${_formatDuration(entry.value['duration'])} : ${entry.value['name']}',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               fontFamily: "IRANYekan_number",
               fontSize: 12.5.sp

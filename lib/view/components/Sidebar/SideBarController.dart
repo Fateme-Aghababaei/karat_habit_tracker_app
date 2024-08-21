@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../../../model/entity/brief_model.dart';
 import '../../../model/entity/user_model.dart';
 import '../../../model/repositories/user_repository.dart';
 import '../../../viewmodel/challenge_viewmodel.dart';
@@ -19,20 +20,19 @@ class SideBarController extends GetxController {
 
   Future<void> fetchUserBrief() async {
     try {
-      UserModel? userBrief = await _userRepository.getUserBrief();
-      firstName.value = userBrief.firstName! ;
-      userName.value = userBrief.username!;
+      Brief userBrief = await _userRepository.getUserBrief();
+      firstName.value = userBrief.firstName ;
+      userName.value = userBrief.username;
       userPhoto.value = userBrief.photo! ;
       userScore.value = userBrief.score! ;
 
         } catch (e) {
       final box = GetStorage();
       final storedData = box.read('userBrief');
-      print(storedData);
       if (storedData != null) {
-        UserModel userBrief = UserModel.fromJson(storedData);
-        firstName.value = userBrief.firstName ?? '';
-        userName.value = userBrief.username ?? '';
+        Brief userBrief = Brief.fromJson(storedData);
+        firstName.value = userBrief.firstName;
+        userName.value = userBrief.username;
         userPhoto.value = userBrief.photo ?? '';
         userScore.value = userBrief.score ?? 0;
       } else {

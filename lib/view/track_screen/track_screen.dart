@@ -12,7 +12,7 @@ import '../components/Sidebar/SideBarController.dart';
 import 'BottomSheetContent.dart';
 
 class TrackPage extends StatelessWidget {
-  final SideBarController sideBarController = Get.find();
+  final SideBarController sideBarController =   Get.put(SideBarController());
   final TrackViewModel trackViewModel = Get.put(TrackViewModel());
   TrackPage({super.key});
 

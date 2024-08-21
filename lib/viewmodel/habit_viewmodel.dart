@@ -17,7 +17,7 @@ class HabitViewModel extends GetxController {
   var selectedHabit = Rxn<Habit>();
   final GetStorage _storage = GetStorage();
   final String todayDate = DateTime.now().toIso8601String().split('T')[0];
-  final SideBarController sideBarController = Get.find();
+  final SideBarController sideBarController =   Get.put(SideBarController());
 
 
   @override
@@ -28,6 +28,8 @@ class HabitViewModel extends GetxController {
 
   Future<void> _loadTodayHabits() async {
       await loadUserHabits(todayDate,true);
+      await loadUserTags();
+       await updateStreak();
   }
 
   void _loadHabitsFromStorage() {
@@ -93,7 +95,7 @@ class HabitViewModel extends GetxController {
   }
   // Load User Tags
   Future<void> loadUserTags() async {
-
+print("ggfgf");
     try {
       var loadedTags = await _habitRepository.getUserTags();
       if (loadedTags != null) {

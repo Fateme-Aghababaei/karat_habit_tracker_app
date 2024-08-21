@@ -28,10 +28,7 @@ class HabitPage extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      habitViewModel.loadUserTags();
-     // habitViewModel.updateStreak();
-    });
+
 
     return Scaffold(
       appBar: CustomAppBar(userScore: habitViewModel.sideBarController.userScore),

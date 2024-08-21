@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:karat_habit_tracker_app/utils/routes/AppRoutes.dart';
-import '../../model/entity/challenge_model.dart';
 import '../../viewmodel/challenge_viewmodel.dart';
 import 'challenge_item.dart';
 

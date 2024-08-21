@@ -1,5 +1,4 @@
 import 'package:karat_habit_tracker_app/model/entity/tag_model.dart';
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 class Statistics {

@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import '../../model/entity/challenge_model.dart';
 import '../../model/entity/habit_model.dart';
 import '../../model/repositories/habit_repository.dart';
-import '../../viewmodel/habit_viewmodel.dart';
 
 class HabitChallengeController extends GetxController {
   var selectedTab = 0.obs;

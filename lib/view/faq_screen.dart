@@ -85,7 +85,6 @@ class _FAQPageState extends State<FAQPage> {
     return ExpansionPanelList.radio(
       elevation: 0,
       children: _faqItems.map<ExpansionPanelRadio>((FAQItem item) {
-        bool isExpanded = _expandedItem == item;
         return ExpansionPanelRadio(
           value: item,
           canTapOnHeader: true,

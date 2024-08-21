@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../model/entity/account_model.dart';
 import '../../model/repositories/account_repository.dart';
 import '../../utils/routes/RouteNames.dart';
+import '../components/Sidebar/SideBarController.dart';
 
 class LoginController extends GetxController {
   final emailController = TextEditingController();

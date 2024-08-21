@@ -27,7 +27,8 @@ class AppTheme {
       textTheme: TTextTheme.lightTextTheme,
       elevatedButtonTheme: ElevatedBtnTheme.lightTheme,
       appBarTheme: const AppBarTheme(
-          backgroundColor: AppColors.lightBackground, elevation: 0.0),
+          backgroundColor: AppColors.lightBackground, elevation: 0.0,scrolledUnderElevation: 0,
+      ),
       bottomSheetTheme: const BottomSheetThemeData(
           backgroundColor: AppColors.lightBackground),
       inputDecorationTheme: TextFieldTheme.lightTheme,

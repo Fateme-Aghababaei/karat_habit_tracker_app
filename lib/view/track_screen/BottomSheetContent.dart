@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import '../../model/entity/track_model.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 

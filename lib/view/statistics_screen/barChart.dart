@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import '../../model/entity/statistics_model.dart';
-import '../../model/entity/tag_model.dart';
 
 class StatisticsBarChart extends StatefulWidget {
   final List<Statistics> statistics;
@@ -207,7 +206,9 @@ class _StatisticsBarChartState extends State<StatisticsBarChart> with SingleTick
         x: index,
         barRods: [
           BarChartRodData(
-            borderRadius: BorderRadius.zero,
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(4.0.r),
+            ),
             toY: stat.habits.fold(0, (previousValue, habit) => previousValue + habit.completedHabits) * _animation.value,
             rodStackItems: stat.habits.map((habit) {
               final double fromY = cumulativeY * _animation.value;
@@ -241,10 +242,9 @@ class _StatisticsBarChartState extends State<StatisticsBarChart> with SingleTick
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  width: 10.r,
-                  height: 10.r,
-                  color: Color(int.parse('0xFF${habit.tag!.color}')),
+                CircleAvatar(
+                  radius: 5.r, // تنظیم شعاع دایره
+                  backgroundColor: Color(int.parse('0xFF${habit.tag!.color}')), // تنظیم رنگ پس‌زمینه
                 ),
                 SizedBox(width: 4.w),
                 Text(habit.tag?.name ?? "تعیین نشده", style: TextStyle(fontSize: 12.sp)),
@@ -257,10 +257,9 @@ class _StatisticsBarChartState extends State<StatisticsBarChart> with SingleTick
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  width: 10.r,
-                  height: 10.r,
-                  color: Colors.grey,
+                CircleAvatar(
+                  radius: 5.r, // تنظیم شعاع دایره
+                  backgroundColor: Colors.grey, // تنظیم رنگ پس‌زمینه
                 ),
                 SizedBox(width: 4.w),
                 Text('تعیین نشده', style: TextStyle(fontSize: 12.sp)),

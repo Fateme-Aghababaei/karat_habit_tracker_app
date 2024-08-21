@@ -8,7 +8,7 @@ class ChallengeViewModel extends GetxController {
   final RxBool isLoading = false.obs;
   var challenges = <Challenge>[].obs;
   var participatedChallenges = <Challenge>[].obs;
-  final SideBarController sideBarController = Get.find();
+  final SideBarController sideBarController =   Get.put(SideBarController());
   var selectedChallenge = Rxn<Challenge>();
   final RxBool fetchError = false.obs;
 
@@ -211,7 +211,7 @@ class ChallengeViewModel extends GetxController {
 
   Future<void> deleteChallenge(int id) async {
     try {
-      final response = await _challengeRepository.deleteChallenge(id);
+      await _challengeRepository.deleteChallenge(id);
 
       participatedChallenges.removeWhere((challenge) => challenge.id == id);
       participatedChallenges.refresh();

@@ -32,25 +32,21 @@ class StatisticsPage extends StatelessWidget {
           );
         }
 
-        return SizedBox(
-          height:MediaQuery.of(context).size.height * 0.79,
+        return SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch, // برای پر کردن عرض موجود
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TodayStatisticsWidget(
-                    totalHabits: statisticsViewModel.statisticsList[0].totalHabits,
-                    completedHabits: statisticsViewModel.statisticsList[0].completedHabits,
-                  ),
-                  SizedBox(height: 20.0.r,),
-                  StatisticsBarChart(statistics: statisticsViewModel.statisticsList),
-                  SizedBox(height: 20.0.r,),
-                  TagPieChart(statistics: statisticsViewModel.statisticsList),
-                ],
-              ),
+            padding:  EdgeInsets.all(16.0.r),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                TodayStatisticsWidget(
+                  totalHabits: statisticsViewModel.statisticsList[0].totalHabits,
+                  completedHabits: statisticsViewModel.statisticsList[0].completedHabits,
+                ),
+                SizedBox(height: 20.0.r,),
+                StatisticsBarChart(statistics: statisticsViewModel.statisticsList),
+                SizedBox(height: 20.0.r,),
+                TagPieChart(statistics: statisticsViewModel.statisticsList),
+              ],
             ),
           ),
         );

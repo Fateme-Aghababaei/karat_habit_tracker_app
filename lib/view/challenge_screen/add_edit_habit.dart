@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:karat_habit_tracker_app/view/habit_screen/tagDialog.dart';
 import '../../model/entity/challenge_model.dart';
 import '../../model/entity/habit_model.dart';
-import '../../model/repositories/habit_repository.dart';
 import '../../viewmodel/challenge_viewmodel.dart';
-import '../../viewmodel/habit_viewmodel.dart';
 import 'habit_controller.dart';
-import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 class HabitChallengeContent extends StatelessWidget {
   final Habit? habit;
@@ -22,7 +18,6 @@ class HabitChallengeContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HabitChallengeController controller = Get.put(HabitChallengeController(habit: habit,today,challenge));
-    final HabitRepository habitRepository = HabitRepository();
     return Padding(
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: SingleChildScrollView(
