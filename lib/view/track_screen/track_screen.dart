@@ -12,7 +12,7 @@ import '../components/Sidebar/SideBarController.dart';
 import 'BottomSheetContent.dart';
 
 class TrackPage extends StatelessWidget {
-  final SideBarController sideBarController =   Get.put(SideBarController());
+  final SideBarController sideBarController = Get.find<SideBarController>();
   final TrackViewModel trackViewModel = Get.put(TrackViewModel());
   TrackPage({super.key});
 
@@ -43,6 +43,10 @@ class TrackPage extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(userScore: sideBarController.userScore),
       drawer: SideBar(),
+      onDrawerChanged: (isOpened) async {
+        if (isOpened) {
+          await  sideBarController.fetchUnreadNotificationsCount();
+        }},
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(16.0.r),
@@ -56,7 +60,7 @@ class TrackPage extends StatelessWidget {
                   if (!trackViewModel.isLoading.value && trackViewModel.tracksMap.isEmpty) {
                   return Text(
                     'هنوز رکوردی را ثبت نکرده‌اید',
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   );
                 }
                   return ListView.builder(

@@ -20,6 +20,10 @@ class StatisticsPage extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(userScore: statisticsViewModel.sideBarController.userScore),
       drawer: SideBar(),
+      onDrawerChanged: (isOpened) async {
+        if (isOpened) {
+          await  statisticsViewModel.sideBarController.fetchUnreadNotificationsCount();
+        }},
       body: Obx(() {
         if (statisticsViewModel.isLoading.value) {
           return const Center(child: CircularProgressIndicator());

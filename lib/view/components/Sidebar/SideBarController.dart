@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 
 import '../../../model/entity/brief_model.dart';
 import '../../../model/entity/user_model.dart';
+import '../../../model/repositories/notification_repository.dart';
 import '../../../model/repositories/user_repository.dart';
 import '../../../viewmodel/challenge_viewmodel.dart';
 
@@ -11,6 +12,8 @@ class SideBarController extends GetxController {
   final UserRepository _userRepository = UserRepository();
   var selectedIndex = 0.obs;
   var shouldRefreshChallengePage = false.obs;
+  final NotificationRepository _notificationRepository = NotificationRepository();
+  var unreadCount = 0.obs;
 
   // اطلاعات کاربر
   RxString firstName = ''.obs;
@@ -40,7 +43,14 @@ class SideBarController extends GetxController {
       }
     }
   }
+  Future<void> fetchUnreadNotificationsCount() async {
+    try {
+      final int count = await _notificationRepository.getUnreadNotificationsCount();
+      unreadCount.value = count;
+    } catch (e) {
 
+    }
+  }
 
   void updateIndex(int index) {
     selectedIndex.value = index;
@@ -53,10 +63,14 @@ class SideBarController extends GetxController {
     challengeViewModel.onInit();
 
   }
+  Future<void> fetchUser() async {
+    await fetchUserBrief();
+    await fetchUnreadNotificationsCount();
+  }
   // فراخوانی اولیه در زمان ساخت کنترلر
   @override
   void onInit() {
-    fetchUserBrief();
+    fetchUser();
     super.onInit();
   }
 }

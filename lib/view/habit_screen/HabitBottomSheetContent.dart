@@ -224,14 +224,30 @@ class HabitBottomSheetContent extends StatelessWidget {
                             .bodyLarge
                             ?.copyWith(fontSize: 12.sp),
                       ),
-                      Obx(() {
-                        return Checkbox(
-                          value: controller.allDaysSelected.value,
-                          onChanged: (value) {
-                            controller.setAllDaysSelected(value!);
-                          },
-                        );
-                      }),
+
+                      Row(
+                        children: [
+                          Obx(() {
+                            return Transform.translate(
+                              offset:  Offset(-8.0.r, 0),
+                              child: Checkbox(
+                                value: controller.allDaysSelected.value,
+                                onChanged: (value) {
+                                  controller.setAllDaysSelected(value!);
+                                },
+                              ),
+                            );
+                          }),
+                          Text(
+                            'هرروز',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.copyWith(fontSize: 13.sp),
+                          ),
+
+                        ],
+                      ),
                     ],
                   ),
                   Wrap(
@@ -473,7 +489,7 @@ class HabitBottomSheetContent extends StatelessWidget {
                     )),
                     ElevatedButton(
                       onPressed: () {
-                        habitViewModel.deleteHabit(habit!.id, DateTime.now().toIso8601String().split('T')[0]);
+                        habitViewModel.deleteHabit(habit!.id);
                         Get.back();
                       },
                       style: ElevatedButton.styleFrom(

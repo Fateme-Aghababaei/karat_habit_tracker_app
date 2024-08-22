@@ -17,8 +17,8 @@ class HabitViewModel extends GetxController {
   var selectedHabit = Rxn<Habit>();
   final GetStorage _storage = GetStorage();
   final String todayDate = DateTime.now().toIso8601String().split('T')[0];
-  final SideBarController sideBarController =   Get.put(SideBarController());
-
+  Rx<String> initialSelectedDate = DateTime.now().toIso8601String().split('T')[0].obs;
+  final SideBarController sideBarController =   Get.find<SideBarController>();
 
   @override
   void onInit() {
@@ -39,15 +39,15 @@ class HabitViewModel extends GetxController {
     }
   }
   Future<void> updateStreak() async {
-    isLoading.value = true;
     try {
       final result = await _userRepository.updateStreak();
       if (result != null && result['state'] != 'unchanged') {
         streakData.value = result;
         _showStreakUpdateModal(result);
       }
-    } finally {
-      isLoading.value = false;
+    }
+    catch(e){
+      print(e.toString());
     }
   }
 
@@ -143,7 +143,7 @@ print("ggfgf");
         repeatedDays: repeatedDays,
       );
       if (newHabit != null) {
-        loadUserHabits(todayDate,false);
+        loadUserHabits(initialSelectedDate.value,false);
 
       }
     } catch (e) {
@@ -173,7 +173,7 @@ print("ggfgf");
       );
 
       if (updatedHabit != null) {
-        loadUserHabits(todayDate,false);
+        loadUserHabits(initialSelectedDate.value,false);
       }
     } catch (e) {
       print("Error editing habit: $e");
@@ -181,14 +181,14 @@ print("ggfgf");
   }
 
   // Delete Habit
-  Future<void> deleteHabit(int id, String today) async {
+  Future<void> deleteHabit(int id) async {
     try {
       await _habitRepository.deleteHabit(id);
       habits.removeWhere((habit) => habit.id == id);
       habits.refresh();
 
       // عادت‌های باقی‌مانده را در GetStorage ذخیره می‌کنیم
-      if (today == todayDate) {
+      if (initialSelectedDate == todayDate) {
         _saveHabitsToStorage();
       }
     } catch (e) {

@@ -7,7 +7,7 @@ import '../view/components/Sidebar/SideBarController.dart';
 class StatisticsViewModel extends GetxController {
   final StatisticsRepository repository=StatisticsRepository();
 
-  final SideBarController sideBarController =   Get.put(SideBarController());
+  final SideBarController sideBarController =Get.find<SideBarController>();
   var statisticsList = <Statistics>[].obs;
   var isLoading = false.obs;
   final RxBool fetchError = false.obs;

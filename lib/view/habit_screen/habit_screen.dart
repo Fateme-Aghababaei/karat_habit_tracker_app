@@ -33,6 +33,10 @@ class HabitPage extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(userScore: habitViewModel.sideBarController.userScore),
       drawer: SideBar(),
+        onDrawerChanged: (isOpened) async {
+          if (isOpened) {
+          await  habitViewModel.sideBarController.fetchUnreadNotificationsCount();
+          }},
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0.r),
@@ -59,6 +63,7 @@ class HabitPage extends StatelessWidget {
                         updateDates(gregorianDate.toDateTime());
 
                         String formattedDate = "${gregorianDate.year.toString().padLeft(4, '0')}-${gregorianDate.month.toString().padLeft(2, '0')}-${gregorianDate.day.toString().padLeft(2, '0')}";
+                        habitViewModel.initialSelectedDate.value=formattedDate;
                         habitViewModel.loadUserHabits(formattedDate,true);
                       }
                     },
@@ -70,7 +75,8 @@ class HabitPage extends StatelessWidget {
                   initialSelectedDate: initialSelectedDate.value,
                   onDateSelected: (date) {
                     String? formattedDate = date?.toIso8601String().split('T')[0];
-                    habitViewModel.loadUserHabits(formattedDate!,true);
+                    habitViewModel.initialSelectedDate.value=formattedDate!;
+                    habitViewModel.loadUserHabits(formattedDate,true);
                   },
                   context: context,
                 )),
@@ -87,7 +93,7 @@ class HabitPage extends StatelessWidget {
                     }
                      else if (habitViewModel.habits.isEmpty && habitViewModel.isLoading.value==false) {
                       return Center(child: Text('هیچ عادتی برای این روز وجود ندارد.',
-                        style: Theme.of(context).textTheme.bodyLarge,));
+                        style: Theme.of(context).textTheme.bodyMedium,));
                     }
                     return ListView.builder(
                       itemCount: habitViewModel.habits.length,

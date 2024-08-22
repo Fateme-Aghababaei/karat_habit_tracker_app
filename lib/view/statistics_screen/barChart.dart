@@ -21,7 +21,7 @@ class _StatisticsBarChartState extends State<StatisticsBarChart> with SingleTick
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds:800), // مدت زمان انیمیشن را می‌توانید اینجا تغییر دهید
+      duration: const Duration(milliseconds: 800), // مدت زمان انیمیشن را می‌توانید اینجا تغییر دهید
       vsync: this,
     );
 
@@ -67,96 +67,110 @@ class _StatisticsBarChartState extends State<StatisticsBarChart> with SingleTick
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text("عادت‌ها در هفته‌ای که گذشت", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontSize: 13.sp
-                    ),),
+                      fontSize: 13.sp,
+                    )),
                   ],
                 ),
               ),
-              AspectRatio(
-                aspectRatio: 1.5,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: BarChart(
-                    BarChartData(
-                      alignment: BarChartAlignment.spaceEvenly,
-                      maxY: _getMaxY(),
-                      barTouchData: BarTouchData(enabled: true),
-                      titlesData: FlTitlesData(
-                        show: true,
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            getTitlesWidget: (double value, TitleMeta meta) {
-                              return SideTitleWidget(
-                                axisSide: meta.axisSide,
-                                child: Transform.rotate(
-                                  angle: -0.65,
-                                  child: Text(
-                                    _getPersianWeekdayLabel(value.toInt()),
-                                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                      fontSize: 10.sp,
+              if (widget.statistics.isEmpty ||
+                  widget.statistics.every((stat) => stat.habits.isEmpty))
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20.0.r),
+                  child: Center(
+                    child: Text(
+                      "هنوز عادتی را تکمیل نکردید",
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontSize: 12.sp,
+                      ),
+                    ),
+                  ),
+                )
+              else
+                AspectRatio(
+                  aspectRatio: 1.5,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: BarChart(
+                      BarChartData(
+                        alignment: BarChartAlignment.spaceEvenly,
+                        maxY: _getMaxY(),
+                        barTouchData: BarTouchData(enabled: true),
+                        titlesData: FlTitlesData(
+                          show: true,
+                          bottomTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              getTitlesWidget: (double value, TitleMeta meta) {
+                                return SideTitleWidget(
+                                  axisSide: meta.axisSide,
+                                  child: Transform.rotate(
+                                    angle: -0.65,
+                                    child: Text(
+                                      _getPersianWeekdayLabel(value.toInt()),
+                                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                        fontSize: 10.sp,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                            reservedSize: 32,
+                                );
+                              },
+                              reservedSize: 32,
+                            ),
+                          ),
+                          leftTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              interval: 1,
+                              getTitlesWidget: (double value, TitleMeta meta) {
+                                return Padding(
+                                  padding: EdgeInsets.only(right: 8.0.w),
+                                  child: Text(value.toInt().toString(),
+                                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                        fontSize: 10.sp,
+                                        fontFamily: "IRANYekan_number",
+                                      )),
+                                );
+                              },
+                            ),
+                          ),
+                          rightTitles: const AxisTitles(
+                            sideTitles: SideTitles(showTitles: false),
+                          ),
+                          topTitles: const AxisTitles(
+                            sideTitles: SideTitles(showTitles: false),
                           ),
                         ),
-                        leftTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            interval: 1,
-                            getTitlesWidget: (double value, TitleMeta meta) {
-                              return Padding(
-                                padding: EdgeInsets.only(right: 8.0.w),
-                                child: Text(value.toInt().toString(),
-                                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                      fontSize: 10.sp,
-                                      fontFamily: "IRANYekan_number",
-                                    )),
-                              );
-                            },
+                        gridData: FlGridData(
+                          show: false,
+                          drawVerticalLine: false,
+                          getDrawingHorizontalLine: (value) {
+                            return FlLine(
+                              color: Colors.grey.withOpacity(0.3),
+                              strokeWidth: 1,
+                            );
+                          },
+                        ),
+                        borderData: FlBorderData(
+                          show: true,
+                          border: Border(
+                            left: BorderSide(
+                              color: Colors.grey.shade600,
+                              width: 0.5,
+                            ),
+                            bottom: BorderSide(
+                              color: Colors.grey.shade600,
+                              width: 0.5,
+                            ),
+                            top: BorderSide.none,
+                            right: BorderSide.none,
                           ),
                         ),
-                        rightTitles: const AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                        topTitles: const AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
+                        groupsSpace: 32,
+                        barGroups: _getStackedBarGroups(),
                       ),
-                      gridData: FlGridData(
-                        show: false,
-                        drawVerticalLine: false,
-                        getDrawingHorizontalLine: (value) {
-                          return FlLine(
-                            color: Colors.grey.withOpacity(0.3),
-                            strokeWidth: 1,
-                          );
-                        },
-                      ),
-                      borderData: FlBorderData(
-                        show: true,
-                        border: Border(
-                          left: BorderSide(
-                            color: Colors.grey.shade600,
-                            width: 0.5,
-                          ),
-                          bottom: BorderSide(
-                            color: Colors.grey.shade600,
-                            width: 0.5,
-                          ),
-                          top: BorderSide.none,
-                          right: BorderSide.none,
-                        ),
-                      ),
-                      groupsSpace: 32,
-                      barGroups: _getStackedBarGroups(),
                     ),
                   ),
                 ),
-              ),
               SizedBox(height: 10.h),
               Wrap(
                 spacing: 14.0,

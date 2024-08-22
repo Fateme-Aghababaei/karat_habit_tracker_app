@@ -21,19 +21,16 @@ class _TagPieChartState extends State<TagPieChart> with SingleTickerProviderStat
   void initState() {
     super.initState();
 
-    // ایجاد کنترلر انیمیشن
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 700), // مدت زمان انیمیشن
+      duration: const Duration(milliseconds: 700),
       vsync: this,
     );
 
-    // ایجاد انیمیشن
     _animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInOutCirc,
     ));
 
-    // شروع انیمیشن
     _controller.forward();
   }
 
@@ -45,7 +42,6 @@ class _TagPieChartState extends State<TagPieChart> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    // تجمیع داده‌های تگ‌ها
     Map<int, Map<String, dynamic>> tagDurations = _aggregateTagData();
 
     return Container(
@@ -67,10 +63,22 @@ class _TagPieChartState extends State<TagPieChart> with SingleTickerProviderStat
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text("ردیابی در هفته‌ای که گذشت", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontSize: 13.sp
-            ),),
+              fontSize: 13.sp,
+            )),
           ),
-          Row(
+          tagDurations.isEmpty
+              ? Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 20.0.r),
+              child: Text(
+                "هنوز رکوردی را ثبت نکردید",
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontSize: 12.sp,
+                ),
+              ),
+            ),
+          )
+              : Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
@@ -84,7 +92,7 @@ class _TagPieChartState extends State<TagPieChart> with SingleTickerProviderStat
                           sectionsSpace: 0,
                           centerSpaceRadius: 40,
                           sections: _showingSections(tagDurations),
-                          startDegreeOffset: 110 * _animation.value, // اضافه کردن انیمیشن چرخشی
+                          startDegreeOffset: 110 * _animation.value,
                         ),
                       );
                     },
@@ -98,7 +106,7 @@ class _TagPieChartState extends State<TagPieChart> with SingleTickerProviderStat
               SizedBox(width: 28.0.r),
             ],
           ),
-          SizedBox(height: 8.0.r,)
+          SizedBox(height: 8.0.r),
         ],
       ),
     );
@@ -123,7 +131,6 @@ class _TagPieChartState extends State<TagPieChart> with SingleTickerProviderStat
       }
     }
 
-    // حذف تگ‌هایی که مجموع دیوریشن آنها 00:00:00 است
     tagDurationMap.removeWhere((key, value) => value['duration'] == 0);
 
     return tagDurationMap;
@@ -146,18 +153,17 @@ class _TagPieChartState extends State<TagPieChart> with SingleTickerProviderStat
   List<Widget> _getTagWidgets(Map<int, Map<String, dynamic>> tagDurations) {
     return tagDurations.entries.map((entry) {
       return Row(
-
         children: [
           CircleAvatar(
-            radius: 6.r, // تنظیم شعاع دایره
-            backgroundColor: Color(int.parse('0xFF${entry.value['color']}')), // تنظیم رنگ پس‌زمینه
+            radius: 6.r,
+            backgroundColor: Color(int.parse('0xFF${entry.value['color']}')),
           ),
           SizedBox(width: 8.w),
           Text(
             ' ${_formatDuration(entry.value['duration'])} : ${entry.value['name']}',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               fontFamily: "IRANYekan_number",
-              fontSize: 12.5.sp
+              fontSize: 12.5.sp,
             ),
           ),
         ],

@@ -8,6 +8,7 @@ import '../model/entity/brief_model.dart';
 import '../model/entity/follower_following_model.dart';
 import '../model/entity/user_model.dart';
 import '../model/repositories/user_repository.dart';
+import '../view/components/Sidebar/SideBarController.dart';
 import '../view/profile_screen/searchScreen.dart';
 
 class UserViewModel extends GetxController {
@@ -83,7 +84,7 @@ class UserViewModel extends GetxController {
         errorMessage('مشکلی در دنبال کردن کاربر وجود دارد، لطفاً دوباره تلاش کنید.');
       }
       else {
-        await fetchFollowerFollowing(null,true);
+        await fetchFollowerFollowing(username,true);
       }
     } catch (e) {
       errorMessage(e.toString());
@@ -102,7 +103,7 @@ class UserViewModel extends GetxController {
         errorMessage('مشکلی در لغو دنبال کردن کاربر وجود دارد، لطفاً دوباره تلاش کنید.');
       }
       else {
-        await fetchFollowerFollowing(null,true);
+        await fetchFollowerFollowing(username,true);
       }
     } catch (e) {
       errorMessage(e.toString());
@@ -136,7 +137,10 @@ class UserViewModel extends GetxController {
         isFollowing.value = !isFollowing.value; // تغییر وضعیت فالو
       }
     } else {
-     Get.to(UserSearchPage(userSearchViewModel: userViewModel,));
+      final result = await Get.to(() => UserSearchPage(userSearchViewModel: userViewModel));
+      if (result == true) {
+        await userViewModel.fetchFollowerFollowing(null, true);
+      }
     }
   }
 
@@ -153,6 +157,7 @@ class UserViewModel extends GetxController {
           duration: const Duration(seconds: 3),
         );
       } else {
+        Get.delete<SideBarController>(force: true);
         Get.offAllNamed(AppRouteName.signUpScreen);
       }
     } catch (e) {

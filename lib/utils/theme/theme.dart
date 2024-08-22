@@ -43,7 +43,15 @@ class AppTheme {
           style: TextButton.styleFrom(
         foregroundColor: AppColors.textButton,
       )
-          ));
+          ),
+    timePickerTheme: TimePickerThemeData(
+      hourMinuteColor: WidgetStateColor.resolveWith((states) =>
+      states.contains(WidgetState.selected) ? AppColors.lightPrimary.withOpacity(0.2): AppColors.lightDescription.withOpacity(0.2)), // رنگ کارت‌های ساعت و دقیقه
+      hourMinuteTextColor: WidgetStateColor.resolveWith((states) =>
+      states.contains(WidgetState.selected) ? AppColors.lightPrimary : AppColors.lightText.withOpacity(0.8)), // رنگ متن داخل کارت‌ها
+    ),
+
+  );
 
   static final ThemeData darkTheme = ThemeData(
     useMaterial3: true,

@@ -74,8 +74,8 @@ class UserRepository {
         'profile/follow/',
         data: {'username': username},
       );
-      print(response.realUri);
-      print('Data sent: ${response.requestOptions.data}');
+      print(response.statusMessage);
+      print(response.statusCode);
       if (response.statusCode != 200) {
         return null;
       }
@@ -116,9 +116,8 @@ class UserRepository {
       }
       else {
         dio.options.headers.remove("Authorization");
-        box.remove('auth_token');
-        box.remove('userBrief');
-        box.remove('username');
+        box.erase();
+
 
       }
     } catch (e) {
@@ -142,6 +141,9 @@ class UserRepository {
           'notif_enabled': notifEnabled,
         },
       );
+      print(response.statusCode);
+
+      print(response.statusMessage);
       if (response.statusCode != 200) {
         return null;
       }

@@ -10,6 +10,7 @@ class AppRouteName{
   static String aboutScreen="/AboutPage";
   static String faqScreen="/FAQPage";
   static String statisticsScreen="/StatisticsPage";
+  static String notifsScreen="/NotificationPage";
 
 
 }

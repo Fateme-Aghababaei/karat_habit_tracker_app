@@ -22,6 +22,10 @@ class ChallengePage extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(userScore: challengeViewModel.sideBarController.userScore),
       drawer: SideBar(),
+      onDrawerChanged: (isOpened) async {
+        if (isOpened) {
+          await  challengeViewModel.sideBarController.fetchUnreadNotificationsCount();
+        }},
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.0.r),
         child: Center(
@@ -82,7 +86,7 @@ class ChallengePage extends StatelessWidget {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.32, // ارتفاع معین برای بخش "چالش‌های من"
                     child: challengeViewModel.participatedChallenges.isEmpty
-                        ? const Center(child: Text('شما در هیچ چالشی شرکت نکرده‌اید.'))
+                        ?  Center(child: Text('شما در هیچ چالشی شرکت نکرده‌اید.',style: Theme.of(context).textTheme.bodyMedium,))
                         : ListView.builder(
                       itemCount: challengeViewModel.participatedChallenges.length,
                       itemBuilder: (context, index) {

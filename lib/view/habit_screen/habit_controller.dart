@@ -104,7 +104,7 @@ class HabitBottomSheetController extends GetxController {
         tagId: selectedTag.value,
         dueDate:selectedDate.value==''?null:selectedDate.value,
         isRepeated:selectedTab.value==0?true:false,
-        repeatedDays:selectedTab.value==0?selectedDays.value:null,
+        repeatedDays:selectedTab.value==0?selectedDays.value:null
         );
     print('Adding new habit');
     Get.back();

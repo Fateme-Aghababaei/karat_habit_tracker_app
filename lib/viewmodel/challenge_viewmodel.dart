@@ -8,7 +8,7 @@ class ChallengeViewModel extends GetxController {
   final RxBool isLoading = false.obs;
   var challenges = <Challenge>[].obs;
   var participatedChallenges = <Challenge>[].obs;
-  final SideBarController sideBarController =   Get.put(SideBarController());
+  final SideBarController sideBarController = Get.find<SideBarController>();
   var selectedChallenge = Rxn<Challenge>();
   final RxBool fetchError = false.obs;
 

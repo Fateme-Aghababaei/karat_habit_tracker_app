@@ -160,7 +160,6 @@ class ChallengeRepository {
   Future<List<Challenge>?> getActiveChallenges() async {
     try {
       final response = await dio.get('challenge/get_active_challenges/');
-      print(response.data);
       if (response.statusCode == 200) {
         List<Challenge> challenges = (response.data as List).map((item) => Challenge.fromJson(item)).toList();
         return challenges;
