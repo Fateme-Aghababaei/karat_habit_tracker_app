@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 
 import '../constant.dart';
 import '../entity/notification_model.dart';
@@ -38,6 +37,21 @@ class NotificationRepository {
       }
     } catch (e) {
       throw Exception('Error during request: $e');
+    }
+  }
+
+  Future<int> fetchIncompleteHabitsCount() async {
+    try {
+      final response = await dio.get('habit/get_incomplete_habits_count/');
+
+      if (response.statusCode == 200) {
+        return response.data['count'];
+      }
+      else{
+        throw Exception();
+      }
+    } catch (e) {
+      throw Exception('Error fetching habits count: $e');
     }
   }
 }

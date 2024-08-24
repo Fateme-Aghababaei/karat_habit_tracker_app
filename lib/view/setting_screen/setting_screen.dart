@@ -336,6 +336,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     onChanged: (bool value) {
                       isEdited.value = true;
                       notifEnabled.value = value;
+                      settingsController.toggleNotifEnabled(!settingsController.isNotifEnabled.value);
                     },
                   ),
                 ),

@@ -11,16 +11,23 @@ class SettingsController extends GetxController {
   final box = GetStorage();
   final ImagePicker _picker = ImagePicker();
   final UserViewModel userViewModel = Get.find<UserViewModel>();
-
-
+  RxBool isNotifEnabled = true.obs;
   // وضعیت صدا
   RxBool isSoundOn = true.obs;
+
+
   @override
   void onInit() {
     super.onInit();
-    // مقداردهی اولیه از GetStorage
     isSoundOn.value = box.read('isSoundOn') ?? true;
+    isNotifEnabled.value = box.read('isNotifEnabled') ?? true;
   }
+
+  void toggleNotifEnabled(bool value) {
+    isNotifEnabled.value = value;
+    box.write('isNotifEnabled', value);
+  }
+
 
   // تغییر وضعیت صدا و ذخیره در GetStorage
   void toggleSound(bool value) {

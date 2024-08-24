@@ -7,11 +7,27 @@ import 'package:get_storage/get_storage.dart';
 import 'package:karat_habit_tracker_app/view/components/Sidebar/SideBarController.dart';
 import 'package:karat_habit_tracker_app/view/splash_screen.dart';
 
+import 'model/repositories/notification/notification_service.dart';
+import 'model/repositories/notification/work_manager_service.dart';
+
 
 
 void main() async {
+  // مطمئن شوید که flutter binding قبل از اجرا تنظیم شده است
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // مقداردهی اولیه GetStorage برای استفاده از آن
   await GetStorage.init();
-  runApp(MyApp());
+
+  // مقداردهی اولیه flutter_local_notifications
+  final NotificationService notificationService = NotificationService();
+  await notificationService.init();
+
+  // مقداردهی اولیه Workmanager
+  WorkManagerService().init();
+
+  // تنظیم و برنامه‌ریزی وظایف Workmanager
+  WorkManagerService().scheduleDailyTasks();
 }
 
 class MyApp extends StatelessWidget {
