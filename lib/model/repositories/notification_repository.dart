@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../constant.dart';
 import '../entity/notification_model.dart';
@@ -40,4 +41,28 @@ class NotificationRepository {
       throw Exception('Error during request: $e');
     }
   }
+
+
+  Future<int> fetchIncompleteHabitsCount() async {
+    final box = GetStorage();
+    final token = box.read('auth_token');
+    try {
+
+      final response = await dio.get('habit/get_incomplete_habits_count/',options: Options(
+        headers: {
+          'Authorization': "Token ${token}",
+        },
+      ),);
+      if (response.statusCode == 200) {
+        return response.data['count'];
+      }
+      else{
+        return 0;
+      }
+    } catch (e) {
+      return 0;
+    }
+  }
+
+
 }

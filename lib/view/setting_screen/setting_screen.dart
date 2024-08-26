@@ -34,6 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
     super.initState();
     String? myUsername = box.read('username');
     usernameController = TextEditingController(text: myUsername);
+    print(settingsController.userViewModel.userProfile.value.notif_enabled);
     notifEnabled = (settingsController.userViewModel.userProfile.value.notif_enabled ?? true).obs;
 
     usernameController.addListener(() {
@@ -318,9 +319,6 @@ class _SettingsPageState extends State<SettingsPage> {
                     },
                   ),
                 ),
-                onTap: () {
-                  settingsController.toggleSound(!settingsController.isSoundOn.value);
-                },
               )),
               Divider(color: Colors.grey, thickness: 0.5),
               Obx(() => ListTile(
@@ -332,17 +330,16 @@ class _SettingsPageState extends State<SettingsPage> {
                 trailing: Transform.scale(
                   scale: 0.75,  // تغییر اندازه سوئیچ
                   child: Switch(
-                    value: notifEnabled.value,
+                    value: settingsController.isNotifEnabled.value,
                     onChanged: (bool value) {
-                      isEdited.value = true;
+                     // isEdited.value = true;
                       notifEnabled.value = value;
+                      settingsController.toggleNotifEnabled(value);
+
                     },
                   ),
                 ),
-                onTap: () {
-                  isEdited.value = true;
-                  notifEnabled.value = !notifEnabled.value;
-                },
+
               )),
 
 
