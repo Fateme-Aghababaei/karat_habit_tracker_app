@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -9,8 +8,6 @@ import 'package:karat_habit_tracker_app/utils/theme/controller.dart';
 import 'package:karat_habit_tracker_app/utils/routes/AppRoutes.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:karat_habit_tracker_app/view/splash_screen.dart';
-import 'package:path/path.dart';
-
 import 'model/repositories/notification_repository.dart';
 import 'model/repositories/notification_service.dart';
 
@@ -113,6 +110,8 @@ Future<void> startPeriodicTimer() async {
     }
   });
 }
+
+
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});

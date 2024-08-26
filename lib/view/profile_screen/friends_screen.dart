@@ -96,7 +96,7 @@ class FollowersFollowingPage extends StatelessWidget {
               key: ValueKey(follow.username),
               leading: CircleAvatar(
                 radius: 24.r,
-                backgroundImage: userViewModel.userProfile.value.photo != null
+                backgroundImage: follow.photo != null
                     ? NetworkImage(follow.photo!)
                     : const AssetImage('assets/images/profile.png') as ImageProvider,
                 backgroundColor: follow.photo != null
@@ -138,7 +138,7 @@ class FollowersFollowingPage extends StatelessWidget {
             child: ListTile(
               leading: CircleAvatar(
                 radius: 24.r,
-                backgroundImage: userViewModel.userProfile.value.photo != null
+                backgroundImage: follow.photo != null
                     ? NetworkImage(follow.photo!)
                     : const AssetImage('assets/images/profile.png')
                 as ImageProvider,

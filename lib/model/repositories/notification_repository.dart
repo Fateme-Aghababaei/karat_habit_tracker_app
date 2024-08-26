@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
-
 import '../constant.dart';
 import '../entity/notification_model.dart';
 
@@ -43,6 +42,7 @@ class NotificationRepository {
   }
 
 
+
   Future<int> fetchIncompleteHabitsCount() async {
     final box = GetStorage();
     final token = box.read('auth_token');
@@ -53,6 +53,7 @@ class NotificationRepository {
           'Authorization': "Token ${token}",
         },
       ),);
+
       if (response.statusCode == 200) {
         return response.data['count'];
       }
@@ -63,6 +64,4 @@ class NotificationRepository {
       return 0;
     }
   }
-
-
 }

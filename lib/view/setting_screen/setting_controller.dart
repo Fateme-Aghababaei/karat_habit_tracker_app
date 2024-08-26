@@ -14,8 +14,11 @@ class SettingsController extends GetxController {
   RxBool isNotifEnabled = true.obs;
 
 
+
   // وضعیت صدا
   RxBool isSoundOn = true.obs;
+
+
   @override
   void onInit() {
     super.onInit();
@@ -23,11 +26,12 @@ class SettingsController extends GetxController {
     isNotifEnabled.value = box.read('isNotifEnabled') ?? true; // مقداردهی اولیه از استورج
   }
 
+
   void toggleNotifEnabled(bool value) {
     isNotifEnabled.value = value;
     box.write('isNotifEnabled', value);
-
   }
+
 
   // تغییر وضعیت صدا و ذخیره در GetStorage
   void toggleSound(bool value) {

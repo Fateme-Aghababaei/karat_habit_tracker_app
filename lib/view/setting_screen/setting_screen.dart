@@ -336,6 +336,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       notifEnabled.value = value;
                       settingsController.toggleNotifEnabled(value);
 
+
                     },
                   ),
                 ),
