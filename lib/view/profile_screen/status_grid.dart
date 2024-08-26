@@ -42,7 +42,7 @@ class StatusGrid extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: 12.0.r,
+        mainAxisSpacing: 10.0.r,
         crossAxisSpacing: 12.0.r,
         childAspectRatio: 2,
       ),

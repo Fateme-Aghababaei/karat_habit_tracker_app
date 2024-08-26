@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:karat_habit_tracker_app/utils/routes/RouteNames.dart';
+import '../../model/constant.dart';
 import '../../viewmodel/user_viewmodel.dart';
 import '../error_screen.dart';
 
@@ -97,7 +98,7 @@ class FollowersFollowingPage extends StatelessWidget {
               leading: CircleAvatar(
                 radius: 24.r,
                 backgroundImage: follow.photo != null
-                    ? NetworkImage(follow.photo!)
+                    ? NetworkImage('$baseUrl${follow.photo!}')
                     : const AssetImage('assets/images/profile.png') as ImageProvider,
                 backgroundColor: follow.photo != null
                     ? Colors.transparent
@@ -139,7 +140,7 @@ class FollowersFollowingPage extends StatelessWidget {
               leading: CircleAvatar(
                 radius: 24.r,
                 backgroundImage: follow.photo != null
-                    ? NetworkImage(follow.photo!)
+                    ? NetworkImage('$baseUrl${follow.photo!}')
                     : const AssetImage('assets/images/profile.png')
                 as ImageProvider,
                 backgroundColor: follow.photo != null

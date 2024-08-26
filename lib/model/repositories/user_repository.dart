@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:karat_habit_tracker_app/model/constant.dart';
+import '../entity/badge_model.dart';
 import '../entity/brief_model.dart';
 import '../entity/follower_following_model.dart';
 import '../entity/user_model.dart';
@@ -275,6 +276,21 @@ class UserRepository {
 
     } catch (e) {
       throw Exception('Error during request: $e');
+    }
+  }
+
+  Future<List<MyBadge>?> getNewBadges() async {
+    try {
+      final response = await dio.get('profile/get_new_badges/');
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = response.data;
+        return data.map((badge) => MyBadge.fromJson(badge)).toList();
+      } else {
+        return null;
+      }
+    } catch (e) {
+      throw Exception('Error occurred: $e');
     }
   }
 }

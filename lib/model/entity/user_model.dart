@@ -14,7 +14,7 @@ class UserModel {
   final int? followersNum;
   final int? followingsNum;
   final bool? notif_enabled;
-  final List<Badge> badges;
+  final List<MyBadge> badges;
   final int completedChallengesNum;
   final int completedHabitsNum;
   final int unreadNotifsNum;
@@ -53,7 +53,7 @@ class UserModel {
     followersNum: json["followers_num"],
     followingsNum: json["followings_num"],
     notif_enabled: json["notif_enabled"],
-    badges: List<Badge>.from(json["badges"].map((x) => Badge.fromJson(x))),
+    badges: List<MyBadge>.from(json["badges"].map((x) => MyBadge.fromJson(x))),
     completedChallengesNum: json["completed_challenges_num"],
     completedHabitsNum: json["completed_habits_num"],
     unreadNotifsNum: json["unread_notifs_num"],

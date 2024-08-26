@@ -15,11 +15,12 @@ class StatusCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(12.0.r),
+         // border: Border.all(color: Colors.grey.shade300)
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
             blurRadius: 2,
-            offset: Offset(0, 2),
+            offset: Offset(2, 2),
           ),
         ],
       ),

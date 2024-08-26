@@ -56,7 +56,7 @@ class ChallengePage extends StatelessWidget {
                         },
                         child: Text(
                           'مشاهده همه',
-                          style: TextStyle(color: Theme.of(context).primaryColor),
+                          style: TextStyle(color: Theme.of(context).colorScheme.secondaryFixed),
                         ),
                       ),
                     ],

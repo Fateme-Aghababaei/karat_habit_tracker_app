@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../viewmodel/user_viewmodel.dart';
+import 'badge_widget.dart';
 import 'profile_header.dart';
 import 'status_grid.dart';
 import '../error_screen.dart';
@@ -53,6 +54,8 @@ class ProfilePage extends StatelessWidget {
                   ProfileHeader(userViewModel: userViewModel, username: username),
                   SizedBox(height: 20.0.r),
                   StatusGrid(userViewModel: userViewModel),
+                  SizedBox(height: 30.0.r),
+                  BadgesWidget(userViewModel: userViewModel),
                 ],
               ),
             );

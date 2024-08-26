@@ -1,24 +1,24 @@
 import 'dart:convert';
 
-class Badge {
+class MyBadge {
   final String title;
   final String description;
   final String image;
   final String awardedAt;
 
-  Badge({
+  MyBadge({
     required this.title,
     required this.description,
     required this.image,
     required this.awardedAt,
   });
 
-  factory Badge.fromRawJson(String str) => Badge.fromJson(json.decode(str));
+  factory MyBadge.fromRawJson(String str) => MyBadge.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory Badge.fromJson(Map<String, dynamic> json) =>
-      Badge(
+  factory MyBadge.fromJson(Map<String, dynamic> json) =>
+      MyBadge(
         title: json["title"],
         description: json["description"],
         image: json["image"],
