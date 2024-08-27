@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '../../model/constant.dart';
 import '../../viewmodel/user_viewmodel.dart';
 import 'badge_widget.dart';
 import 'profile_header.dart';
@@ -56,6 +57,15 @@ class ProfilePage extends StatelessWidget {
                   StatusGrid(userViewModel: userViewModel),
                   SizedBox(height: 30.0.r),
                   BadgesWidget(userViewModel: userViewModel),
+                  SizedBox(height: 20.0.r),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        await showBadgesModal(userViewModel,context);
+                      },
+                      child: Text("Show Badges"),
+                    ),
+                  ),
                 ],
               ),
             );
@@ -64,4 +74,53 @@ class ProfilePage extends StatelessWidget {
       ),
     );
   }
+
+  Future<void> showBadgesModal(UserViewModel userViewModel, BuildContext context) async {
+    final badges = userViewModel.userProfile.value.badges;
+    for (var badge in badges) {
+      await Get.dialog(
+        AlertDialog(
+          title: Column(
+            children: [
+              Text(
+                '🎉تبریک',
+                style: Theme.of(context).textTheme.titleLarge,
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 8.r),
+              Text(
+                'شما یک نشان جدید دریافت کردید!',
+                style: Theme.of(context).textTheme.bodyLarge,
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.network('$baseUrl${badge.image}', height: MediaQuery.of(context).size.height * 0.24),
+              SizedBox(height: 8.0.r),
+              Text(
+                badge.description ?? 'توضیحی موجود نیست',
+                style: Theme.of(context).textTheme.bodyMedium,
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 10.r),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Get.back(); // Close the current modal
+              },
+              child: Text(
+                'بستن',
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
 }

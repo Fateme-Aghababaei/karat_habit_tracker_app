@@ -282,8 +282,10 @@ class UserRepository {
   Future<List<MyBadge>?> getNewBadges() async {
     try {
       final response = await dio.get('profile/get_new_badges/');
+print(response.statusCode);
 
       if (response.statusCode == 200) {
+        print(response.data);
         final List<dynamic> data = response.data;
         return data.map((badge) => MyBadge.fromJson(badge)).toList();
       } else {

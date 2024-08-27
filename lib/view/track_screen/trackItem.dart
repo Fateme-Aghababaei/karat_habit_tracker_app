@@ -21,7 +21,7 @@ String calculateTimeDifference(String startDatetime, String endDatetime) {
 
 Widget buildTrackItem(Track track, BuildContext context,) {
   return Container(
-    margin: EdgeInsets.symmetric(vertical: 5.0.r),
+    margin: EdgeInsets.symmetric(vertical: 4.0.r),
     decoration: BoxDecoration(
       color: Theme.of(context).scaffoldBackgroundColor,
       borderRadius: BorderRadius.circular(10.0.r),

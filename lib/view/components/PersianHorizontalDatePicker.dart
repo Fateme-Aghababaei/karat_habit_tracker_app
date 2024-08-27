@@ -20,7 +20,7 @@ Widget buildPersianHorizontalDatePicker({
     initialSelectedDayTextStyle: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 12.sp,fontFamily: "IRANYekan_number"),
     initialSelectedWeekDayTextStyle:Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize:9.sp),
     isPersianDate: true,
-   datePickerHeight:54.0.r,
+   datePickerHeight:52.0.r,
     contentPadding: const EdgeInsets.all(2),
     width: 52.0.r,
     weekDayTextStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 9.sp),

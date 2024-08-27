@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:karat_habit_tracker_app/view/components/Sidebar/Sidebar.dart';
+import 'package:path/path.dart';
 import '../../model/entity/habit_model.dart';
 import '../../viewmodel/habit_viewmodel.dart';
 import '../components/AppBar.dart';
@@ -15,7 +16,6 @@ import 'habit_error.dart';
 
 
 class HabitPage extends StatelessWidget {
-  final HabitViewModel habitViewModel = Get.put(HabitViewModel());
   HabitPage({super.key});
   Rx<DateTime> startDate = DateTime.now().subtract(const Duration(days: 2)).obs;
   Rx<DateTime> endDate = DateTime.now().add(const Duration(days: 7)).obs;
@@ -28,6 +28,7 @@ class HabitPage extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
+    final HabitViewModel habitViewModel = Get.put(HabitViewModel(context));
 
 
     return Scaffold(
@@ -39,7 +40,7 @@ class HabitPage extends StatelessWidget {
           }},
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0.r),
+          padding: EdgeInsets.symmetric(horizontal: 4.0.r),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -80,7 +81,7 @@ class HabitPage extends StatelessWidget {
                   },
                   context: context,
                 )),
-                SizedBox(height: 12.0.r),
+                SizedBox(height: 8.0.r),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.55,
                   child: Obx(() {
@@ -95,19 +96,22 @@ class HabitPage extends StatelessWidget {
                       return Center(child: Text('هیچ عادتی برای این روز وجود ندارد.',
                         style: Theme.of(context).textTheme.bodyMedium,));
                     }
-                    return ListView.builder(
-                      itemCount: habitViewModel.habits.length,
-                      itemBuilder: (context, index) {
-                        Habit habit = habitViewModel.habits[index];
-                        return GestureDetector(
-                          onTap: () {
-                            (habit.isCompleted || habit.fromChallenge!=null)
-                            ?null
-                            :_showBottomSheet(context,initialSelectedDate,habit:habit);
-                          },
-                          child: buildHabitItem(habit, context,habitViewModel),
-                        );
-                      },
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: ListView.builder(
+                        itemCount: habitViewModel.habits.length,
+                        itemBuilder: (context, index) {
+                          Habit habit = habitViewModel.habits[index];
+                          return GestureDetector(
+                            onTap: () {
+                              (habit.isCompleted || habit.fromChallenge!=null)
+                              ?null
+                              :_showBottomSheet(context,initialSelectedDate,habitViewModel,habit:habit);
+                            },
+                            child: buildHabitItem(habit, context,habitViewModel),
+                          );
+                        },
+                      ),
                     );
                   }),
                 ),
@@ -125,7 +129,7 @@ class HabitPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(94.0.r),
             ),
             onPressed: () {
-              _showBottomSheet(context,initialSelectedDate);
+              _showBottomSheet(context,initialSelectedDate,habitViewModel);
             },
             child: Icon(Icons.add),
           ),
@@ -135,7 +139,7 @@ class HabitPage extends StatelessWidget {
     );
   }
 
-  void _showBottomSheet(BuildContext context, Rx<DateTime> initialSelectedDate, {Habit? habit}) {
+  void _showBottomSheet(BuildContext context, Rx<DateTime> initialSelectedDate, HabitViewModel habitViewModel, {Habit? habit}) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -146,5 +150,7 @@ class HabitPage extends StatelessWidget {
       Get.delete<HabitBottomSheetController>(); // حذف کنترلر وقتی BottomSheet بسته شد
     });
   }
+
+
 
 }

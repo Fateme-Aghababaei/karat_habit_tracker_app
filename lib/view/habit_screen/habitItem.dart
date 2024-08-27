@@ -11,7 +11,7 @@ Widget buildHabitItem(Habit habit, BuildContext context, HabitViewModel habitVie
   //final AudioPlayer _audioPlayer = AudioPlayer();
 
   return Container(
-    margin: EdgeInsets.symmetric(vertical: 6.0.r),
+    margin: EdgeInsets.symmetric(vertical: 4.5.r),
     decoration: BoxDecoration(
       color: Theme.of(context).scaffoldBackgroundColor,
       borderRadius: BorderRadius.circular(10.0.r),
@@ -41,7 +41,7 @@ Widget buildHabitItem(Habit habit, BuildContext context, HabitViewModel habitVie
         // محتویات داخل باکس
         Expanded(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.0.r, vertical: 8.0.r),
+            padding: EdgeInsets.symmetric(horizontal: 12.0.r, vertical: 6.0.r),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

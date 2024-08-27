@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import '../model/constant.dart';
 import '../model/entity/habit_model.dart';
 import '../model/entity/tag_model.dart';
 import '../model/repositories/habit_repository.dart';
@@ -19,7 +21,8 @@ class HabitViewModel extends GetxController {
   final String todayDate = DateTime.now().toIso8601String().split('T')[0];
   Rx<String> initialSelectedDate = DateTime.now().toIso8601String().split('T')[0].obs;
   final SideBarController sideBarController =   Get.find<SideBarController>();
-
+  final BuildContext context;
+  HabitViewModel(this.context);
   @override
   void onInit() {
     super.onInit();
@@ -41,12 +44,70 @@ class HabitViewModel extends GetxController {
   Future<void> updateStreak() async {
     try {
       final result = await _userRepository.updateStreak();
+
       if (result != null && result['state'] != 'unchanged') {
         streakData.value = result;
-        _showStreakUpdateModal(result);
+
+        // ابتدا دیالوگ بروزرسانی استریک را نمایش بده
+         _showStreakUpdateModal(result);
+
+        // چک کردن اینکه نشان جدیدی وجود دارد یا خیر
+        if (result['has_new_badges'] == true) {
+          // دریافت نشان‌های جدید
+          final newBadges = await _userRepository.getNewBadges();
+          if (newBadges != null && newBadges.isNotEmpty) {
+            // نمایش نشان‌های جدید
+            for (var badge in newBadges) {
+              await Get.dialog(
+                AlertDialog(
+                  title: Column(
+                    children: [
+                      Text(
+                        '🎉تبریک',
+                        style: Theme.of(context).textTheme.titleLarge,
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 8.r),
+                      Text(
+                        'شما یک نشان جدید دریافت کردید!',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.network(
+                          '$baseUrl${badge.image}',
+                          height: MediaQuery.of(context).size.height * 0.24
+                      ),
+                      SizedBox(height: 8.0.r),
+                      Text(
+                        badge.description ?? 'توضیحی موجود نیست',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 10.r),
+                    ],
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Get.back(); // Close the current modal
+                      },
+                      child: Text(
+                        'بستن',
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+          }
+        }
       }
-    }
-    catch(e){
+    } catch (e) {
       print(e.toString());
     }
   }
@@ -54,7 +115,7 @@ class HabitViewModel extends GetxController {
   void _showStreakUpdateModal(Map<String, dynamic> result) {
     Get.bottomSheet(
       Container(
-        padding: const EdgeInsets.all(16.0),
+        padding:  EdgeInsets.only(left: 4.0.r,right: 4.0.r, bottom: 12.0.r),
         decoration: BoxDecoration(
           color: Get.theme.scaffoldBackgroundColor,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(16.0)),
@@ -63,25 +124,44 @@ class HabitViewModel extends GetxController {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text(
-              'Streak Update',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            // دکمه ضربدر در بالا گوشه سمت راست
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () => Get.back(),
+              ),
             ),
-            const SizedBox(height: 10),
             Text(
-              'Your streak has ${result['state']} to ${result['streak']}!',
-              style: const TextStyle(fontSize: 16),
+              '${result['streak']} روز توالی',
+              style: TextStyle(
+                fontFamily: "IRANYekan_number",
+                fontSize: 26.sp
+              ),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => Get.back(),
-              child: const Text('Close'),
+            SizedBox(height: 16.0.r),
+            // Stack for Image and Icon Overlay
+                Image.asset(
+                  'assets/images/k.png', // مسیر تصویر آتش‌ها
+                ),
+            SizedBox(height: 16.0.r),
+            Text(
+              '1 روز به توالی شما افزوده شد',
+              style: TextStyle(
+                fontSize: 18,
+                fontFamily: "IRANYekan_number",
+                color: Colors.grey.shade700, // رنگ دلخواه شما
+              ),
             ),
+            SizedBox(height: 16),
+            // نوار پایین برای استریک
+
           ],
         ),
       ),
     );
   }
+
 
   void _loadTagsFromStorage() {
     var storedTags = _storage.read<List>('tags'); // خواندن لیست تگ‌ها به عنوان List<dynamic>
@@ -95,7 +175,6 @@ class HabitViewModel extends GetxController {
   }
   // Load User Tags
   Future<void> loadUserTags() async {
-print("ggfgf");
     try {
       var loadedTags = await _habitRepository.getUserTags();
       if (loadedTags != null) {
