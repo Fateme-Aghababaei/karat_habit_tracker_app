@@ -15,11 +15,11 @@ class CreateTagDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Color> colors = [
-      Colors.red, Colors.orange, Colors.yellow,
-      Colors.green, Colors.blue, Colors.purple,
-      Colors.pink, Colors.brown, Colors.cyan,
-      Colors.lime, Colors.amber, Colors.teal,
-      Colors.indigo, Colors.deepPurple, Colors.grey,
+      Color(0XFF6FC3DF), Color(0XFFFF6F61), Color(0XFFA3A545),
+      Color(0XFFD8A72D), Color(0xFFF28B82), Color(0xFFB3E5FC),
+      Color(0xFFB2DFDB), Color(0XFFCF6679), Color(0XFFD1BBA9),
+      Color(0XFF9BD1B3), Color(0XFFd8df66), Color(0XFF75a8ab),
+      Color(0XFFe38c58), Color(0XFFd98d9e), Color(0xFFE1BEE7),
     ];
 
     return Dialog(
