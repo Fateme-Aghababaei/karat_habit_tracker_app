@@ -171,6 +171,7 @@ class ChallengeViewModel extends GetxController {
       if (participatedChallenge != null) {
         // افزودن چالش جدید به لیست شرکت کرده‌ها
         participatedChallenges.insert(0, participatedChallenge);
+        sideBarController.reduceScore(participatedChallenge.price);
         participatedChallenges.refresh();
         int index = challenges.indexWhere((challenge) => challenge.id == participatedChallenge.id);
         if (index != -1) {

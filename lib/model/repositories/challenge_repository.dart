@@ -1,5 +1,6 @@
 
 
+import 'package:get_storage/get_storage.dart';
 import 'package:path/path.dart';
 import '../constant.dart';
 import '../entity/challenge_model.dart';
@@ -208,6 +209,8 @@ class ChallengeRepository {
   Future<Challenge?> getChallengeByIdOrCode({int? id, String? code,})
   async {
     try {
+      final box = GetStorage();
+      final token = box.read('auth_token');
       final queryParams = <String, dynamic>{};
       if (id != null) {
         queryParams['id'] = id;
@@ -220,6 +223,11 @@ class ChallengeRepository {
       final response = await dio.get(
         'challenge/get_challenge/',
         queryParameters: queryParams,
+        options: Options(
+          headers: {
+            'Authorization': "Token ${token}",
+          },
+        ),
       );
 
       if (response.statusCode == 200) {

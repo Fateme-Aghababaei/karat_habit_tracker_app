@@ -50,13 +50,16 @@ class ProfileHeader extends StatelessWidget {
                   Row(
                     children: [
                       InkWell(
+                        splashColor: Colors.transparent, // غیرفعال کردن افکت ریسپل
+                        highlightColor: Colors.transparent, // غیرفعال کردن افکت هایلایت
+                        hoverColor: Colors.transparent,
                         onTap: () async {
                           bool? result = await Get.to(() => FollowersFollowingPage(
-                              userViewModel: userViewModel));
+                              userViewModel: userViewModel,initialTabIndex: 0,));
                           if (result == true) {
                             // بازخوانی اطلاعات پروفایل و لیست دوستان
-                            await userViewModel.fetchUserProfile(username,false);
-                            await userViewModel.fetchFollowerFollowing(username, false);
+                            await userViewModel.fetchUserProfile(username,true);
+                            await userViewModel.fetchFollowerFollowing(username, true);
                           }
                         },
                         child: Column(
@@ -85,13 +88,16 @@ class ProfileHeader extends StatelessWidget {
                       ),
                       SizedBox(width: 34.0.r),
                       InkWell(
+                        splashColor: Colors.transparent, // غیرفعال کردن افکت ریسپل
+                        highlightColor: Colors.transparent, // غیرفعال کردن افکت هایلایت
+                        hoverColor: Colors.transparent,
                         onTap: () async {
                           bool? result = await Get.to(() => FollowersFollowingPage(
-                              userViewModel: userViewModel));
+                              userViewModel: userViewModel,initialTabIndex: 1,));
                           if (result == true) {
                             // بازخوانی اطلاعات پروفایل و لیست دوستان
-                            await userViewModel.fetchUserProfile(username,false);
-                            await userViewModel.fetchFollowerFollowing(username, false);
+                            await userViewModel.fetchUserProfile(username,true);
+                            await userViewModel.fetchFollowerFollowing(username, true);
                           }
                         },
                         child: Column(

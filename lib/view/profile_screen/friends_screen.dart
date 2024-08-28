@@ -9,41 +9,47 @@ import '../error_screen.dart';
 
 class FollowersFollowingPage extends StatelessWidget {
   final UserViewModel userViewModel;
+  final int initialTabIndex; // Add this parameter to determine initial tab index
 
-  const FollowersFollowingPage({super.key, required this.userViewModel});
+  const FollowersFollowingPage({
+    super.key,
+    required this.userViewModel,
+    this.initialTabIndex = 0, // Default to the first tab if not specified
+  });
+
   @override
   Widget build(BuildContext context) {
-
     double halfScreenWidth = MediaQuery.of(context).size.width / 2;
-    return  DefaultTabController(
+    return DefaultTabController(
       length: 2,
+      initialIndex: initialTabIndex, // Set the initial index here
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
           centerTitle: true,
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.arrow_forward),
-                onPressed: () => Get.back(result: true)
-              ),
-            ],
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.arrow_forward),
+              onPressed: () => Get.back(result: true),
+            ),
+          ],
           title: Text(
-           userViewModel.userFriends.value.firstName ??'',
+            userViewModel.userFriends.value.firstName ?? '',
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
               fontSize: 15.sp,
             ),
           ),
-          bottom:  TabBar(
+          bottom: TabBar(
             indicatorColor: Theme.of(context).primaryColor,
             labelColor: Theme.of(context).primaryColor,
             unselectedLabelColor: Colors.grey,
-            labelStyle:  TextStyle(
-              fontFamily: "IRANYekan",
-              fontWeight: FontWeight.w700,
-            fontSize: 12.0.sp),
-            unselectedLabelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+            labelStyle: TextStyle(
+                fontFamily: "IRANYekan",
                 fontWeight: FontWeight.w700,
-                fontSize: 12.0.sp
+                fontSize: 12.0.sp),
+            unselectedLabelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+              fontWeight: FontWeight.w700,
+              fontSize: 12.0.sp,
             ),
             indicatorSize: TabBarIndicatorSize.label,
             tabs: [
@@ -58,16 +64,16 @@ class FollowersFollowingPage extends StatelessWidget {
             ],
           ),
         ),
-        body:userViewModel.userFriends.value.username == null
-            ?const Error()
-        :TabBarView(
+        body: userViewModel.userFriends.value.username == null
+            ? const Error()
+            : TabBarView(
           children: [
             Padding(
-              padding: EdgeInsets.only(top: 10.0.r), // فاصله دادن از بالای تب‌ها
+              padding: EdgeInsets.only(top: 10.0.r),
               child: buildFollowersList(),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 10.0.r), // فاصله دادن از بالای تب‌ها
+              padding: EdgeInsets.only(top: 10.0.r),
               child: buildFollowingList(),
             ),
           ],

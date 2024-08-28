@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:just_audio/just_audio.dart';
 import '../../model/entity/habit_model.dart';
 import 'package:get/get.dart';
 import '../../viewmodel/habit_viewmodel.dart';
 
 Widget buildHabitItem(Habit habit, BuildContext context, HabitViewModel habitViewModel) {
   RxBool checked = habit.isCompleted.obs;
-  final GetStorage _storage = GetStorage();
-  //final AudioPlayer _audioPlayer = AudioPlayer();
+  final GetStorage storage = GetStorage();
+  final AudioPlayer audioPlayer = AudioPlayer();
 
   return Container(
     margin: EdgeInsets.symmetric(vertical: 4.5.r),
@@ -78,13 +79,17 @@ Widget buildHabitItem(Habit habit, BuildContext context, HabitViewModel habitVie
             onChanged: (value) async {
               if (value!) {
                 checked.value = true;
-                //bool shouldPlaySound = _storage.read('isSoundOn') ;
-                // _audioPlayer.setReleaseMode(ReleaseMode.stop);
-                //
-                // if (shouldPlaySound) {
-                //   await _audioPlayer.setSource(AssetSource('assets/sounds/check_sound.mp3'));
-                //   await _audioPlayer.resume();
-                // }
+                bool shouldPlaySound = storage.read('isSoundOn') ?? true;
+
+                if (shouldPlaySound) {
+                  // Play sound using just_audio
+                  try {
+                    await audioPlayer.setAsset('assets/sounds/check_sound.mp3');
+                    await audioPlayer.play();
+                  } catch (e) {
+                    print("Error playing sound: $e");
+                  }
+                }
                 habitViewModel.completeHabit(habit.id, habit.dueDate!, DateTime.now().toIso8601String().split('T')[0]);
               }
             },

@@ -83,14 +83,14 @@ class _TagPieChartState extends State<TagPieChart> with SingleTickerProviderStat
             children: [
               Expanded(
                 child: AspectRatio(
-                  aspectRatio: 1.3,
+                  aspectRatio: 1.1,
                   child: AnimatedBuilder(
                     animation: _animation,
                     builder: (context, child) {
                       return PieChart(
                         PieChartData(
                           sectionsSpace: 0,
-                          centerSpaceRadius: 40,
+                          centerSpaceRadius: 36,
                           sections: _showingSections(tagDurations),
                           startDegreeOffset: 110 * _animation.value,
                         ),

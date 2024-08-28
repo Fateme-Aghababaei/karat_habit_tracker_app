@@ -8,17 +8,27 @@ import 'package:karat_habit_tracker_app/utils/theme/controller.dart';
 import 'package:karat_habit_tracker_app/utils/routes/AppRoutes.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:karat_habit_tracker_app/view/splash_screen.dart';
-import 'model/repositories/notification_repository.dart';
+import 'DeepLink.dart';
+import 'background_service.dart';
 import 'model/repositories/notification_service.dart';
 
 
-Timer? periodicTimer; // تعریف تایمر به عنوان متغیر گلوبال
+Timer? periodicTimer;
+
+@pragma('vm:entry-point')
+void onStart(ServiceInstance service) async {
+  DartPluginRegistrant.ensureInitialized();
+  await GetStorage.init();
+
+  // Initialize the periodic timer
+  startPeriodicTimer();
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
   await initializeNotifications();
-  await initializeService();
+  await initializeService(onStart);
 
   final box = GetStorage();
 
@@ -42,74 +52,7 @@ void main() async {
   runApp(MyApp());
 }
 
-Future<void> initializeService() async {
-  final service = FlutterBackgroundService();
-  await service.configure(
-    androidConfiguration: AndroidConfiguration(
-      onStart: onStart,
-      isForegroundMode: false,
-      autoStart: true,
-      autoStartOnBoot: true,
-      notificationChannelId: 'morning_reminder_channel',
-      initialNotificationTitle: 'Background Service',
-      initialNotificationContent: 'Service is running...',
-      foregroundServiceNotificationId: 0,
-    ),
-    iosConfiguration: IosConfiguration(
-      onForeground: onStart,
-      onBackground: (service) {
-        return true;
-      },
-    ),
-  );
 
-  service.startService();
-}
-
-@pragma('vm:entry-point')
-void onStart(ServiceInstance service) async {
-  DartPluginRegistrant.ensureInitialized();
-  await GetStorage.init();
-
-  final box = GetStorage();
-
-  // راه‌اندازی تایمر پریودیک در شروع سرویس
-  startPeriodicTimer();
-}
-
-Future<void> startPeriodicTimer() async {
-  final box = GetStorage();
-
-  // اطمینان از اینکه اگر تایمر قبلی فعال است، لغو شود
-  if (periodicTimer != null && periodicTimer!.isActive) {
-    periodicTimer!.cancel();
-  }
-  final token=await box.read('auth_token');
-  bool flag=false;
-  periodicTimer = Timer.periodic(const Duration(minutes: 15), (timer) async {
-    // چک کردن وضعیت نوتیفیکیشن
-    bool isNotifEnabled = box.read('isNotifEnabled') ?? true;
-
-    if (!isNotifEnabled) {
-      timer.cancel(); // اگر نوتیفیکیشن غیرفعال شد، تایمر را لغو کنید
-      print("Periodic timer cancelled within the loop due to notification disabled.");
-      return;
-    }
-
-    final NotificationRepository notificationRepository = NotificationRepository();
-    final now = DateTime.now();
-
-    if (!flag&&(now.hour == 9 || now.hour == 21)) {
-      flag=true;
-      int habitCount = await notificationRepository.fetchIncompleteHabitsCount();
-      String body=now.hour == 9? 'شما $habitCount وظیفه برای امروز دارید. با انرژی و انگیزه روزتان را آغاز کنید!': 'شما هنوز $habitCount کار ناتمام دارید. قبل از پایان روز آنها را به اتمام برسانید!';
-      await scheduleDailyNotifications(body, habitCount);
-      print("Notifications scheduled successfully.");
-    } else {
-      print("It's not time yet.");
-    }
-  });
-}
 
 
 
@@ -118,9 +61,11 @@ class MyApp extends StatelessWidget {
 
   final ThemeController _themeController =
       Get.put<ThemeController>(ThemeController());
+  final AppLinksDeepLink _appLinksDeepLink = AppLinksDeepLink.instance;
 
   @override
   Widget build(BuildContext context) {
+    _appLinksDeepLink.initDeepLinks();
     return ScreenUtilInit(
       minTextAdapt: true,
       splitScreenMode: true,

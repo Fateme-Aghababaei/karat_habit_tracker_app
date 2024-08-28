@@ -58,6 +58,9 @@ class SideBarController extends GetxController {
   void updateScore(int index) {
     userScore.value =userScore.value+ index;
   }
+  void reduceScore(int index) {
+    userScore.value =userScore.value- index;
+  }
   void refreshChallengePage() {
     final ChallengeViewModel challengeViewModel = Get.put(ChallengeViewModel());
     challengeViewModel.onInit();

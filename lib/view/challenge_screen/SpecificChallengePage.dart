@@ -50,7 +50,7 @@ class SpecificChallengePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.85,
+                      width: MediaQuery.of(context).size.width * 0.9,
                       height: MediaQuery.of(context).size.height * 0.25,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0.r),
@@ -66,7 +66,7 @@ class SpecificChallengePage extends StatelessWidget {
                             color: Colors.black.withOpacity(0.2), // رنگ سایه با شفافیت 20%
                             spreadRadius: 1,
                             blurRadius: 5,
-                            offset: Offset(0, 2),
+                            offset: Offset(2, 2),
                           ),
                         ],
                       ),
@@ -78,40 +78,28 @@ class SpecificChallengePage extends StatelessWidget {
                 Text(
                   'امتیاز مورد نیاز : ${challenge.value!.price}',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontSize: 15.sp,
+                    fontSize: 14.sp,
                     fontFamily: "IRANYekan_number",
                   ),
                 ),
                 Text(
                   'تاریخ شروع : ${controller.convertToJalali(challenge.value!.startDate)}',
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    fontSize: 13.sp,
+                    fontSize: 12.5.sp,
                     fontFamily: "IRANYekan_number",
                   ),
                 ),
                 Text(
                   'تاریخ پایان : ${controller.convertToJalali(challenge.value!.endDate)}',
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    fontSize: 13.sp,
+                    fontSize: 12.5.sp,
                     fontFamily: "IRANYekan_number",
                   ),
                 ),
 
                 SizedBox(height: 10.0.r),
-
-                Text('توضیحات: ', style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontSize: 14.sp,
-                  fontFamily: "IRANYekan_number",
-                ),),
-                Text(challenge.value!.description,style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  fontSize: 13.sp,
-                  fontFamily: "IRANYekan_number",
-                  fontWeight: FontWeight.w400
-                ),),
-            
-                SizedBox(height: 16.0.r),
                 Text('جوایز دریافتی:', style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontSize: 14.sp,
+                  fontSize: 13.sp,
                   fontFamily: "IRANYekan_number",
                 ),),
                 SizedBox(height: 2.0.r),
@@ -121,64 +109,74 @@ class SpecificChallengePage extends StatelessWidget {
                     Icon(Icons.military_tech, color: Colors.orange),
                     Text('دریافت ${challenge.value!.score} سکه در صورت تکمیل چالش'
                       ,style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          fontSize: 13.sp,
+                          fontSize: 12.5.sp,
                           fontFamily: "IRANYekan_number",
                           fontWeight: FontWeight.w400
                       ),),
                   ],
                 ),
                 SizedBox(height: 10.0.r),
-                Container(
-                  padding: EdgeInsets.only(bottom: 6.0.r,top:controller.canEdit.value?0: 8.0.r),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      top: BorderSide(color: Colors.grey.shade400, width: 1.0),
-                      bottom: BorderSide(color: Colors.grey.shade400, width: 1.0),
+                Text('توضیحات: ', style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontSize: 13.sp,
+                  fontFamily: "IRANYekan_number",
+                ),),
+                Text(challenge.value!.description,style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontSize: 12.5.sp,
+                    fontFamily: "IRANYekan_number",
+                    fontWeight: FontWeight.w400
+                ),),
+                SizedBox(height: 8.0.r),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'در این چالش انجام می‌دهیم:',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontSize: 13.sp,
+                        fontFamily: "IRANYekan_number",
+                      ),
                     ),
+                    Obx(() {
+                      if (controller.canEdit.value) {
+                        return
+                           GestureDetector(
+                            onTap: (){
+                              _showBottomSheet(context);
+                            },
+                            child: Text(
+                              '+ عادت جدید ',
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                fontSize: 12.0.sp,
+                                color: Theme.of(context).colorScheme.secondaryFixed,
+                              ),
+                            ),
+                          );
+
+                      } else {
+                        return SizedBox.shrink(); // اگر شرایط برقرار نباشد، دکمه نمایش داده نمی‌شود
+                      }
+                    }),
+                  ],
+                ),
+                SizedBox(height: 8.0.r),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    borderRadius: BorderRadius.circular(8.0.r),
+                    border: Border.all(color: Colors.grey.shade300),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'در این چالش انجام می‌دهیم:',
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              fontSize: 14.sp,
-                              fontFamily: "IRANYekan_number",
-                            ),
-                          ),
-                          Obx(() {
-                            if (controller.canEdit.value) {
-                              return TextButton(
-                                onPressed: () {
-                                  _showBottomSheet(context);
-                                },
-                                child: Text(
-                                  '+ عادت جدید',
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    fontSize: 12.5.sp,
-                                    color: Theme.of(context).colorScheme.secondaryFixed,
-                                  ),
-                                ),
-                              );
-                            } else {
-                              return SizedBox.shrink(); // اگر شرایط برقرار نباشد، دکمه نمایش داده نمی‌شود
-                            }
-                          }),
-                        ],
-                      ),
-
                       Obx(() {
                         if (challenge.value!.habits.isEmpty) {
                           return Container(
-                            height: MediaQuery.of(context).size.height * 0.1,
+                            height: MediaQuery.of(context).size.height * 0.08,
                             alignment: Alignment.center,
                             child: Text(
                               'هنوز عادتی برای این چالش ایجاد نشده است.',
                               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                fontSize: 13.sp,
+                                fontSize: 12.5.sp,
                                 fontFamily: "IRANYekan_number",
                               ),
                             ),
@@ -198,11 +196,11 @@ class SpecificChallengePage extends StatelessWidget {
                                     : null,
                                 child: ListTile(
                                   title: Text(habit.name,style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    fontSize: 13.5.sp,
+                                    fontSize: 12.5.sp,
                                     fontFamily: "IRANYekan_number",
                                   )),
                                   subtitle: Text(habit.description??'بدون توضیحات',style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                                    fontSize: 12.5.sp,
+                                    fontSize: 12.0.sp,
                                     fontFamily: "IRANYekan_number",
                                   )),
                                   leading:  Icon(
@@ -219,11 +217,11 @@ class SpecificChallengePage extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 12.0.r),
+                SizedBox(height: 10.0.r),
 
                 // بخش "لینک دعوت"
                 Text('لینک دعوت:', style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontSize: 14.sp,
+                  fontSize: 13.sp,
                   fontFamily: "IRANYekan_number",
                 ),),
                 SizedBox(height: 2.0.r),
@@ -238,7 +236,7 @@ class SpecificChallengePage extends StatelessWidget {
                     maxLines: 1,
                    // overflow: TextOverflow.ellipsis,
                     textDirection: TextDirection.ltr,
-                    '$baseUrl/challenge/get_challenge/?code=${challenge.value!.shareCode}' ,
+                    '${baseUrl}challenge/get_challenge/?code=${challenge.value!.shareCode}' ,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontSize: 13.sp,
                       fontFamily: "IRANYekan_number",

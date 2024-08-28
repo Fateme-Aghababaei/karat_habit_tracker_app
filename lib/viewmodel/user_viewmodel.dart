@@ -34,7 +34,6 @@ class UserViewModel extends GetxController {
 
   Future<void> _loadUserProfile() async {
     await fetchUserProfile(username,false);
-    print(userProfile);
     await fetchFollowerFollowing(username,false);
     checkIfFollowing();
   }
