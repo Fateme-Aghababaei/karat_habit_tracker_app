@@ -86,6 +86,7 @@ class _FAQPageState extends State<FAQPage> {
       elevation: 0,
       children: _faqItems.map<ExpansionPanelRadio>((FAQItem item) {
         return ExpansionPanelRadio(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           value: item,
           canTapOnHeader: true,
           headerBuilder: (BuildContext context, bool isExpanded) {

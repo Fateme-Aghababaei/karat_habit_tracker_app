@@ -53,7 +53,7 @@ Future<void> startPeriodicTimer() async {
     final NotificationRepository notificationRepository = NotificationRepository();
     final now = DateTime.now();
 
-    if (!flag && (now.hour == 12 || now.hour == 21)) {
+    if (!flag && (now.hour == 9 || now.hour == 21)) {
       flag = true;
       int habitCount = await notificationRepository.fetchIncompleteHabitsCount();
       String body = now.hour == 9

@@ -5,14 +5,17 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:karat_habit_tracker_app/model/entity/challenge_model.dart';
 
 import '../../model/constant.dart';
+import '../../utils/theme/controller.dart';
+import '../../utils/theme/theme.dart';
 import '../../viewmodel/challenge_viewmodel.dart';
 import 'SpecificChallengePage.dart';
 
 class ChallengeItemWidget extends StatelessWidget {
   final Challenge challenge;
   final ChallengeViewModel challengeViewModel;
+  final ThemeController themeController = Get.put(ThemeController());
 
-  const ChallengeItemWidget({super.key, required this.challenge, required this.challengeViewModel});
+   ChallengeItemWidget({super.key, required this.challenge, required this.challengeViewModel});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +48,7 @@ class ChallengeItemWidget extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16.0.r),
-                  color: Colors.black45, // رنگ سیاه با شفافیت 55%
+                  color:themeController.currentTheme.value == AppTheme.darkTheme? Colors.black87.withOpacity(0.6):Colors.black.withOpacity(0.45), // رنگ سیاه با شفافیت 55%
                 ),
               ),
               Padding(

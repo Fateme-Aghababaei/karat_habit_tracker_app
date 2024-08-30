@@ -37,7 +37,7 @@ class AboutPage extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primary,
               ),
             ),
-            SizedBox(height: 5.h),
+            SizedBox(height: 5.r),
             Text(
               "کارات یک برنامه جامع برای پیگیری عادت‌ها و کارهاست که به شما کمک می‌کند با ایجاد عادت‌های مثبت، بهره‌وری خود را افزایش دهید و به اهداف شخصی‌تان نزدیک‌تر شوید.",
               textAlign: TextAlign.justify,
@@ -45,7 +45,7 @@ class AboutPage extends StatelessWidget {
                 fontSize: 14.sp,
               ),
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 20.r),
             Text(
               "مأموریت ما",
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -54,7 +54,7 @@ class AboutPage extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primary,
               ),
             ),
-            SizedBox(height: 5.h),
+            SizedBox(height: 5.r),
             Text(
               "هدف ما در کارات این است که به شما ابزاری کارآمد ارائه دهیم تا بتوانید زندگی خود را بهبود بخشید. ما معتقدیم که با تمرکز بر روی عادت‌های کوچک و تکرار روزانه آنها، می‌توانید تغییرات بزرگ و ماندگاری در زندگی‌تان ایجاد کنید.",
               textAlign: TextAlign.justify,
@@ -62,7 +62,7 @@ class AboutPage extends StatelessWidget {
                 fontSize: 14.sp,
               ),
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 20.r),
             Text(
               "ویژگی‌های کارات",
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -86,7 +86,7 @@ class AboutPage extends StatelessWidget {
                 fontSize: 14.sp,
               ),
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 20.r),
           ],
         ),
       ),
@@ -99,15 +99,20 @@ class AboutPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.secondary,
-            ),
+          Row(
+            children: [
+              Icon(Icons.check,color: Theme.of(context).colorScheme.secondary),
+              Text(
+                title,
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
+              ),
+            ],
           ),
-          SizedBox(height: 5.h),
+          SizedBox(height: 5.r),
           Text(
             description,
             textAlign: TextAlign.justify,
