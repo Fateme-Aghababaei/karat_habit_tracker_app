@@ -120,12 +120,25 @@ class SpecificChallengePage extends StatelessWidget {
                   fontSize: 13.sp,
                   fontFamily: "IRANYekan_number",
                 ),),
-                Text(challenge.value!.description,style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    fontSize: 12.5.sp,
-                    fontFamily: "IRANYekan_number",
-                    fontWeight: FontWeight.w400
-                ),),
-                SizedBox(height: 8.0.r),
+                SizedBox(height: 4.0.r,),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12.0.r,vertical: 6.0.r),
+                  width: double.maxFinite,
+                  constraints: BoxConstraints(
+                    minHeight: 60.0.r, // حداقل ارتفاع 60 ریم
+                  ),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    borderRadius: BorderRadius.circular(8.0.r),
+                    border: Border.all(color: Theme.of(context).colorScheme.outline),
+                  ),
+                  child: Text(challenge.value!.description,style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      fontSize: 12.5.sp,
+                      fontFamily: "IRANYekan_number",
+                      fontWeight: FontWeight.w400
+                  ),),
+                ),
+                SizedBox(height: 10.0.r),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -158,12 +171,12 @@ class SpecificChallengePage extends StatelessWidget {
                     }),
                   ],
                 ),
-                SizedBox(height: 8.0.r),
+                SizedBox(height: 6.0.r),
                 Container(
                   decoration: BoxDecoration(
                     color: Theme.of(context).scaffoldBackgroundColor,
                     borderRadius: BorderRadius.circular(8.0.r),
-                    border: Border.all(color: Colors.grey.shade300),
+                    border: Border.all(color:Theme.of(context).colorScheme.outline),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -230,7 +243,7 @@ class SpecificChallengePage extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Theme.of(context).scaffoldBackgroundColor,
                     borderRadius: BorderRadius.circular(8.0.r),
-                    border: Border.all(color: Colors.grey.shade300),
+                    border: Border.all(color: Theme.of(context).colorScheme.outline),
                   ),
                   child: SelectableText(
                     maxLines: 1,

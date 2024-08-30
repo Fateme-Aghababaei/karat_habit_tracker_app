@@ -93,13 +93,14 @@ class _SettingsPageState extends State<SettingsPage> {
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 15.sp),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.arrow_forward),
+                  icon: Icon(Icons.arrow_forward,color: themeController.currentTheme.value == AppTheme.darkTheme?Theme.of(context).colorScheme.onSurface:Colors.black,),
                   onPressed: () => Get.back(result: true),
                 ),
               ],
             ),
           ),
         ),
+
       ),
       body: Obx(() {
         if (settingsController.userViewModel.isLoadingUserProfile.value) {
@@ -177,22 +178,22 @@ class _SettingsPageState extends State<SettingsPage> {
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
-                          borderSide: const BorderSide(
-                            color: Color(0XFFCAC5CD),
+                          borderSide:  BorderSide(
+                            color: Theme.of(context).colorScheme.outlineVariant,
                             width: 1.0,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
-                          borderSide: const BorderSide(
-                            color: Color(0XFFCAC5CD),
+                          borderSide:  BorderSide(
+                            color: Theme.of(context).colorScheme.outlineVariant,
                             width: 1.0,
                           ),
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
-                          borderSide: const BorderSide(
-                            color: Colors.grey,
+                          borderSide:  BorderSide(
+                            color: Theme.of(context).colorScheme.outlineVariant,
                             width: 1.0,
                           ),
                         ),
@@ -234,22 +235,22 @@ class _SettingsPageState extends State<SettingsPage> {
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
-                          borderSide: const BorderSide(
-                            color: Color(0XFFCAC5CD),
+                          borderSide:  BorderSide(
+                            color:Theme.of(context).colorScheme.outlineVariant,
                             width: 1.0,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
-                          borderSide: const BorderSide(
-                            color: Color(0XFFCAC5CD),
+                          borderSide:  BorderSide(
+                            color: Theme.of(context).colorScheme.outlineVariant,
                             width: 1.0,
                           ),
                         ),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(
-                            color: Colors.grey,
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide:  BorderSide(
+                            color: Theme.of(context).colorScheme.outlineVariant,
                             width: 1.0,
                           ),
                         ),
@@ -303,7 +304,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   //themeController.changeTheme(!themeController.currentTheme.value);
                 },
               )),
-              Divider(color: Colors.grey, thickness: 0.5),
+              Divider(color: Theme.of(context).colorScheme.outlineVariant, thickness: 1),
               Obx(() => ListTile(
                 contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
                 title: Text(
@@ -320,7 +321,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
               )),
-              Divider(color: Colors.grey, thickness: 0.5),
+              Divider(color: Theme.of(context).colorScheme.outlineVariant, thickness: 1),
               Obx(() => ListTile(
                 contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
                 title: Text(

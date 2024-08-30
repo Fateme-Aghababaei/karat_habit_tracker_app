@@ -45,7 +45,7 @@ class ChallengeItemWidget extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16.0.r),
-                  color: Colors.black.withOpacity(0.52), // رنگ سیاه با شفافیت 55%
+                  color: Colors.black45, // رنگ سیاه با شفافیت 55%
                 ),
               ),
               Padding(

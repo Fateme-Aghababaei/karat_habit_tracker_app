@@ -13,5 +13,14 @@ class OutlineBtnTheme {
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
     side: const BorderSide(color: AppColors.lightPrimary, width: 1),
   ));
-  static const darkTheme = OutlinedButtonThemeData();
+  static final darkTheme = OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        foregroundColor: AppColors.lightPrimary,
+        backgroundColor: AppColors.darkBackground,
+        textStyle: const TextStyle(
+            fontFamily: "IRANYekan", fontSize: 14, fontWeight: FontWeight.w400),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+        side: const BorderSide(color: AppColors.lightPrimary, width: 1),
+      )
+  );
 }

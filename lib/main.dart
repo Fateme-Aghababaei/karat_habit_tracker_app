@@ -24,6 +24,7 @@ void onStart(ServiceInstance service) async {
   startPeriodicTimer();
 }
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();

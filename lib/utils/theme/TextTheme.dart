@@ -53,5 +53,51 @@ class TTextTheme {
 
   );
 
-  static TextTheme DarkTextTheme = TextTheme();
-}
+  static  TextTheme darkTextTheme = TextTheme(
+      displayLarge: const TextStyle(
+        fontFamily: "IRANYekan",
+        color: AppColors.lightPrimary,
+        fontSize: 36,
+        fontWeight: FontWeight.w800,
+      ),
+      displayMedium: const TextStyle(
+        fontFamily: "IRANYekan",
+        color: AppColors.lightPrimary,
+        fontSize: 24,
+        fontWeight: FontWeight.w700,
+      ),
+
+
+      bodySmall: TextStyle(
+        fontFamily: "IRANYekan",
+        color: AppColors.darkDescription,
+        fontWeight: FontWeight.w400,
+      ),
+
+      titleSmall : TextStyle(
+        fontFamily: "IRANYekan",
+        color: AppColors.darkDescription,
+        fontWeight: FontWeight.w300,
+      ),
+      bodyLarge: const TextStyle(
+        fontFamily: "IRANYekan",
+        color: AppColors.darkText,
+        fontWeight: FontWeight.w700,
+      ),
+      bodyMedium: const TextStyle(
+        fontFamily: "IRANYekan",
+        color: AppColors.darkText,
+        fontWeight: FontWeight.w400,
+      ),
+      titleMedium: const TextStyle(
+        fontFamily: "IRANYekan",
+        color: AppColors.darkText,
+        fontWeight: FontWeight.w300,
+      ),
+      titleLarge: const TextStyle(
+        fontFamily: "IRANYekan",
+        color: AppColors.lightSecond,
+        fontWeight: FontWeight.w700,
+      )
+
+  );}

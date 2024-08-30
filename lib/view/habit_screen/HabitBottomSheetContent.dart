@@ -130,22 +130,22 @@ class HabitBottomSheetContent extends StatelessWidget {
                       filled: true,
                       fillColor: Theme.of(context).scaffoldBackgroundColor,
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(
-                          color: Color(0XFFCAC5CD),
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide:  BorderSide(
+                          color:Theme.of(context).colorScheme.outlineVariant,
                           width: 1.0,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
-                        borderSide: const BorderSide(
-                            color: Color(0XFFCAC5CD),
+                        borderSide:  BorderSide(
+                            color: Theme.of(context).colorScheme.outlineVariant,
                             width: 1.0),
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
-                        borderSide: const BorderSide(
-                          color: Colors.grey,
+                        borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.outlineVariant,
                           width: 1.0,
                         ),
                       ),
@@ -180,9 +180,9 @@ class HabitBottomSheetContent extends StatelessWidget {
                       filled: true,
                       fillColor: Theme.of(context).scaffoldBackgroundColor,
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(
-                          color: Color(0XFFCAC5CD),
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide:  BorderSide(
+                          color: Theme.of(context).colorScheme.outlineVariant,
                           width: 1.0,
                         ),
                       ),
@@ -194,8 +194,8 @@ class HabitBottomSheetContent extends StatelessWidget {
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
-                        borderSide: const BorderSide(
-                          color: Colors.grey,
+                        borderSide:  BorderSide(
+                          color: Theme.of(context).colorScheme.outlineVariant,
                           width: 1.0,
                         ),
                       ),
@@ -311,15 +311,14 @@ class HabitBottomSheetContent extends StatelessWidget {
                               ),
                               backgroundColor:
                               controller.selectedTag.value == tag.id
-                                  ? Color(0XFFD2E3D8)
+                                  ? Theme.of(context).cardColor
                                   : Theme.of(context)
                                   .scaffoldBackgroundColor,
                               side: BorderSide(
                                 color: controller.selectedTag.value == tag.id
-                                    ? const Color(
-                                    0XFFD2E3D8) // رنگ نارنجی یا رنگ اصلی تم
-                                    : Colors.grey
-                                    .shade300, // رنگ پیش‌فرض برای تگ‌های دیگر
+                                    ? Theme.of(context).cardColor // رنگ نارنجی یا رنگ اصلی تم
+                                    : Theme.of(context).colorScheme.outline
+                                     // رنگ پیش‌فرض برای تگ‌های دیگر
                               ),
                             )),
                           ),
@@ -344,7 +343,7 @@ class HabitBottomSheetContent extends StatelessWidget {
                               borderRadius:
                               BorderRadius.circular(6.0.r),
                               side: BorderSide(
-                                  color: Colors.grey.shade300),
+                                  color: Theme.of(context).colorScheme.outline),
                             ),
                           ),
                         ),
@@ -377,22 +376,22 @@ class HabitBottomSheetContent extends StatelessWidget {
                           decoration: InputDecoration(
                             hintText: 'انتخاب تاریخ',
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: const BorderSide(
-                                color: Color(0XFFCAC5CD),
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide:  BorderSide(
+                                color: Theme.of(context).colorScheme.outlineVariant,
                                 width: 1.0,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(
-                                  color: Color(0XFFCAC5CD),
+                              borderSide: BorderSide(
+                                  color:Theme.of(context).colorScheme.outlineVariant,
                                   width: 1.0),
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(
-                                color: Colors.grey,
+                              borderSide:  BorderSide(
+                                color: Theme.of(context).colorScheme.outlineVariant,
                                 width: 1.0,
                               ),
                             ),
@@ -522,10 +521,10 @@ class HabitBottomSheetContent extends StatelessWidget {
             ),
           ),
           backgroundColor: isSelected
-              ? const Color(0XFFD2E3D8)
+              ? Theme.of(context).cardColor
               : Theme.of(context).scaffoldBackgroundColor,
           side: BorderSide(
-            color: isSelected ? const Color(0XFFD2E3D8) : Colors.grey.shade300,
+            color: isSelected ? Theme.of(context).cardColor : Theme.of(context).colorScheme.outline,
           ),
         ),
       );

@@ -52,8 +52,8 @@ class NotificationPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 final notification = notificationViewModel.notifications[index];
                 return ListTile(
-                  title: Text(notification.title,style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 13),),
-                  subtitle: Text(notification.description,style:Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 13)),
+                  title: Text(notification.title,style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 13.5),),
+                  subtitle: Text(notification.description,style:Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 12.5,color: Colors.grey.shade600)),
                   trailing: Text(
                     convertToJalali(notification.createdAt),
                     style: Theme.of(context).textTheme.titleMedium ?.copyWith(fontSize: 13,fontFamily: "IRANYekan_number"),

@@ -16,16 +16,22 @@ Widget buildHabitItem(Habit habit, BuildContext context, HabitViewModel habitVie
     decoration: BoxDecoration(
       color: Theme.of(context).scaffoldBackgroundColor,
       borderRadius: BorderRadius.circular(10.0.r),
-      border: Border.all(
-        color: Colors.grey.shade300, // رنگ حاشیه طوسی
-        width: 1.0, // ضخامت حاشیه
+      border: Border(
+        top: BorderSide(color: Theme.of(context).colorScheme.outline, // رنگ حاشیه طوسی
+            width: 1.0),
+       left: BorderSide(color: Theme.of(context).colorScheme.outline, // رنگ حاشیه طوسی
+           width: 1.0),
+        bottom: BorderSide(color: Theme.of(context).colorScheme.outline, // رنگ حاشیه طوسی
+            width: 1.0),
+        right:BorderSide(color: Theme.of(context).colorScheme.outline, // رنگ حاشیه طوسی
+        width: 0.5),
       ),
     ),
     child: Row(
       children: [
         // نوار رنگی کنار
         Container(
-          width: 6.0.r,
+          width: 6.2.r,
           height: 68.0.r,
           decoration: BoxDecoration(
             color: habit.fromChallenge != null
@@ -34,8 +40,8 @@ Widget buildHabitItem(Habit habit, BuildContext context, HabitViewModel habitVie
                 ? Color(int.parse('0xFF${habit.tag?.color}'))
                 : Colors.grey.shade400,
             borderRadius: BorderRadius.only(
-              topRight: Radius.circular(10.0.r),
-              bottomRight: Radius.circular(10.0.r),
+              topRight: Radius.circular(20.0.r),
+              bottomRight: Radius.circular(20.0.r),
             ),
           ),
         ),

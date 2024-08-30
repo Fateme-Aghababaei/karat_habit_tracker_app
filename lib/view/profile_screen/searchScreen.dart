@@ -106,10 +106,15 @@ class UserSearchPage extends StatelessWidget {
                               : const AssetImage('assets/images/profile.png') as ImageProvider,
                           backgroundColor: user.photo != null
                               ? Colors.transparent
-                              : Theme.of(context).primaryColor.withOpacity(0.3),
+                              : Theme.of(context).canvasColor.withOpacity(0.4),
                         ),
-                        title: Text(user.firstName),
-                        subtitle: Text(user.username),
+                        title: Text(user.firstName,style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontSize: 13.5.sp
+                        ),),
+                        subtitle: Text(user.username,style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.grey.shade600,
+                          fontSize: 12.5.sp
+                        ),),
                       ),
                     );
                   },

@@ -19,8 +19,9 @@ class StatusCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
-            blurRadius: 2,
-            offset: Offset(2, 2),
+            spreadRadius: 1,
+            blurRadius: 0.5,
+            offset: const Offset(0, 0.5),
           ),
         ],
       ),

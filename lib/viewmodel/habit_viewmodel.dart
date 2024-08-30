@@ -134,10 +134,11 @@ class HabitViewModel extends GetxController {
             ),
             Text(
               '${result['streak']} روز توالی',
-              style: TextStyle(
-                fontFamily: "IRANYekan_number",
-                fontSize: 26.sp
-              ),
+              style:Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  fontFamily: "IRANYekan_number",
+                  fontSize: 26.sp
+              )
+
             ),
             SizedBox(height: 16.0.r),
             // Stack for Image and Icon Overlay
@@ -147,11 +148,11 @@ class HabitViewModel extends GetxController {
             SizedBox(height: 16.0.r),
             Text(
               '1 روز به توالی شما افزوده شد',
-              style: TextStyle(
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 fontSize: 18,
                 fontFamily: "IRANYekan_number",
-                color: Colors.grey.shade700, // رنگ دلخواه شما
-              ),
+              )
+
             ),
             SizedBox(height: 16),
             // نوار پایین برای استریک

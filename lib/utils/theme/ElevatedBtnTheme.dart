@@ -13,5 +13,14 @@ class ElevatedBtnTheme {
         fontFamily: "IRANYekan", fontSize: 15, fontWeight: FontWeight.w400),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
   ));
-  static final darkTheme = ElevatedButtonThemeData();
+  static final darkTheme = ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        elevation: 0,
+        foregroundColor: Colors.white,
+        backgroundColor: AppColors.lightPrimary,
+        textStyle: const TextStyle(
+            fontFamily: "IRANYekan", fontSize: 15, fontWeight: FontWeight.w400),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      )
+  );
 }

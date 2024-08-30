@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:app_links/app_links.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:karat_habit_tracker_app/view/challenge_screen/SpecificChallengePage.dart';
 import 'package:karat_habit_tracker_app/viewmodel/challenge_viewmodel.dart';
@@ -27,40 +25,45 @@ class AppLinksDeepLink {
   }
 
   Future<void> initDeepLinks() async {
-    // Check initial link if app was in cold state (terminated)
+    // Check initial link if the app was in a cold state (terminated)
     final appLink = await _appLinks.getInitialLink();
     if (appLink != null) {
-      var uri = Uri.parse(appLink.toString());
-      print(' here you can redirect from url as per your need ');
+      print('Initial deep link: $appLink');
+      openAppLink(appLink);  // Directly handle the initial link
     }
 
-    // Handle link when app is in warm state (front or background)
+    // Handle links when the app is in a warm state (foreground or background)
     _linkSubscription = _appLinks.uriLinkStream.listen((uriValue) async {
-      final String? code = uriValue.queryParameters['code'];
-      final box = GetStorage();
-      final token = box.read('auth_token');
-      dio.options.headers["Authorization"] = "Token $token";
-      if (code != null) {
-        final challengeViewModel = Get.put(ChallengeViewModel());
-        await challengeViewModel.getChallengeByIdOrCode(code: code);
-
-        if (challengeViewModel.selectedChallenge.value != null) {
-          Get.to(() => SpecificChallengePage(
-            challengeViewModel: challengeViewModel,
-            challenge:challengeViewModel.selectedChallenge ,
-            isFromMyChallenges: false,
-          ));
-        } else {
-          Get.snackbar('Error', 'Challenge not found or failed to fetch.');
-        }
-      } else {
-        Get.snackbar('Error', 'Invalid invitation link.');
-      }
-
+      print('Received deep link: $uriValue');
+      openAppLink(uriValue);
     }, onError: (err) {
-      debugPrint('====>>> error : $err');
+      print('Error handling deep link: $err');
     }, onDone: () {
       _linkSubscription?.cancel();
     });
+  }
+
+  void openAppLink(Uri uri) async {
+    final String? code = uri.queryParameters['code'];
+    if (code != null) {
+      final box = GetStorage();
+      final token = box.read('auth_token');
+      dio.options.headers["Authorization"] = "Token $token";
+
+      final challengeViewModel = Get.put(ChallengeViewModel());
+      await challengeViewModel.getChallengeByIdOrCode(code: code);
+
+      if (challengeViewModel.selectedChallenge.value != null) {
+        Get.to(() => SpecificChallengePage(
+          challengeViewModel: challengeViewModel,
+          challenge: challengeViewModel.selectedChallenge,
+          isFromMyChallenges: false,
+        ));
+      } else {
+        Get.snackbar('Error', 'Challenge not found or failed to fetch.');
+      }
+    } else {
+      Get.snackbar('Error', 'Invalid invitation link.');
+    }
   }
 }

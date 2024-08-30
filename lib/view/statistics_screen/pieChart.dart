@@ -53,7 +53,7 @@ class _TagPieChartState extends State<TagPieChart> with SingleTickerProviderStat
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 1,
             blurRadius: 0.5,
-            offset: Offset(0, 0),
+            offset: const Offset(0, 0),
           ),
         ],
       ),

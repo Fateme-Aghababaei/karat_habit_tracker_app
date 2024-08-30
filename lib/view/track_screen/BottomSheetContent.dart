@@ -180,22 +180,22 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                           fillColor: Theme.of(context).scaffoldBackgroundColor,
                           hintText: 'در حال کار بر روی ...',
                           enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(
-                              color: Color(0XFFCAC5CD),
+                            borderRadius: BorderRadius.circular(8.0),
+                            borderSide:  BorderSide(
+                              color: Theme.of(context).colorScheme.outlineVariant,
                               width: 1.0,
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
-                            borderSide: const BorderSide(
-                                color: Color(0XFFCAC5CD),
+                            borderSide:  BorderSide(
+                                color: Theme.of(context).colorScheme.outlineVariant,
                                 width: 1.0),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
-                            borderSide: const BorderSide(
-                              color: Colors.grey,
+                            borderSide:  BorderSide(
+                              color: Theme.of(context).colorScheme.outlineVariant,
                               width: 1.0,
                             ),
                           ),
@@ -234,12 +234,12 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                                     radius: 5,
                                   ),
                                   backgroundColor: selectedTagId.value == tag.id
-                                      ? Color(0XFFD2E3D8)
+                                      ? Theme.of(context).cardColor
                                       : Theme.of(context).scaffoldBackgroundColor,
                                   side: BorderSide(
                                     color: selectedTagId.value == tag.id
-                                        ? Color(0XFFD2E3D8)
-                                        : Colors.grey.shade300,
+                                        ? Theme.of(context).cardColor
+                                        : Theme.of(context).colorScheme.outline,
                                   ),
                                 )),
                               ),
@@ -251,11 +251,11 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                                     fontSize: 12.sp,
                                   ),
                                 ),
-                                avatar: const Icon(Icons.add),
+                                avatar:  Icon(Icons.add),
                                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(6.0.r),
-                                  side: BorderSide(color: Colors.grey.shade300),
+                                  side: BorderSide(color:Theme.of(context).colorScheme.outline),
                                 ),
                               ),
                               onTap: () {
@@ -284,7 +284,7 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                                 child: Obx(() => Container(
                                   padding: EdgeInsets.symmetric(horizontal: 16.0.r, vertical: 8.0.r),
                                   decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor.withOpacity(0.2),
+                                    color: Theme.of(context).canvasColor,
                                     borderRadius: BorderRadius.circular(8.0.r),
                                   ),
                                   child: Text(
@@ -315,7 +315,7 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                                 child: Obx(() => Container(
                                   padding: EdgeInsets.symmetric(horizontal: 16.0.r, vertical: 8.0.r),
                                   decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor.withOpacity(0.2),
+                                    color: Theme.of(context).canvasColor,
                                     borderRadius: BorderRadius.circular(8.0.r),
                                   ),
                                   child: Text(

@@ -25,9 +25,15 @@ Widget buildTrackItem(Track track, BuildContext context,) {
     decoration: BoxDecoration(
       color: Theme.of(context).scaffoldBackgroundColor,
       borderRadius: BorderRadius.circular(10.0.r),
-      border: Border.all(
-        color: Colors.grey.shade300, // رنگ حاشیه طوسی
-        width: 1.0, // ضخامت حاشیه
+      border: Border(
+        top: BorderSide(color: Theme.of(context).colorScheme.outline, // رنگ حاشیه طوسی
+            width: 1.0),
+        left: BorderSide(color: Theme.of(context).colorScheme.outline, // رنگ حاشیه طوسی
+            width: 1.0),
+        bottom: BorderSide(color: Theme.of(context).colorScheme.outline, // رنگ حاشیه طوسی
+            width: 1.0),
+        right:BorderSide(color: Theme.of(context).colorScheme.outline, // رنگ حاشیه طوسی
+            width: 0.5),
       ),
     ),
     child: Row(

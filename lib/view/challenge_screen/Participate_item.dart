@@ -32,7 +32,7 @@ class ParticipatedChallengeItemWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.0.r),
             color: Theme.of(context).scaffoldBackgroundColor,
             border: Border.all(
-              color: Colors.grey.shade300, // بوردر طوسی کمرنگ
+              color: Theme.of(context).colorScheme.outline, // بوردر طوسی کمرنگ
               width: 1.5,
             ),
           ),

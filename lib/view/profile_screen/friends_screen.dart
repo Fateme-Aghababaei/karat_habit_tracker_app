@@ -108,13 +108,14 @@ class FollowersFollowingPage extends StatelessWidget {
                     : const AssetImage('assets/images/profile.png') as ImageProvider,
                 backgroundColor: follow.photo != null
                     ? Colors.transparent
-                    : Theme.of(context).primaryColor.withOpacity(0.3),
+                    : Theme.of(context).canvasColor.withOpacity(0.4),
               ),
               title: Text(follow.firstName,style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                fontSize: 14.sp
+                fontSize: 13.5.sp
               ),),
               subtitle: Text(follow.username,style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontSize: 12.sp
+                fontSize: 12.5.sp,
+                color: Colors.grey.shade600
               ),),
 
             ),
@@ -151,13 +152,14 @@ class FollowersFollowingPage extends StatelessWidget {
                 as ImageProvider,
                 backgroundColor: follow.photo != null
                     ? Colors.transparent
-                    : Theme.of(context).primaryColor.withOpacity(0.3),
+                    : Theme.of(context).canvasColor.withOpacity(0.4),
               ),
               title: Text(follow.firstName,style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  fontSize: 14.sp
+                  fontSize: 13.5.sp
               ),),
               subtitle: Text(follow.username,style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontSize: 12.sp
+                  fontSize: 12.5.sp,
+                color: Colors.grey.shade600
               ),),
 
             ),

@@ -14,6 +14,7 @@ class SideBar extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width * 0.7,
       child: Drawer(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         child:Obx(() {
           return ListView(
           padding: EdgeInsets.zero,

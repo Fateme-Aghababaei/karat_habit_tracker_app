@@ -49,7 +49,7 @@ class BadgesWidget extends StatelessWidget {
               BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
                 blurRadius: 2,
-                offset: const Offset(2, 2),
+                offset: const Offset(0, 0),
               ),
             ],
           ),
@@ -95,7 +95,7 @@ class BadgesWidget extends StatelessWidget {
                         Container(
                           width: 1.0, // عرض خط جدا کننده
                           height: MediaQuery.of(context).size.height * 0.15,
-                          color: Colors.grey.shade400, // رنگ خط جدا کننده
+                          color: Theme.of(context).colorScheme.outlineVariant, // رنگ خط جدا کننده
                           margin: EdgeInsets.symmetric(horizontal: 2.5.r), // فاصله بین خط و تصاویر
                         ),
                     ],

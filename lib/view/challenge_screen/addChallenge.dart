@@ -75,22 +75,22 @@ class AddChallengeBottomSheet extends StatelessWidget {
                       filled: true,
                       fillColor: Theme.of(context).scaffoldBackgroundColor,
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(
-                          color: Color(0XFFCAC5CD),
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.outlineVariant,
                           width: 1.0,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
-                        borderSide: const BorderSide(
-                            color: Color(0XFFCAC5CD),
+                        borderSide:  BorderSide(
+                            color: Theme.of(context).colorScheme.outlineVariant,
                             width: 1.0),
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
-                        borderSide: const BorderSide(
-                          color: Colors.grey,
+                        borderSide:  BorderSide(
+                          color: Theme.of(context).colorScheme.outlineVariant,
                           width: 1.0,
                         ),
                       ),
@@ -122,22 +122,22 @@ class AddChallengeBottomSheet extends StatelessWidget {
                       filled: true,
                       fillColor: Theme.of(context).scaffoldBackgroundColor,
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(
-                          color: Color(0XFFCAC5CD),
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide:  BorderSide(
+                          color: Theme.of(context).colorScheme.outlineVariant,
                           width: 1.0,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
-                        borderSide: const BorderSide(
-                            color: Color(0XFFCAC5CD),
+                        borderSide:  BorderSide(
+                            color: Theme.of(context).colorScheme.outlineVariant,
                             width: 1.0),
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
-                        borderSide: const BorderSide(
-                          color: Colors.grey,
+                        borderSide:  BorderSide(
+                          color: Theme.of(context).colorScheme.outlineVariant,
                           width: 1.0,
                         ),
                       ),
@@ -172,23 +172,23 @@ class AddChallengeBottomSheet extends StatelessWidget {
                           decoration: InputDecoration(
                             hintText: 'انتخاب تاریخ',
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0.r),
-                              borderSide: const BorderSide(
-                                color: Color(0XFFCAC5CD),
+                              borderRadius: BorderRadius.circular(8.0.r),
+                              borderSide:  BorderSide(
+                                color: Theme.of(context).colorScheme.outlineVariant,
                                 width: 1.0,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0.r),
-                              borderSide: const BorderSide(
-                                color: Color(0XFFCAC5CD),
+                              borderSide:  BorderSide(
+                                color: Theme.of(context).colorScheme.outlineVariant,
                                 width: 1.0,
                               ),
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0.r),
-                              borderSide: const BorderSide(
-                                color: Colors.grey,
+                              borderSide:  BorderSide(
+                                color: Theme.of(context).colorScheme.outlineVariant,
                                 width: 1.0,
                               ),
                             ),
@@ -230,23 +230,23 @@ class AddChallengeBottomSheet extends StatelessWidget {
                           decoration: InputDecoration(
                             hintText: 'انتخاب تاریخ',
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0.r),
-                              borderSide: const BorderSide(
-                                color: Color(0XFFCAC5CD),
+                              borderRadius: BorderRadius.circular(8.0.r),
+                              borderSide:  BorderSide(
+                                color: Theme.of(context).colorScheme.outlineVariant,
                                 width: 1.0,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0.r),
-                              borderSide: const BorderSide(
-                                color: Color(0XFFCAC5CD),
+                              borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.outlineVariant,
                                 width: 1.0,
                               ),
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0.r),
-                              borderSide: const BorderSide(
-                                color: Colors.grey,
+                              borderSide:  BorderSide(
+                                color: Theme.of(context).colorScheme.outlineVariant,
                                 width: 1.0,
                               ),
                             ),

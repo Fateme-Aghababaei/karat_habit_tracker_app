@@ -58,5 +58,56 @@ class TextFieldTheme {
       ));
 
 
-  static InputDecorationTheme darkTheme = const InputDecorationTheme();
+  static InputDecorationTheme darkTheme =  InputDecorationTheme(
+      labelStyle: TextStyle(
+        fontFamily: "IRANYekan",
+        color: AppColors.darkDescription,
+        fontSize: 15,
+        fontWeight: FontWeight.w400,
+      ),
+      hintStyle: TextStyle(
+        fontFamily: "IRANYekan",
+        color: AppColors.darkDescription,
+        fontSize: 12,
+        fontWeight: FontWeight.w300,
+      ),
+      errorStyle: const TextStyle(
+        fontFamily: "IRANYekan",
+        color: Colors.redAccent,
+        fontSize: 13,
+        fontWeight: FontWeight.w400,
+      ),
+      floatingLabelStyle:const TextStyle(
+        fontFamily: "IRANYekan",
+        color: AppColors.lightPrimary,
+        fontSize: 14,
+        fontWeight: FontWeight.w700,
+      ),
+      enabledBorder: const UnderlineInputBorder(
+        borderSide: BorderSide(
+          width: 1,
+          color: AppColors.lightBorder,
+        ),
+      ),
+      focusedBorder: const UnderlineInputBorder(
+        borderSide: BorderSide(
+          width: 1,
+          color: AppColors.lightPrimary,
+        ),
+
+      ),
+      focusedErrorBorder: const UnderlineInputBorder(
+        borderSide: BorderSide(
+          width: 1,
+          color: Colors.redAccent,
+        ),
+      ),
+      errorBorder: const UnderlineInputBorder(
+        borderSide: BorderSide(
+          width: 1,
+          color: Colors.redAccent,
+        ),
+
+      )
+  );
 }

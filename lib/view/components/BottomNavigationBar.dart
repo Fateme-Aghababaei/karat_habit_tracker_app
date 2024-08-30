@@ -31,7 +31,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 children: [
                   Container(
                     height: 0.6.r, // ضخامت خط طوسی
-                    color: Colors.grey.shade300, // رنگ خط طوسی
+                    color: Theme.of(context).colorScheme.outline, // رنگ خط طوسی
                   ),
                   selectedIndex.value == 0
                       ? Container(
@@ -64,7 +64,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 children: [
                   Container(
                     height: 0.6.r, // ضخامت خط طوسی
-                    color: Colors.grey.shade300, // رنگ خط طوسی
+                    color: Theme.of(context).colorScheme.outline, // رنگ خط طوسی
                   ),
                   selectedIndex.value == 1
                       ? Container(
@@ -97,7 +97,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 children: [
                   Container(
                     height: 0.6.r, // ضخامت خط طوسی
-                    color: Colors.grey.shade300, // رنگ خط طوسی
+                    color: Theme.of(context).colorScheme.outline, // رنگ خط طوسی
                   ),
                   selectedIndex.value == 2
                       ? Container(
@@ -130,7 +130,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 children: [
                   Container(
                     height: 0.6.r, // ضخامت خط طوسی
-                    color: Colors.grey.shade300, // رنگ خط طوسی
+                    color: Theme.of(context).colorScheme.outline, // رنگ خط طوسی
                   ),
                   selectedIndex.value == 3
                       ? Container(
@@ -173,8 +173,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
           elevation: 0,
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          selectedLabelStyle: Theme.of(context).textTheme.displayMedium?.copyWith(
-            fontSize: 12.sp,
+          selectedLabelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+            fontSize: 12.5.sp,
           ),
           unselectedLabelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
             fontSize: 12.sp,
