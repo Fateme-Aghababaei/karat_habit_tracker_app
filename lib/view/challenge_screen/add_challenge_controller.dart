@@ -205,7 +205,7 @@ class AddChallengeController extends GetxController {
           child: Wrap(
             children: <Widget>[
               ListTile(
-                leading: const Icon(Icons.photo_library, size: 20),
+                leading:  Icon(Icons.photo_library, size: 20,color:Theme.of(context).colorScheme.onSurface,),
                 title: Text(
                   'انتخاب از گالری',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 14.sp),
@@ -216,7 +216,7 @@ class AddChallengeController extends GetxController {
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.photo_camera, size: 20),
+                leading: Icon(Icons.photo_camera, size: 20,color:Theme.of(context).colorScheme.onSurface,),
                 title: Text(
                   'باز کردن دوربین',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 14.sp),
@@ -227,7 +227,7 @@ class AddChallengeController extends GetxController {
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.delete,size: 20),
+                leading:Icon(Icons.delete,size: 20,color:Theme.of(context).colorScheme.onSurface,),
                 title:  Text('حذف تصویر فعلی',style:selectedImagePath.value.isNotEmpty
                     ? Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 14.sp)
                     :Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 14.sp,color: Theme.of(context).disabledColor),),

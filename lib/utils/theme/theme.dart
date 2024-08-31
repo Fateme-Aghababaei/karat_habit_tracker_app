@@ -50,6 +50,8 @@ class AppTheme {
       )
           ),
     timePickerTheme: TimePickerThemeData(
+      backgroundColor: AppColors.lightBackground,
+      dialBackgroundColor:AppColors.lightPrimary.withOpacity(0.1) ,
       hourMinuteColor: WidgetStateColor.resolveWith((states) =>
       states.contains(WidgetState.selected) ? AppColors.lightPrimary.withOpacity(0.2): AppColors.lightDescription.withOpacity(0.2)), // رنگ کارت‌های ساعت و دقیقه
       hourMinuteTextColor: WidgetStateColor.resolveWith((states) =>
@@ -99,8 +101,10 @@ class AppTheme {
         )
     ),
     timePickerTheme: TimePickerThemeData(
+      backgroundColor: AppColors.darkBackground,
+      dialBackgroundColor: Color(0XFFF7C8B1).withOpacity(0.9),
       hourMinuteColor: WidgetStateColor.resolveWith((states) =>
-      states.contains(WidgetState.selected) ? AppColors.lightPrimary.withOpacity(0.2): AppColors.darkDescription.withOpacity(0.2)), // رنگ کارت‌های ساعت و دقیقه
+      states.contains(WidgetState.selected) ?Color(0XFFF7C8B1).withOpacity(0.9): AppColors.darkDescription.withOpacity(0.4)), // رنگ کارت‌های ساعت و دقیقه
       hourMinuteTextColor: WidgetStateColor.resolveWith((states) =>
       states.contains(WidgetState.selected) ? AppColors.lightPrimary : AppColors.darkText.withOpacity(0.8)), // رنگ متن داخل کارت‌ها
     ),

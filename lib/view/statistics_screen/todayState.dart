@@ -58,7 +58,7 @@ class TodayStatisticsWidget extends StatelessWidget {
                 ),
                 circularStrokeCap: CircularStrokeCap.round,
                 progressColor: Theme.of(context).primaryColor,
-                backgroundColor: Theme.of(context).primaryColor.withOpacity(0.3),
+                backgroundColor: Color(0XFFF7C8B1).withOpacity(0.85),
               ),
               Column(
                 children: [

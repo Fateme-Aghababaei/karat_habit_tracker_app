@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import '../../utils/theme/controller.dart';
 import '../../viewmodel/user_viewmodel.dart';
 
 class SettingsController extends GetxController {
@@ -127,7 +128,7 @@ class SettingsController extends GetxController {
           child: Wrap(
             children: <Widget>[
               ListTile(
-                leading: const Icon(Icons.photo_library,size: 20,),
+                leading:  Icon(Icons.photo_library,size: 20,color:Theme.of(context).colorScheme.onSurface,),
                 title:  Text('انتخاب از گالری',style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 14.sp),),
                 onTap: () async {
                   await pickImageFromGallery();
@@ -135,14 +136,14 @@ class SettingsController extends GetxController {
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.photo_camera,size: 20),
+                leading:  Icon(Icons.photo_camera,size: 20,color:Theme.of(context).colorScheme.onSurface,),
                 title:  Text('باز کردن دوربین',style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 14.sp),),
                 onTap: () async {
                   await captureImageWithCamera();
                   Get.back();                },
               ),
               ListTile(
-                leading: const Icon(Icons.delete,size: 20),
+                leading:  Icon(Icons.delete,size: 20,color:Theme.of(context).colorScheme.onSurface,),
                 title:  Text('حذف تصویر فعلی',style:userViewModel.userProfile.value.photo!=null
                     ? Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 14.sp)
                     :Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 14.sp,color: Theme.of(context).disabledColor),),
