@@ -41,7 +41,7 @@ Future<void> startPeriodicTimer() async {
   final token = await box.read('auth_token');
   bool flag = false;
 
-  periodicTimer = Timer.periodic(const Duration(minutes: 2), (timer) async {
+  periodicTimer = Timer.periodic(const Duration(seconds: 20), (timer) async {
     bool isNotifEnabled = box.read('isNotifEnabled') ?? true;
 
     if (!isNotifEnabled) {

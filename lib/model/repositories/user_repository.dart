@@ -233,6 +233,7 @@ class UserRepository {
     try {
       final box = GetStorage();
       final token = box.read('auth_token');
+      print(token);
       Response response = await dio.get(
         'profile/get_user_brief/',
         queryParameters: {'username': null},

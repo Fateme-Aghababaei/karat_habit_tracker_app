@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:app_links/app_links.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:karat_habit_tracker_app/view/challenge_screen/SpecificChallengePage.dart';
@@ -44,6 +43,7 @@ class AppLinksDeepLink {
   }
 
   void openAppLink(Uri uri) async {
+
     final String? code = uri.queryParameters['code'];
     if (code != null) {
       final box = GetStorage();

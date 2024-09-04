@@ -67,6 +67,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _appLinksDeepLink.initDeepLinks();
+
     return ScreenUtilInit(
       minTextAdapt: true,
       splitScreenMode: true,

@@ -219,7 +219,7 @@ class ChallengeRepository {
       } else {
         throw Exception('Either id or code must be provided');
       }
-
+print(queryParams);
       final response = await dio.get(
         'challenge/get_challenge/',
         queryParameters: queryParams,
@@ -229,7 +229,7 @@ class ChallengeRepository {
           },
         ),
       );
-
+print(response.statusMessage);
       if (response.statusCode == 200) {
         return Challenge.fromJson(response.data);
       } else if (response.statusCode == 404) {
