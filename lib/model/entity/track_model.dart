@@ -39,7 +39,7 @@ class Track {
     };
 
     if ( tag!= null) {
-      data["tag"] = tag?.id;
+      data["tag"] = tag?.toJson();
     }
     return data;
 

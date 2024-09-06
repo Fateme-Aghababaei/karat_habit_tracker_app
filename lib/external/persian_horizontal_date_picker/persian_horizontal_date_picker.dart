@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:karat_habit_tracker_app/external/persian_horizontal_date_picker/datetime_extention.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
@@ -117,10 +118,10 @@ class _PersianHorizontalDatePickerState
                 bool isInitialSelected = _isDatePickerItemSelected(itemDate, widget.initialSelectedDate);
 
                 final TextStyle weekDayTextStyle = isActive
-                    ? widget.selectedWeekDayTextStyle ?? TextStyle(fontSize: 12, color: widget.selectedTextColor)
+                    ? widget.selectedWeekDayTextStyle ?? TextStyle(fontSize: 12.sp, color: widget.selectedTextColor)
                     : isInitialSelected
-                    ? widget.initialSelectedWeekDayTextStyle ?? TextStyle(fontSize: 12, color: widget.selectedTextColor)
-                    : widget.weekDayTextStyle ?? TextStyle(fontSize: 12, color: widget.textColor);
+                    ? widget.initialSelectedWeekDayTextStyle ?? TextStyle(fontSize: 12.sp, color: widget.selectedTextColor)
+                    : widget.weekDayTextStyle ?? TextStyle(fontSize: 12.sp, color: widget.textColor);
 
                 return AutoScrollTag(
                   key: ValueKey(index),
@@ -178,20 +179,20 @@ class _PersianHorizontalDatePickerState
                                 style: isInitialSelected
                                     ? widget.initialSelectedDayTextStyle ??
                                     TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.bold,
                                       color: widget.selectedTextColor,
                                     )
                                     : isActive
                                     ? widget.selectedDayTextStyle ??
                                     TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.bold,
                                       color: widget.selectedTextColor,
                                     )
                                     : widget.dayTextStyle ??
                                     TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.bold,
                                       color: widget.textColor,
                                     ),
@@ -199,8 +200,8 @@ class _PersianHorizontalDatePickerState
 
                               if (isMarked)
                                 Container(
-                                  width: 6,
-                                  height: 6,
+                                  width: 6.0.r,
+                                  height: 6.0.r,
                                   decoration: BoxDecoration(
                                     color: isActive
                                         ? widget.selectedMarkedDotColor

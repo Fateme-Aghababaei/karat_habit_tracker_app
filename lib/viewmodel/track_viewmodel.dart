@@ -55,16 +55,38 @@ class TrackViewModel extends GetxController {
 
   // ذخیره ترک‌ها در GetStorage
   void _saveTracksToStorage() {
-    box.write('tracksMap', tracksMap);
+    // تبدیل Map<String, List<Track>> به Map<String, List<dynamic>> برای ذخیره در GetStorage
+    final Map<String, List<dynamic>> jsonTracksMap = tracksMap.map((dateKey, trackList) {
+      return MapEntry(dateKey, trackList.map((track) => track.toJson()).toList());
+    });
+
+    // ذخیره در GetStorage
+    box.write('tracksMap', jsonTracksMap);
   }
+
 
   // بازیابی ترک‌ها از GetStorage
   void _loadTracksFromStorage() {
-    final storedTracks = box.read('tracksMap');
+    // بازیابی داده‌های ذخیره شد
+
+    final storedTracks = box.read<Map<String, dynamic>>('tracksMap');
     if (storedTracks != null) {
-      tracksMap.assignAll(storedTracks) ;
+      // تبدیل Map<String, List<dynamic>> به Map<String, List<Track>>
+      final Map<String, List<Track>> loadedTracksMap = storedTracks.map((dateKey, trackList) {
+        // تبدیل هر آیتم داخل لیست به Track
+        final List<Track> tracks = (trackList as List).map((trackJson) {
+          // تبدیل JSON به Track
+          return Track.fromJson(trackJson as Map<String, dynamic>);
+        }).toList();
+        return MapEntry(dateKey, tracks);
+      });
+
+      // مقداردهی به tracksMap
+      tracksMap.assignAll(loadedTracksMap);
     }
   }
+
+
 
   // دریافت لیست Track ها
   Future<void> getUserTracks({int page = 1, int itemsPerPage = 3}) async {
@@ -99,6 +121,7 @@ class TrackViewModel extends GetxController {
           if (index != -1) {
             trackList[index] = track;
             tracksMap.refresh();
+
 
           }
         });
@@ -180,7 +203,6 @@ class TrackViewModel extends GetxController {
   void _loadTagsFromStorage() {
     var storedTags = box.read<List>('tags'); // خواندن لیست تگ‌ها به عنوان List<dynamic>
     if (storedTags != null) {
-      print("gfgf");
       tagsList.assignAll(storedTags.map((tag) => Tag.fromJson(tag)).toList());
     }
   }

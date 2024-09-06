@@ -31,10 +31,10 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                     onPressed: () {
                       _pageController.jumpToPage(3);
                     },
-                    child: const Text('رد شدن',
+                    child:  Text('رد شدن',
                       style:   TextStyle(
                         fontFamily: "IRANYekan",
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w300,
                       ),),
                   ),

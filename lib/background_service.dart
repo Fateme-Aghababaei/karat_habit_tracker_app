@@ -41,7 +41,7 @@ Future<void> startPeriodicTimer() async {
   final token = await box.read('auth_token');
   bool flag = false;
 
-  periodicTimer = Timer.periodic(const Duration(seconds: 20), (timer) async {
+  periodicTimer = Timer.periodic(const Duration(seconds: 30), (timer) async {
     bool isNotifEnabled = box.read('isNotifEnabled') ?? true;
 
     if (!isNotifEnabled) {
@@ -53,7 +53,7 @@ Future<void> startPeriodicTimer() async {
     final NotificationRepository notificationRepository = NotificationRepository();
     final now = DateTime.now();
 
-    if (!flag && (now.hour == 9 || now.hour == 21)) {
+    if (!flag && (now.hour == 09 || now.hour == 21)) {
       flag = true;
       int habitCount = await notificationRepository.fetchIncompleteHabitsCount();
       String body = now.hour == 9
