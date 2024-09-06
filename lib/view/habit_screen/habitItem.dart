@@ -84,35 +84,44 @@ Widget buildHabitItem(Habit habit, BuildContext context, HabitViewModel habitVie
             value: checked.value,
             onChanged: (value) async {
               if (value!) {
-                checked.value = true;
                 bool shouldPlaySound = storage.read('isSoundOn') ?? true;
 
-                if (shouldPlaySound) {
-                  // Play sound using just_audio
-                  try {
-                    await audioPlayer.setAsset('assets/sounds/check_sound.mp3');
-                    await audioPlayer.play();
-                  } catch (e) {
-                    print("Error playing sound: $e");
+                // تلاش برای کامل کردن عادت
+                bool success = await habitViewModel.completeHabit(habit.id, habit.dueDate!, DateTime.now().toIso8601String().split('T')[0]);
+
+                if (success) {
+                  // اگر عملیات موفق بود، چک‌باکس تیک بخورد
+                  checked.value = true;
+
+                  if (shouldPlaySound) {
+                    // Play sound using just_audio
+                    try {
+                      await audioPlayer.setAsset('assets/sounds/check_sound.mp3');
+                      await audioPlayer.play();
+                    } catch (e) {
+                      print("Error playing sound: $e");
+                    }
                   }
+                } else {
+                  // اگر عملیات ناموفق بود، چک‌باکس تغییری نکند
+                  checked.value = false;
                 }
-                habitViewModel.completeHabit(habit.id, habit.dueDate!, DateTime.now().toIso8601String().split('T')[0]);
               }
             },
-                activeColor: habit.fromChallenge != null
-                    ? const Color(0XFF8D70FE)
-                    : habit.isRepeated
-                    ? Theme.of(context).primaryColor
-                    : Theme.of(context).colorScheme.secondary,
-                side: BorderSide(
-                  color: habit.fromChallenge != null
-                      ? const Color(0XFF8D70FE)
-                      : habit.isRepeated
-                      ? Theme.of(context).primaryColor
-                      : Theme.of(context).colorScheme.secondary,
-                ),
+            activeColor: habit.fromChallenge != null
+                ? const Color(0XFF8D70FE)
+                : habit.isRepeated
+                ? Theme.of(context).primaryColor
+                : Theme.of(context).colorScheme.secondary,
+            side: BorderSide(
+              color: habit.fromChallenge != null
+                  ? const Color(0XFF8D70FE)
+                  : habit.isRepeated
+                  ? Theme.of(context).primaryColor
+                  : Theme.of(context).colorScheme.secondary,
+            ),
           ),
-        ),
+        )
       ],
     ),
   );

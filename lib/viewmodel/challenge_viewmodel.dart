@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../model/entity/challenge_model.dart';
 import '../model/repositories/challenge_repository.dart';
@@ -75,10 +77,13 @@ class ChallengeViewModel extends GetxController {
       );
       if (newChallenge != null) {
         participatedChallenges.insert(0, newChallenge);
-
+      }
+      else{
+        Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.');
       }
     } catch (e) {
       print("Error adding challenge: $e");
+      Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.');
     }
   }
 
@@ -107,7 +112,11 @@ class ChallengeViewModel extends GetxController {
           participatedChallenges.refresh();
         }
       }
+      else{
+        Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.');
+      }
     } catch (e) {
+      Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.');
       print("Error editing challenge: $e");
     }
   }
@@ -181,7 +190,9 @@ class ChallengeViewModel extends GetxController {
         challenges.refresh();
 
       }
-      else{print("Error participating in challenge");}
+      else{
+        Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.');
+       }
 
     } catch (e) {
      rethrow;
@@ -201,8 +212,23 @@ class ChallengeViewModel extends GetxController {
       if (challenge != null) {
         selectedChallenge.value = challenge;
       }
-      else{print("Error fetching challenge");}
+      else{ Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+        borderRadius: 8,
+        margin: EdgeInsets.all(6.r),
+        duration: const Duration(seconds: 3),
+      );}
     } catch (e) {
+      Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+        borderRadius: 8,
+        margin: EdgeInsets.all(6.r),
+        duration: const Duration(seconds: 3),
+      );
       print("Error fetching challenge: $e");
 
     } finally {
@@ -218,7 +244,7 @@ class ChallengeViewModel extends GetxController {
       participatedChallenges.refresh();
 
     } catch (e) {
-      print("Failed to delete challenge: $e");
+      Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.');
     }
   }
 

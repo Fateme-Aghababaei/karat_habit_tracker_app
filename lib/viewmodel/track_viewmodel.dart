@@ -1,4 +1,6 @@
 import 'dart:collection';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:get_storage/get_storage.dart';  // اضافه کردن GetStorage
@@ -46,10 +48,25 @@ class TrackViewModel extends GetxController {
 
         _saveTracksToStorage();
       } else {
-        Get.snackbar('Error', 'Failed to add track');
+        Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.redAccent,
+          colorText: Colors.white,
+          borderRadius: 8,
+          margin: EdgeInsets.all(6.r),
+          duration: const Duration(seconds: 3),
+        );
       }
     } catch (e) {
-      Get.snackbar('Error', e.toString());
+      print("llllllllllllllll");
+      Get.snackbar('خطا', e.toString(),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+        borderRadius: 8,
+        margin: EdgeInsets.all(6.r),
+        duration: const Duration(seconds: 3),
+      );
     }
   }
 
@@ -127,10 +144,24 @@ class TrackViewModel extends GetxController {
         });
         _saveTracksToStorage();
       } else {
-        Get.snackbar('Error', 'Failed to edit track');
+        Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.redAccent,
+          colorText: Colors.white,
+          borderRadius: 8,
+          margin: EdgeInsets.all(6.r),
+          duration: const Duration(seconds: 3),
+        );
       }
     } catch (e) {
-      Get.snackbar('Error', e.toString());
+      Get.snackbar('خطا', e.toString(),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+        borderRadius: 8,
+        margin: EdgeInsets.all(6.r),
+        duration: const Duration(seconds: 3),
+      );
     }
   }
 
@@ -195,8 +226,25 @@ class TrackViewModel extends GetxController {
         tagsList.add(newTag);
         _saveTagsToStorage();
       }
+      else{
+        Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.redAccent,
+          colorText: Colors.white,
+          borderRadius: 8,
+          margin: EdgeInsets.all(6.r),
+          duration: const Duration(seconds: 3),
+        );
+      }
     } catch (e) {
-      print("Error adding tag: $e");
+      Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+        borderRadius: 8,
+        margin: EdgeInsets.all(6.r),
+        duration: const Duration(seconds: 3),
+      );
     }
   }
 

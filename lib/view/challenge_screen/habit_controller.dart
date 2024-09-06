@@ -103,6 +103,7 @@ class HabitChallengeController extends GetxController {
       }
     } catch (e) {
       print("Error adding habit: $e");
+      Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.');
       return null;
     }
     return null;
@@ -127,6 +128,7 @@ class HabitChallengeController extends GetxController {
       }
     } catch (e) {
       print("Error editing habit: $e");
+      Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.');
       return null;
     }
     return null;

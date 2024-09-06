@@ -25,7 +25,7 @@ class TrackRepository{
       if (response.statusCode == 200) {
         return Track.fromJson(response.data);
       } else {
-        final errorMessage = response.data['error'] ?? 'An unknown error occurred';
+        final errorMessage = response.data['error'] ?? 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.';
         throw Exception(errorMessage);  // بازگرداندن استثناء
       }
     } catch (e) {
@@ -50,7 +50,7 @@ class TrackRepository{
       if (response.statusCode == 200) {
         return Track.fromJson(response.data);
       } else {
-        final errorMessage = response.data['error'] ?? 'An unknown error occurred';
+        final errorMessage = response.data['error'] ?? 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.';
         throw Exception(errorMessage);
       }
     } catch (e) {

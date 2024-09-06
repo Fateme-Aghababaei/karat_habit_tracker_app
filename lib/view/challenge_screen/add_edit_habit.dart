@@ -327,8 +327,8 @@ class HabitChallengeContent extends StatelessWidget {
                           } catch (e) {
                             // مدیریت خطاها
                             print("Error deleting habit: $e");
-                            Get.snackbar("Error", "Failed to delete habit. Please try again.",
-                                snackPosition: SnackPosition.BOTTOM);
+                            Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.');
+
                           }
                         },
 

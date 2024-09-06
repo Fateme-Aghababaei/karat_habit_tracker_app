@@ -97,8 +97,8 @@ class HabitBottomSheetController extends GetxController {
     }
   }
 
-  void _addHabit() {
-    habitViewModel.addHabit(
+  Future<void> _addHabit()  async {
+       await habitViewModel.addHabit(
         name:titleController.value.text,
         description:descriptionController.value.text==''?null:descriptionController.value.text,
         tagId: selectedTag.value,
@@ -110,8 +110,8 @@ class HabitBottomSheetController extends GetxController {
     Get.back();
   }
 
-  void _editHabit() {
-    habitViewModel.editHabit(
+  Future<void> _editHabit() async {
+     await habitViewModel.editHabit(
         id: habit!.id,
         name:titleController.value.text,
         description:descriptionController.value.text==''?null:descriptionController.value.text,

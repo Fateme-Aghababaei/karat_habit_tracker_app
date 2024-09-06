@@ -359,8 +359,8 @@ class HabitBottomSheetContent extends StatelessWidget {
                 children: [
                   Obx(() => Text(
                     controller.selectedTab.value == 0
-                        ? "تنظیم تاریخ انجام"
-                        : "تنظیم تاریخ پایان عادت",
+                        ? "تنظیم تاریخ پایان عادت"
+                        : "تنظیم تاریخ انجام",
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 12.sp),
                   )),
                   SizedBox(height: 8.0.r),
@@ -487,8 +487,8 @@ class HabitBottomSheetContent extends StatelessWidget {
                       child: Text("ذخیره"),
                     )),
                     ElevatedButton(
-                      onPressed: () {
-                        habitViewModel.deleteHabit(habit!.id);
+                      onPressed: () async {
+                       await habitViewModel.deleteHabit(habit!.id);
                         Get.back();
                       },
                       style: ElevatedButton.styleFrom(

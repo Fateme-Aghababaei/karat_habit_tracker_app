@@ -199,8 +199,25 @@ class HabitViewModel extends GetxController {
         tags.add(newTag);
         _saveTagsToStorage();
       }
+      else{
+        Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.redAccent,
+          colorText: Colors.white,
+          borderRadius: 8,
+          margin: EdgeInsets.all(6.r),
+          duration: const Duration(seconds: 3),
+        );
+      }
     } catch (e) {
-      print("Error adding tag: $e");
+      Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+        borderRadius: 8,
+        margin: EdgeInsets.all(6.r),
+        duration: const Duration(seconds: 3),
+      );
     }
   }
 
@@ -224,10 +241,12 @@ class HabitViewModel extends GetxController {
       );
       if (newHabit != null) {
         loadUserHabits(initialSelectedDate.value,false);
-
+      }
+      else{
+        Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.');
       }
     } catch (e) {
-      print("Error adding habit: $e");
+      Get.snackbar('خطا', e.toString());
     }
   }
 
@@ -255,7 +274,11 @@ class HabitViewModel extends GetxController {
       if (updatedHabit != null) {
         loadUserHabits(initialSelectedDate.value,false);
       }
+      else{
+        Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.');
+      }
     } catch (e) {
+      Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.');
       print("Error editing habit: $e");
     }
   }
@@ -272,6 +295,7 @@ class HabitViewModel extends GetxController {
         _saveHabitsToStorage();
       }
     } catch (e) {
+      Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.');
       print("Error deleting habit: $e");
     }
   }
@@ -319,7 +343,7 @@ class HabitViewModel extends GetxController {
 
 
   // Complete a Habit
-  Future<void> completeHabit(int id, String dueDate,String today) async {
+  Future<bool> completeHabit(int id, String dueDate, String today) async {
     try {
       var completedHabit = await _habitRepository.completeHabit(id, dueDate);
       if (completedHabit != null) {
@@ -331,12 +355,34 @@ class HabitViewModel extends GetxController {
             _saveHabitsToStorage();
           }
           sideBarController.updateScore(completedHabit.score);
+          return true;  // عملیات موفق
         }
       }
+
+      Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+        borderRadius: 8,
+        margin: EdgeInsets.all(6.r),
+        duration: const Duration(seconds: 3),
+      );
+      return false;  // عملیات ناموفق
     } catch (e) {
+
+      Get.snackbar('خطا', 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+        borderRadius: 8,
+        margin: EdgeInsets.all(6.r),
+        duration: const Duration(seconds: 3),
+      );
       print("Error completing habit: $e");
+      return false;  // عملیات ناموفق
     }
   }
+
 
   // ذخیره کردن عادت‌ها در GetStorage
   void _saveHabitsToStorage() {

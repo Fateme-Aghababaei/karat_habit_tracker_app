@@ -249,9 +249,9 @@ class AddChallengeController extends GetxController {
     );
   }
 
-  void saveChallenge() {
+  Future<void> saveChallenge() async {
 
-    challengeViewModel.addChallenge(
+     await challengeViewModel.addChallenge(
       name: nameController.text,
       description: descriptionController.text,
       startDate: selectedStartDate.value,

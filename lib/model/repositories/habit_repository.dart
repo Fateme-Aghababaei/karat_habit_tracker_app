@@ -74,16 +74,15 @@ class HabitRepository{
         data: data
       );
 
-      print(response.statusCode) ;
-      print(response.data["error"]);
-      print(response.statusMessage);
       if (response.statusCode == 200) {
         return Habit.fromJson(response.data);
       } else {
-        return null;
+        final errorMessage = response.data['error'] ?? 'عملیات به درستی انجام نشد، لطفاً دوباره تلاش کنید.';
+        throw Exception(errorMessage);
+
       }
     } catch (e) {
-      throw Exception('Failed to add habit: $e');
+      return null;
     }
   }
 
@@ -153,6 +152,9 @@ print(response.statusMessage);
 print(response.statusCode);
       if (response.statusCode != 200) {
         throw Exception('Failed to delete habit');
+      }
+      else{
+        throw Exception();
       }
     } catch (e) {
       throw Exception('Failed to delete habit');
